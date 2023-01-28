@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-code-service
+  labels:
+    app: my-nextcloud
+  annotations:
+    metallb.universe.tf/address-pool: custom-addresspool
+spec:
+  ports:
+    - port: 9980
+  selector:
+    app: my-nextcloud
+    tier: backend
+  type: LoadBalancer
+  # clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-code-deployment
+  labels:
+    app: my-nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nextcloud
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-nextcloud
+        tier: backend
+    spec:
+      containers:
+        - image: collabora/code
+          name: code
+          env:
+            - name: password
+              value: nextcloud
+            - name: username
+              value: nextcloud
+          ports:
+            - containerPort: 9980

@@ -1,0 +1,13 @@
+secretGenerator:
+  - name: mariadb-pass
+    literals:
+      - root_password=somewordpress
+      - database=wordpress
+      - user=wordpress
+      - password=wordpress
+resources:
+  - addresspool.yaml
+  - mariadb-deployment.yaml
+  - wordpress-deployment.yaml
+  - nginx-deployment.yaml
+  - ingress-service.yaml

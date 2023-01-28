@@ -1,0 +1,17 @@
+secretGenerator:
+  - name: mariadb-pass
+    literals:
+      - root_password=somenextcloud
+      - database=nextcloud
+      - user=nextcloud
+      - password=nextcloud
+resources:
+  - addresspool.yaml
+  - my_strage.yaml
+  - redis-deployment.yaml
+  - mariadb-deployment.yaml
+  - nextcloud-deployment.yaml
+  - nginx-deployment.yaml
+  - cron-nextcloud-deployment.yaml
+  - ingress-service.yaml
+  - code-deployment.yaml

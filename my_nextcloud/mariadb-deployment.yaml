@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-mariadb-service
+  labels:
+    app: my-nextcloud
+  annotations:
+    metallb.universe.tf/address-pool: custom-addresspool
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: my-nextcloud
+    tier: mariadb
+  # clusterIP: True
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-mariadb-deployment
+  labels:
+    app: my-nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nextcloud
+      tier: mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-nextcloud
+        tier: mariadb
+    spec:
+      containers:
+        - image: mariadb:latest
+          name: mariadb
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: root_password
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: password
+            - name: MARIADB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: database
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: user
+            - name: MARIADB_AUTO_UPGRADE
+              value: "1"
+            - name: MARIADB_DISABLE_UPGRADE_BACKUP
+              value: "1"
+          ports:
+            - containerPort: 3306
+              name: mariadb
+          args:
+            - --transaction-isolation=READ-COMMITTED
+            - --binlog-format=ROW
+          volumeMounts:
+            - name: mariadb-persistent-storage
+              mountPath: /var/lib/mariadb
+      volumes:
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim
