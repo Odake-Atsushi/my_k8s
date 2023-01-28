@@ -12,7 +12,7 @@ spec:
   selector:
     app: my-nextcloud
     tier: backend
-  type: LoadBalancer
+  type: ClusterIP # LoadBalancer
   # clusterIP: None
 ---
 apiVersion: apps/v1

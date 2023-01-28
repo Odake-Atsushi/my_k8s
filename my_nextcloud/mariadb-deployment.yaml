@@ -13,7 +13,7 @@ spec:
     app: my-nextcloud
     tier: mariadb
   # clusterIP: True
-  type: LoadBalancer
+  type: ClusterIP # LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment

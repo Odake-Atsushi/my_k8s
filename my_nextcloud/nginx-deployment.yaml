@@ -14,7 +14,7 @@ spec:
   selector:
     app: my-nextcloud
     tier: frontend
-  type: LoadBalancer
+  type: ClusterIP # LoadBalancer
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -12,7 +12,7 @@ spec:
   selector:
     app: my-nextcloud
     tier: redis
-  type: LoadBalancer
+  type: ClusterIP # LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
