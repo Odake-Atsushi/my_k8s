@@ -23,7 +23,7 @@ metadata:
 data:
   nextcloud.conf: |
     upstream php-handler {
-        server nextcloud-service.local:9000;
+        server nextcloud-service:9000;
     }
 
     server {
