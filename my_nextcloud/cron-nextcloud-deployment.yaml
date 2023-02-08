@@ -7,9 +7,12 @@ metadata:
   annotations:
     metallb.universe.tf/address-pool: custom-addresspool
 spec:
+  # ports:
+  #   - port: 9000
   selector:
     app: my-nextcloud
     tier: backend
+  # type: ClusterIP
   clusterIP: None
 ---
 apiVersion: apps/v1
