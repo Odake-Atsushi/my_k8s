@@ -12,8 +12,7 @@ spec:
   selector:
     app: my-nextcloud
     tier: mariadb
-  # clusterIP: True
-  type: ClusterIP # LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
