@@ -5,7 +5,7 @@ kind: IPAddressPool
 metadata:
   name: custom-addresspool
   namespace: metallb-system
-spec: 
+spec:
   addresses:
-  #-  192.168.43.230-192.168.43.240
-  -  192.168.1.1-192.168.1.100
+    #-  192.168.43.230-192.168.43.240
+    - 192.168.3.100-192.168.3.200
