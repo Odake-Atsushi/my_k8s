@@ -57,8 +57,14 @@ spec:
               value: nextcloud-mariadb-service
             - name: REDIS_HOST
               value: nextcloud-redis-service
+            - name: OVERWRITEHOST
+              value: atsushi.local
+            - name: OVERWRITEPROTOCOL
+              value: http
             - name: OVERWRITEWEBROOT
               value: /nc
+            - name: OVERWRITECLIURL
+              value: http://atsushi.local/nc
           ports:
             - containerPort: 9000
           volumeMounts:
