@@ -57,6 +57,9 @@ spec:
               value: nextcloud-mariadb-service
             - name: REDIS_HOST
               value: nextcloud-redis-service
+            ####################################
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: atsushi.local
             - name: OVERWRITEHOST
               value: atsushi.local
             - name: OVERWRITEPROTOCOL
