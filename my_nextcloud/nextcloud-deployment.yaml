@@ -57,6 +57,8 @@ spec:
               value: nextcloud-mariadb-service
             - name: REDIS_HOST
               value: nextcloud-redis-service
+            - name: OVERWRITEWEBROOT
+              value: /nc
           ports:
             - containerPort: 9000
           volumeMounts:
