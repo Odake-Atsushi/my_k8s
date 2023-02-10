@@ -4,8 +4,8 @@ metadata:
   name: nextcloud-code-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9980
