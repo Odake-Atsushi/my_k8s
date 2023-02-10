@@ -7,7 +7,6 @@ secretGenerator:
       - password=nextcloud
 resources:
   - my_strage.yaml
-  - redis-deployment.yaml
   - mariadb-deployment.yaml
   - nextcloud-deployment.yaml
   - cron-nextcloud-deployment.yaml

@@ -4,11 +4,10 @@ metadata:
   name: nextcloud-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
-    - port: 80
+    - port: 8080
+      targetPort: 80
   selector:
     app: my-nextcloud
     tier: backend
@@ -55,8 +54,6 @@ spec:
                   key: user
             - name: MYSQL_HOST
               value: nextcloud-mariadb-service
-            - name: REDIS_HOST
-              value: nextcloud-redis-service
             ####################################
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: atsushi.local

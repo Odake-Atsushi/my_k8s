@@ -4,8 +4,6 @@ metadata:
   name: nextcloud-mariadb-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 3306
