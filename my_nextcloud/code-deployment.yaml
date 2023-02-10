@@ -11,7 +11,7 @@ spec:
     - port: 9980
   selector:
     app: my-nextcloud
-    tier: backend
+    tier: office
   type: ClusterIP # LoadBalancer
   # clusterIP: None
 ---
@@ -26,14 +26,14 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: backend
+      tier: office
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: backend
+        tier: office
     spec:
       containers:
         - image: collabora/code

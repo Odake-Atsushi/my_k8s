@@ -11,7 +11,7 @@ spec:
     - port: 3306
   selector:
     app: my-nextcloud
-    tier: mariadb
+    tier: db
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -25,14 +25,14 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: mariadb
+      tier: db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: mariadb
+        tier: db
     spec:
       containers:
         - image: mariadb:10.6

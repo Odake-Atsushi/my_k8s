@@ -43,39 +43,39 @@ spec:
           volumeMounts:
             - name: nextcloud-persistent-storage
               mountPath: /var/www/html
-          ###############################
-          ###############################
-          env:
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: password
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: database
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: user
-            - name: MYSQL_HOST
-              value: nextcloud-mariadb-service
-            - name: REDIS_HOST
-              value: nextcloud-redis-service
-            ####################################
-            - name: NEXTCLOUD_TRUSTED_DOMAINS
-              value: atsushi.local
-            - name: OVERWRITEHOST
-              value: atsushi.local
-            - name: OVERWRITEPROTOCOL
-              value: http
-            - name: OVERWRITEWEBROOT
-              value: /nc
-            - name: OVERWRITECLIURL
-              value: http://atsushi.local/nc
+          # ###############################
+          # ###############################
+          # env:
+          #   - name: MYSQL_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mariadb-pass
+          #         key: password
+          #   - name: MYSQL_DATABASE
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mariadb-pass
+          #         key: database
+          #   - name: MYSQL_USER
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mariadb-pass
+          #         key: user
+          #   - name: MYSQL_HOST
+          #     value: nextcloud-mariadb-service
+          #   - name: REDIS_HOST
+          #     value: nextcloud-redis-service
+          #   ####################################
+          #   - name: NEXTCLOUD_TRUSTED_DOMAINS
+          #     value: atsushi.local
+          #   - name: OVERWRITEHOST
+          #     value: atsushi.local
+          #   - name: OVERWRITEPROTOCOL
+          #     value: http
+          #   - name: OVERWRITEWEBROOT
+          #     value: /nc
+          #   - name: OVERWRITECLIURL
+          #     value: http://atsushi.local/nc
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:
