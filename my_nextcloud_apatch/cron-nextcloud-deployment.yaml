@@ -6,7 +6,8 @@ metadata:
     app: my-nextcloud
 spec:
   ports:
-    - port: 9000
+    - port: 8080
+      targetPort: 80
   selector:
     app: my-nextcloud
     tier: backend
@@ -32,15 +33,16 @@ spec:
       labels:
         app: my-nextcloud
         tier: backend
-  containers:
-    - image: nextcloud:25-fpm
-      name: nextcloud
-      command:
-        - /cron.sh
-      volumeMounts:
+    spec:
+      containers:
+        - image: nextcloud:25
+          name: nextcloud
+          command:
+            - /cron.sh
+          volumeMounts:
+            - name: nextcloud-persistent-storage
+              mountPath: /var/www/html
+      volumes:
         - name: nextcloud-persistent-storage
-          mountPath: /var/www/html
-  volumes:
-    - name: nextcloud-persistent-storage
-      persistentVolumeClaim:
-        claimName: nextcloud-pv-claim
+          persistentVolumeClaim:
+            claimName: nextcloud-pv-claim

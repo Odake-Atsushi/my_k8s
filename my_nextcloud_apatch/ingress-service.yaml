@@ -10,10 +10,10 @@ spec:
   rules:
     - http:
         paths:
-          - path: /*
+          - path: /nc/*
             pathType: Prefix
             backend:
               service:
-                name: nextcloud-nginx-service
+                name: nextcloud-service
                 port:
-                  number: 80
+                  number: 8080

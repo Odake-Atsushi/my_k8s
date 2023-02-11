@@ -4,14 +4,14 @@ metadata:
   name: nextcloud-code-service
   labels:
     app: my-nextcloud
-  # annotations:
-  #   metallb.universe.tf/address-pool: custom-addresspool
+  annotations:
+    metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9980
   selector:
     app: my-nextcloud
-    tier: office
+    tier: backend
   type: ClusterIP # LoadBalancer
   # clusterIP: None
 ---
@@ -26,14 +26,14 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: office
+      tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: office
+        tier: backend
     spec:
       containers:
         - image: collabora/code
@@ -45,10 +45,3 @@ spec:
               value: nextcloud
           ports:
             - containerPort: 9980
-          resources:
-            limits:
-              cpu: 2
-              memory: 2Gi
-            requests:
-              cpu: 500m
-              memory: 512Mi

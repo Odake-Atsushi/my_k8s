@@ -4,17 +4,17 @@ metadata:
   name: nextcloud-nginx-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
-    - port: 8080
-      targetPort: 80
-      protocol: TCP
+    - port: 80
+      # targetPort: 8080
+      # protocol: TCP
   selector:
     app: my-nextcloud
     tier: frontend
-  type: ClusterIP # LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -185,16 +185,23 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: nginx:stable-alpine
+        - image: nginx:stable
           name: nginx
+          ports:
+            - containerPort: 80
           volumeMounts:
             - name: nextcloud-persistent-storage
               mountPath: /var/www/html
               readOnly: true
             - name: nextcloud-nginx-config
               mountPath: /etc/nginx/conf.d/
-          ports:
-            - containerPort: 80
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 512Mi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:

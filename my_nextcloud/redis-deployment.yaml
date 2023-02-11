@@ -4,15 +4,15 @@ metadata:
   name: nextcloud-redis-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 6379
   selector:
     app: my-nextcloud
-    tier: redis
-  type: ClusterIP # LoadBalancer
+    tier: cache
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,17 +25,24 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: redis
+      tier: cache
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: redis
+        tier: cache
     spec:
       containers:
-        - image: redis:alpine
+        - image: redis:latest
           name: redis
           ports:
             - containerPort: 6379
+          resources:
+            limits:
+              cpu: 1
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 1Gi

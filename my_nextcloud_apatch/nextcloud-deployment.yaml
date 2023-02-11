@@ -6,7 +6,8 @@ metadata:
     app: my-nextcloud
 spec:
   ports:
-    - port: 9000
+    - port: 8080
+      targetPort: 80
   selector:
     app: my-nextcloud
     tier: backend
@@ -33,7 +34,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:25-fpm
+        - image: nextcloud:25
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -53,45 +54,22 @@ spec:
                   key: user
             - name: MYSQL_HOST
               value: nextcloud-mariadb-service
-            - name: REDIS_HOST
-              value: nextcloud-redis-service
             ####################################
-            # - name: NEXTCLOUD_TRUSTED_DOMAINS
-            #   value: atsushi.local
-            # - name: OVERWRITEHOST
-            #   value: atsushi.local
-            # - name: OVERWRITEPROTOCOL
-            #   value: http
-            # - name: OVERWRITEWEBROOT
-            #   value: /nc
-            # - name: OVERWRITECLIURL
-            #   value: http://atsushi.local/nc
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: atsushi.local
+            - name: OVERWRITEHOST
+              value: atsushi.local
+            - name: OVERWRITEPROTOCOL
+              value: http
+            - name: OVERWRITEWEBROOT
+              value: /nc
+            - name: OVERWRITECLIURL
+              value: http://atsushi.local/nc
           ports:
-            - containerPort: 9000
+            - containerPort: 80
           volumeMounts:
             - name: nextcloud-persistent-storage
               mountPath: /var/www/html
-          resources:
-            limits:
-              cpu: 2
-              memory: 2Gi
-            requests:
-              cpu: 500m
-              memory: 1Gi
-        - image: nextcloud:25-fpm
-          name: cron-nextcloud
-          command:
-            - /cron.sh
-          volumeMounts:
-            - name: nextcloud-persistent-storage
-              mountPath: /var/www/html
-          resources:
-            limits:
-              cpu: 1
-              memory: 1Gi
-            requests:
-              cpu: 200m
-              memory: 512Mi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:

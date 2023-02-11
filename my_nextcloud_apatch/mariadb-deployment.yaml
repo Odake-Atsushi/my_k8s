@@ -9,7 +9,7 @@ spec:
     - port: 3306
   selector:
     app: my-nextcloud
-    tier: db
+    tier: mariadb
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -23,14 +23,14 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: db
+      tier: mariadb
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: db
+        tier: mariadb
     spec:
       containers:
         - image: mariadb:10.6
@@ -69,13 +69,6 @@ spec:
           volumeMounts:
             - name: mariadb-persistent-storage
               mountPath: /var/lib/mariadb
-          resources:
-            limits:
-              cpu: 1
-              memory: 1Gi
-            requests:
-              cpu: 200m
-              memory: 512Mi
       volumes:
         - name: mariadb-persistent-storage
           persistentVolumeClaim:
