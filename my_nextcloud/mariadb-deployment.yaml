@@ -31,44 +31,52 @@ spec:
       labels:
         app: my-nextcloud
         tier: db
-  containers:
-    - image: mariadb:10.6
-      name: mariadb
-      env:
-        - name: MARIADB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: root_password
-        - name: MARIADB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: password
-        - name: MARIADB_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: database
-        - name: MARIADB_USER
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: user
-        - name: MARIADB_AUTO_UPGRADE
-          value: "1"
-        - name: MARIADB_DISABLE_UPGRADE_BACKUP
-          value: "1"
-      ports:
-        - containerPort: 3306
+    spec:
+      containers:
+        - image: mariadb:10.6
           name: mariadb
-      args:
-        - --transaction-isolation=READ-COMMITTED
-        - --binlog-format=ROW
-      volumeMounts:
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: root_password
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: password
+            - name: MARIADB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: database
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: user
+            - name: MARIADB_AUTO_UPGRADE
+              value: "1"
+            - name: MARIADB_DISABLE_UPGRADE_BACKUP
+              value: "1"
+          ports:
+            - containerPort: 3306
+              name: mariadb
+          args:
+            - --transaction-isolation=READ-COMMITTED
+            - --binlog-format=ROW
+          volumeMounts:
+            - name: mariadb-persistent-storage
+              mountPath: /var/lib/mariadb
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 512Mi
+      volumes:
         - name: mariadb-persistent-storage
-          mountPath: /var/lib/mariadb
-  volumes:
-    - name: mariadb-persistent-storage
-      persistentVolumeClaim:
-        claimName: mariadb-pv-claim
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim

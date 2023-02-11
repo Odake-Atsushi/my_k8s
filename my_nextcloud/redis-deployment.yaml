@@ -33,8 +33,16 @@ spec:
       labels:
         app: my-nextcloud
         tier: cache
-  containers:
-    - image: redis:latest
-      name: redis
-      ports:
-        - containerPort: 6379
+    spec:
+      containers:
+        - image: redis:latest
+          name: redis
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: 1
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 1Gi

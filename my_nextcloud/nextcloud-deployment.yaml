@@ -31,53 +31,68 @@ spec:
       labels:
         app: my-nextcloud
         tier: backend
-  containers:
-    - image: nextcloud:25-fpm
-      name: nextcloud
-      env:
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: password
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: database
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: mariadb-pass
-              key: user
-        - name: MYSQL_HOST
-          value: nextcloud-mariadb-service
-        - name: REDIS_HOST
-          value: nextcloud-redis-service
-        ####################################
-        - name: NEXTCLOUD_TRUSTED_DOMAINS
-          value: atsushi.local
-        - name: OVERWRITEHOST
-          value: atsushi.local
-        - name: OVERWRITEPROTOCOL
-          value: http
-        - name: OVERWRITEWEBROOT
-          value: /nc
-        - name: OVERWRITECLIURL
-          value: http://atsushi.local/nc
-      ports:
-        - containerPort: 9000
-      volumeMounts:
+    spec:
+      containers:
+        - image: nextcloud:25-fpm
+          name: nextcloud
+          env:
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: database
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-pass
+                  key: user
+            - name: MYSQL_HOST
+              value: nextcloud-mariadb-service
+            - name: REDIS_HOST
+              value: nextcloud-redis-service
+            ####################################
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: atsushi.local
+            - name: OVERWRITEHOST
+              value: atsushi.local
+            - name: OVERWRITEPROTOCOL
+              value: http
+            - name: OVERWRITEWEBROOT
+              value: /nc
+            - name: OVERWRITECLIURL
+              value: http://atsushi.local/nc
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: nextcloud-persistent-storage
+              mountPath: /var/www/html
+          resources:
+            limits:
+              cpu: 2
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+        - image: nextcloud:25-fpm
+          name: cron-nextcloud
+          command:
+            - /cron.sh
+          volumeMounts:
+            - name: nextcloud-persistent-storage
+              mountPath: /var/www/html
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 512Mi
+      volumes:
         - name: nextcloud-persistent-storage
-          mountPath: /var/www/html
-    - image: nextcloud:25-fpm
-      name: cron-nextcloud
-      command:
-        - /cron.sh
-      volumeMounts:
-        - name: nextcloud-persistent-storage
-          mountPath: /var/www/html
-  volumes:
-    - name: nextcloud-persistent-storage
-      persistentVolumeClaim:
-        claimName: nextcloud-pv-claim
+          persistentVolumeClaim:
+            claimName: nextcloud-pv-claim

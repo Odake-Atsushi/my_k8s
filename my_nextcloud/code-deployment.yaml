@@ -34,13 +34,21 @@ spec:
       labels:
         app: my-nextcloud
         tier: office
-  containers:
-    - image: collabora/code
-      name: code
-      env:
-        - name: password
-          value: nextcloud
-        - name: username
-          value: nextcloud
-      ports:
-        - containerPort: 9980
+    spec:
+      containers:
+        - image: collabora/code
+          name: code
+          env:
+            - name: password
+              value: nextcloud
+            - name: username
+              value: nextcloud
+          ports:
+            - containerPort: 9980
+          resources:
+            limits:
+              cpu: 2
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
