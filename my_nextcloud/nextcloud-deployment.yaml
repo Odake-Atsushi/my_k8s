@@ -4,8 +4,6 @@ metadata:
   name: nextcloud-service
   labels:
     app: my-nextcloud
-  # annotations:
-  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9000
@@ -33,47 +31,53 @@ spec:
       labels:
         app: my-nextcloud
         tier: backend
-    spec:
-      containers:
-        - image: nextcloud:25-fpm
-          name: nextcloud
-          env:
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: password
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: database
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-pass
-                  key: user
-            - name: MYSQL_HOST
-              value: nextcloud-mariadb-service
-            - name: REDIS_HOST
-              value: nextcloud-redis-service
-            ####################################
-            - name: NEXTCLOUD_TRUSTED_DOMAINS
-              value: atsushi.local
-            - name: OVERWRITEHOST
-              value: atsushi.local
-            - name: OVERWRITEPROTOCOL
-              value: http
-            - name: OVERWRITEWEBROOT
-              value: /nc
-            - name: OVERWRITECLIURL
-              value: http://atsushi.local/nc
-          ports:
-            - containerPort: 9000
-          volumeMounts:
-            - name: nextcloud-persistent-storage
-              mountPath: /var/www/html
-      volumes:
+  containers:
+    - image: nextcloud:25-fpm
+      name: nextcloud
+      env:
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-pass
+              key: password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-pass
+              key: database
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-pass
+              key: user
+        - name: MYSQL_HOST
+          value: nextcloud-mariadb-service
+        - name: REDIS_HOST
+          value: nextcloud-redis-service
+        ####################################
+        - name: NEXTCLOUD_TRUSTED_DOMAINS
+          value: atsushi.local
+        - name: OVERWRITEHOST
+          value: atsushi.local
+        - name: OVERWRITEPROTOCOL
+          value: http
+        - name: OVERWRITEWEBROOT
+          value: /nc
+        - name: OVERWRITECLIURL
+          value: http://atsushi.local/nc
+      ports:
+        - containerPort: 9000
+      volumeMounts:
         - name: nextcloud-persistent-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-pv-claim
+          mountPath: /var/www/html
+    - image: nextcloud:25-fpm
+      name: cron-nextcloud
+      command:
+        - /cron.sh
+      volumeMounts:
+        - name: nextcloud-persistent-storage
+          mountPath: /var/www/html
+  volumes:
+    - name: nextcloud-persistent-storage
+      persistentVolumeClaim:
+        claimName: nextcloud-pv-claim

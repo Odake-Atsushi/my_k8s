@@ -183,22 +183,21 @@ spec:
       labels:
         app: my-nextcloud
         tier: frontend
-    spec:
-      containers:
-        - image: nginx:stable
-          name: nginx
-          volumeMounts:
-            - name: nextcloud-persistent-storage
-              mountPath: /var/www/html
-              readOnly: true
-            - name: nextcloud-nginx-config
-              mountPath: /etc/nginx/conf.d/
-          ports:
-            - containerPort: 80
-      volumes:
+  containers:
+    - image: nginx:stable
+      name: nginx
+      ports:
+        - containerPort: 80
+      volumeMounts:
         - name: nextcloud-persistent-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-pv-claim
-        - name: nextcloud-nginx-config # volumeMountsで/etc/nginxにmountするやつ
-          configMap:
-            name: nextcloud-nginx-conf # ConfigMapのnginx-confを/etc/nginx以下に配置する
+          mountPath: /var/www/html
+          readOnly: true
+        - name: nextcloud-nginx-config
+          mountPath: /etc/nginx/conf.d/
+  volumes:
+    - name: nextcloud-persistent-storage
+      persistentVolumeClaim:
+        claimName: nextcloud-pv-claim
+    - name: nextcloud-nginx-config # volumeMountsで/etc/nginxにmountするやつ
+      configMap:
+        name: nextcloud-nginx-conf # ConfigMapのnginx-confを/etc/nginx以下に配置する
