@@ -39,7 +39,7 @@ data:
         set $my_sub_dir nextcloud;
 
         # Path to the root of your installation
-        root /var/www/html;
+        root /var/www;
 
         # Prevent nginx HTTP Server Detection
         server_tokens off;
@@ -215,7 +215,7 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: nextcloud-persistent-storage
-              mountPath: /var/www/html
+              mountPath: /var/www
               readOnly: true
             - name: nextcloud-nginx-config
               mountPath: /etc/nginx/conf.d/
