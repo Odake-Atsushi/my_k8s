@@ -4,13 +4,17 @@ metadata:
   name: nextcloud-ingress
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # 正規表現を使う
     nginx.ingress.kubernetes.io/use-regex: "true"
+    # 「/」直後から、正規表現のキャプチャしたグループでパスを指定する
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - #host: atsushi.local
+      http:
         paths:
-          - path: /*
+          - path: /nextcloud/(.*)
             pathType: Prefix
             backend:
               service:
