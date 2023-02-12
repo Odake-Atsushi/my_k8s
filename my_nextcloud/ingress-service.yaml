@@ -7,14 +7,14 @@ metadata:
     # 正規表現を使う
     nginx.ingress.kubernetes.io/use-regex: "true"
     # 「/」直後から、正規表現のキャプチャしたグループでパスを指定する
-    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - #host: atsushi.local
       http:
         paths:
-          - path: /nextcloud/(.*)
+          - path: /nextcloud(/|$)(.*)
             pathType: Prefix
             backend:
               service:
