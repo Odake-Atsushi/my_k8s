@@ -40,10 +40,13 @@ spec:
         - image: collabora/code
           name: code
           env:
-            - name: password
-              value: nextcloud
-            - name: username
-              value: nextcloud
+            # - name: password
+            #   value: nextcloud
+            # - name: username
+            #   value: nextcloud
+            ####################
+            - name: extra_params
+              value: --o:ssl.enable=false --o:ssl.termination=false
           ports:
             - containerPort: 9980
           resources:
