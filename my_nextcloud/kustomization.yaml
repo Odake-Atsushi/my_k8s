@@ -13,5 +13,6 @@ resources:
   - nextcloud-deployment.yaml
   - nginx-deployment.yaml
   # - cron-nextcloud-deployment.yaml
-  - ingress-service.yaml
   - code-deployment.yaml
+  - nginx_code-deployment.yaml
+  - ingress-service.yaml
