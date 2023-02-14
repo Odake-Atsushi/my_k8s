@@ -60,12 +60,12 @@ spec:
             #   value: atsushi.local
             - name: OVERWRITEHOST
               value: atsushi.local
-            # - name: OVERWRITEPROTOCOL
-            #   value: http
+            - name: OVERWRITEPROTOCOL
+              value: http
             - name: OVERWRITEWEBROOT
               value: /nextcloud
-            # - name: OVERWRITECLIURL
-            #   value: http://atsushi.local/nextcloud
+            - name: OVERWRITECLIURL
+              value: http://atsushi.local/nextcloud
           ports:
             - containerPort: 9000
           volumeMounts:
