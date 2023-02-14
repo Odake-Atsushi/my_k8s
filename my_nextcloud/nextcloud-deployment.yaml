@@ -56,6 +56,8 @@ spec:
             - name: REDIS_HOST
               value: nextcloud-redis-service
             ####################################
+            - name: TRUSTED_PROXIES
+              value: nextcloud-nginx-service
             # - name: NEXTCLOUD_TRUSTED_DOMAINS
             #   value: atsushi.local
             - name: OVERWRITEHOST
