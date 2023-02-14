@@ -21,10 +21,10 @@ spec:
                 name: nextcloud-nginx-service
                 port:
                   number: 80
-          - path: /office(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: code-nginx-service
-                port:
-                  number: 80
+          # - path: /office(/|$)(.*)
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: nextcloud-code-nginx-service
+          #       port:
+          #         number: 80
