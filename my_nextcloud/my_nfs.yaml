@@ -1,0 +1,16 @@
+#NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mydata-pv
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 4Ti
+  accessModes:
+    # - ReadWriteOnce
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    server: 192.168.128.10
+    path: /mnt/storage/nfsshare

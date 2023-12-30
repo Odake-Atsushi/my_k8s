@@ -14,6 +14,7 @@ secretGenerator:
       - url=http://100.105.100.72/nextcloud
 resources:
   # - addresspool.yaml
+  - my_nfs.yaml
   - my_strage.yaml
   - redis-deployment.yaml
   - mariadb-deployment.yaml
