@@ -11,7 +11,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - #host: atsushi.local
+    # - host: atsushi.local
+    - host:
       http:
         paths:
           - path: /nextcloud(/|$)(.*)
