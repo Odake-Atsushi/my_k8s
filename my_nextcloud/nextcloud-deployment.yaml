@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:25-fpm
+        - image: nextcloud:27-fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -80,7 +80,7 @@ spec:
             requests:
               cpu: 500m
               memory: 1Gi
-        - image: nextcloud:25-fpm
+        - image: nextcloud:27-fpm
           name: cron-nextcloud
           command:
             - /cron.sh
