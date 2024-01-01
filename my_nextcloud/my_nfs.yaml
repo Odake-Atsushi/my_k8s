@@ -1,34 +1,16 @@
 #NFS
-#app
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mydata-app-pv
+  name: mydata-pv
 spec:
-  storageClassName: my-app
+  storageClassName: my-data
   capacity:
-    storage: 64Gi
+    storage: 5Ti
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/nfsshare/app
----
-#db
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mydata-db-pv
-spec:
-  storageClassName: my-db
-  capacity:
-    storage: 4Ti
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: atsushi.local
-    path: /mnt/storage/nfsshare/db
+    path: /mnt/storage/nfsshare/data

@@ -5,13 +5,13 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  storageClassName: my-app
+  storageClassName: my-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 32Gi
+      storage: 4Ti
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -20,10 +20,9 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  storageClassName: my-db
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 2Ti
+      storage: 16Gi
