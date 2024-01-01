@@ -1,16 +1,34 @@
 #NFS
+#app
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mydata-pv
+  name: mydata-app-pv
 spec:
-  storageClassName: slow
+  storageClassName: my-app
   capacity:
-    storage: 4Ti
+    storage: 64Gi
   accessModes:
-    # - ReadWriteOnce
-    - ReadWriteMany
+    - ReadWriteOnce
+    # - ReadWriteMany
   persistentVolumeReclaimPolicy: Recycle
   nfs:
     server: 192.168.128.10
-    path: /mnt/storage/nfsshare
+    path: /mnt/storage/nfsshare/app
+---
+#db
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mydata-db-pv
+spec:
+  storageClassName: my-db
+  capacity:
+    storage: 4Ti
+  accessModes:
+    - ReadWriteOnce
+    # - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    server: 192.168.128.10
+    path: /mnt/storage/nfsshare/db

@@ -5,12 +5,12 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  storageClassName: slow
+  storageClassName: my-app
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 6Gi
+      storage: 32Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -19,9 +19,9 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  storageClassName: slow
+  storageClassName: my-db
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 8Gi
+      storage: 2Ti
