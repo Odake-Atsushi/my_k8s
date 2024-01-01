@@ -8,6 +8,7 @@ spec:
   # storageClassName: my-app
   accessModes:
     - ReadWriteOnce
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 32Gi
@@ -22,6 +23,7 @@ spec:
   storageClassName: my-db
   accessModes:
     - ReadWriteOnce
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 2Ti

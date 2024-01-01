@@ -10,10 +10,10 @@ spec:
     storage: 64Gi
   accessModes:
     - ReadWriteOnce
-    # - ReadWriteMany
-  persistentVolumeReclaimPolicy: Recycle
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.128.10
+    server: atsushi.local
     path: /mnt/storage/nfsshare/app
 ---
 #db
@@ -27,8 +27,8 @@ spec:
     storage: 4Ti
   accessModes:
     - ReadWriteOnce
-    # - ReadWriteMany
-  persistentVolumeReclaimPolicy: Recycle
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 192.168.128.10
+    server: atsushi.local
     path: /mnt/storage/nfsshare/db
