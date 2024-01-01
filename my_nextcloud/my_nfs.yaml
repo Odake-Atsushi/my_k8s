@@ -14,3 +14,19 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/storage/nfsshare/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mydb-pv
+spec:
+  storageClassName: my-db
+  capacity:
+    storage: 32Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/nfsshare/db

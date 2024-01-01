@@ -20,6 +20,7 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
+  storageClassName: my-db
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
