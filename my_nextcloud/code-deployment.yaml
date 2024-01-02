@@ -4,17 +4,17 @@ metadata:
   name: nextcloud-code-service
   labels:
     app: my-nextcloud
-  annotations:
-    metallb.universe.tf/address-pool: custom-addresspool
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9980
   selector:
     app: my-nextcloud
     tier: office
-  # type: ClusterIP
+  type: ClusterIP
   # clusterIP: None
-  type: LoadBalancer
+  # type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,7 +46,7 @@ spec:
             #   value: nextcloud
             ####################
             - name: extra_params
-              value: --o:ssl.enable=false --o:ssl.termination=false
+              value: "--o:ssl.enable=false --o:ssl.termination=false --o:admin_console.username=atsushi --o:admin_console.password=atsushi"
           ports:
             - containerPort: 9980
           resources:
