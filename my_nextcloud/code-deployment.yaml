@@ -56,3 +56,7 @@ spec:
             requests:
               cpu: 1
               memory: 1Gi
+
+########################
+#url
+#http://nextcloud-code-service.default.svc.cluster.local:9980
