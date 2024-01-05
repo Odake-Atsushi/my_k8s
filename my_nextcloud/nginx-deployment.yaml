@@ -130,8 +130,8 @@ data:
 
             location = /.well-known/carddav   { return 301 /$my_sub_dir/remote.php/dav/; }
             location = /.well-known/caldav    { return 301 /$my_sub_dir/remote.php/dav/; }
-            #location = /.well-known/webfinger { return 301 /$my_sub_dir/index.php$uri; }
-            #location = /.well-known/nodeinfo  { return 301 /$my_sub_dir/index.php$uri; }
+            location = /.well-known/webfinger { return 301 /$my_sub_dir/index.php$uri; }
+            location = /.well-known/nodeinfo  { return 301 /$my_sub_dir/index.php$uri; }
 
             location /.well-known/acme-challenge    { try_files $uri $uri/ =404; }
             location /.well-known/pki-validation    { try_files $uri $uri/ =404; }
@@ -173,8 +173,6 @@ data:
         }
 
         # Serve static files
-        #location ~ \.(?:css|js|svg|gif)$ {
-        #location ~ \.(?:css|js|svg|gif|png|jpg|ico|wasm|tflite|map)$ {
         location ~ \.(?:css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)$ {
             try_files $uri /$my_sub_dir/index.php$request_uri;
             #expires 6M;         # Cache-Control policy borrowed from `.htaccess`
