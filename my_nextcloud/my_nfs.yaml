@@ -6,14 +6,14 @@ metadata:
 spec:
   storageClassName: my-data
   capacity:
-    storage: 5Ti
+    storage: 512Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/nfsshare/data
+    path: /mnt/storage/nextcloud/data
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -22,11 +22,11 @@ metadata:
 spec:
   storageClassName: my-db
   capacity:
-    storage: 32Gi
+    storage: 64Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/nfsshare/db
+    path: /mnt/storage/nextcloud/db

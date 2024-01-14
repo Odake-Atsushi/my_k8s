@@ -60,26 +60,26 @@ spec:
               value: nextcloud-nginx-service
             # - name: NEXTCLOUD_TRUSTED_DOMAINS
             #   value: atsushi.local
-            - name: OVERWRITEHOST
-              # value: atsushi.local
-              valueFrom:
-                secretKeyRef:
-                  name: server-hostname
-                  key: host
+            # - name: OVERWRITEHOST
+            #   # value: atsushi.local
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: server-hostname
+            #       key: host
             - name: OVERWRITEPROTOCOL
               value: http
-            - name: OVERWRITEWEBROOT
-              # value: /nextcloud
-              valueFrom:
-                secretKeyRef:
-                  name: server-hostname
-                  key: root
-            - name: OVERWRITECLIURL
-              # value: http://atsushi.local/nextcloud
-              valueFrom:
-                secretKeyRef:
-                  name: server-hostname
-                  key: url
+            # - name: OVERWRITEWEBROOT
+            #   # value: /nextcloud
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: server-hostname
+            #       key: root
+            # - name: OVERWRITECLIURL
+            #   # value: http://atsushi.local/nextcloud
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: server-hostname
+            #       key: url
           ports:
             - containerPort: 9000
           volumeMounts:

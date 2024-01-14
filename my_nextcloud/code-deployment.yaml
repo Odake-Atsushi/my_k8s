@@ -37,16 +37,19 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code
+        - image: collabora/code:23.05.7.2.1
           name: code
           env:
-            # - name: password
-            #   value: nextcloud
-            # - name: username
-            #   value: nextcloud
+            - name: password
+              value: nextcloud
+            - name: username
+              value: nextcloud
             ####################
             - name: extra_params
-              value: "--o:ssl.enable=false --o:ssl.termination=false --o:admin_console.username=atsushi --o:admin_console.password=atsushi"
+              # value: "--o:ssl.enable=false --o:ssl.termination=false --o:admin_console.username=atsushi --o:admin_console.password=atsushi"
+              value: "--o:ssl.enable=false --o:ssl.termination=false"
+            - name: server_name
+              value: "nextcloud-code-service.default.svc.cluster.local"
           ports:
             - containerPort: 9980
           resources:
