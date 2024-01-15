@@ -33,7 +33,7 @@ spec:
         tier: db
     spec:
       containers:
-        - image: mariadb:10.6
+        - image: mariadb:11.2
           name: mariadb
           env:
             - name: MARIADB_ROOT_PASSWORD
