@@ -56,6 +56,13 @@ spec:
             - name: REDIS_HOST
               value: nextcloud-redis-service
             ####################################
+            - name: NEXTCLOUD_INIT_LOCK
+              value: "true"
+            - name: NEXTCLOUD_INIT_HTACCESS
+              value: "true"
+            - name: PHP_MEMORY_LIMIT
+              value: "1G"
+            ####################################
             - name: TRUSTED_PROXIES
               value: nextcloud-nginx-service
             # - name: NEXTCLOUD_TRUSTED_DOMAINS
