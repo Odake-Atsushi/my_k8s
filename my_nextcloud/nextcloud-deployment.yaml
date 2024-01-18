@@ -65,8 +65,8 @@ spec:
             ####################################
             - name: TRUSTED_PROXIES
               value: nextcloud-nginx-service
-            # - name: NEXTCLOUD_TRUSTED_DOMAINS
-            #   value: atsushi.local
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: "'atsushi.local' '100.105.100.72'"
             # - name: OVERWRITEHOST
             #   # value: atsushi.local
             #   valueFrom:
