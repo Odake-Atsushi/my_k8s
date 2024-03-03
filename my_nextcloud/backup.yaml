@@ -1,0 +1,132 @@
+--- #NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mybackup-data-pv
+spec:
+  storageClassName: my-backup-data
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/backup/nextcloud/data
+--- #NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mybackup-db-pv
+spec:
+  storageClassName: my-backup-db
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/backup/nextcloud/db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-backup-data-pv-claim
+  labels:
+    app: my-nextcloud-backup-data
+spec:
+  storageClassName: my-backup-data
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Ti
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-backup-db-pv-claim
+  labels:
+    app: my-nextcloud-backup-db-data
+spec:
+  storageClassName: my-backup-db
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Ti
+---
+############################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-backup
+  labels:
+    app: my-nextcloud
+spec:
+  selector:
+    app: my-nextcloud
+    tier: backup
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-backup-deployment
+  labels:
+    app: my-nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nextcloud
+      tier: backup
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-nextcloud
+        tier: backup
+    spec:
+      containers:
+        - image: debian:12
+          name: backup
+          command:
+            - /cron.sh
+          volumeMounts:
+            - name: data-persistent-storage
+              mountPath: /mnt/data
+            - name: db-persistent-storage
+              mountPath: /mnt/db
+            #backup
+            - name: backup-data-persistent-storage
+              mountPath: /mnt/backupData
+            - name: backup-db-persistent-storage
+              mountPath: /mnt/backupDb
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: data-persistent-storage
+          persistentVolumeClaim:
+            claimName: nextcloud-data-pv-claim
+        - name: db-persistent-storage
+          persistentVolumeClaim:
+            claimName: nextcloud-db-pv-claim
+        #backup
+        - name: backup-data-persistent-storage
+          persistentVolumeClaim:
+            claimName: nextcloud-backup-data-pv-claim
+        - name: backup-db-persistent-storage
+          persistentVolumeClaim:
+            claimName: nextcloud-backup-db-pv-claim
