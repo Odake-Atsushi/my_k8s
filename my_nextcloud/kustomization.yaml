@@ -20,6 +20,6 @@ resources:
   - mariadb-deployment.yaml
   - nextcloud-deployment.yaml
   - nginx-deployment.yaml
-  - code-deployment.yaml
+  # - code-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
