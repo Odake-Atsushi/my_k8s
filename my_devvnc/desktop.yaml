@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: desktop-service
+  labels:
+    app: my-desktop
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
+spec:
+  ports:
+    - port: 3389
+  selector:
+    app: my-desktop
+  type: LoadBalancer #ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desktop-deployment
+  labels:
+    app: my-desktop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-desktop
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-desktop
+    spec:
+      containers:
+        - image: frxyt/xrdp:xfce
+          name: desktop
+          env:
+            - name: "FRX_XRDP_USER_NAME"
+              value: "atsushi"
+            - name: "FRX_XRDP_USER_PASSWORD"
+              value: "pass"
+          ports:
+            - containerPort: 3389
+          #command:
+          #  - sleep
+          #  - infinity
