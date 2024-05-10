@@ -24,8 +24,6 @@ spec:
   selector:
     matchLabels:
       app: my-desktop
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -49,5 +47,23 @@ spec:
               cpu: 6
               memory: 16Gi
           command:
-           - sleep
-           - infinity
+          #  - sleep
+          #  - infinity
+            - sh
+            - "-c"
+            - |
+              apt -y update
+              && apt -y upgrade
+              && apt -y autopurge
+              && apt -y install language-pack-ja-base language-pack-ja
+              && update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
+              && source /etc/default/locale
+              && useradd --password "pass" --create-home atsushi
+              && apt -y install sudo
+              && gpasswd -a atsushi sudo
+              && DEBIAN_FRONTEND=noninteractive apt -y install tzdata
+              && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+              && apt -y install ubuntu-desktop-minimal task-gnome-desktop task-japanese-gnome-desktop language-pack-gnome-ja-base language-pack-gnome-ja gnome-user-docs-ja fonts-noto-cjk-extra
+              && apt -y install xrdp
+              && systemctl enable xrdp
+              && sleep infinity
