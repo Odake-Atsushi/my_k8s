@@ -66,3 +66,4 @@ spec:
               apt -y install ubuntu-desktop-minimal task-gnome-desktop task-japanese-gnome-desktop language-pack-gnome-ja-base language-pack-gnome-ja gnome-user-docs-ja fonts-noto-cjk-extra
               apt -y install xrdp
               systemctl enable xrdp
+              echo "Setup Finish!"
