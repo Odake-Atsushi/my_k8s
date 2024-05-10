@@ -64,6 +64,8 @@ spec:
               DEBIAN_FRONTEND=noninteractive apt -y install tzdata
               ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
               apt -y install ubuntu-desktop-minimal task-gnome-desktop task-japanese-gnome-desktop language-pack-gnome-ja-base language-pack-gnome-ja gnome-user-docs-ja fonts-noto-cjk-extra
+              systemctl start gdm3
+              echo "Start Gnome!"
               apt -y install xrdp
               systemctl enable xrdp
               echo "Setup Finish!"
