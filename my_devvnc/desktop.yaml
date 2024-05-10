@@ -32,15 +32,22 @@ spec:
         app: my-desktop
     spec:
       containers:
-        - image: frxyt/xrdp:xfce
+        - image: ubuntu:jammy #frxyt/xrdp:xfce
           name: desktop
-          env:
-            - name: "FRX_XRDP_USER_NAME"
-              value: "atsushi"
-            - name: "FRX_XRDP_USER_PASSWORD"
-              value: "pass"
+          # env:
+          #   - name: "FRX_XRDP_USER_NAME"
+          #     value: "atsushi"
+          #   - name: "FRX_XRDP_USER_PASSWORD"
+          #     value: "pass"
           ports:
             - containerPort: 3389
-          #command:
-          #  - sleep
-          #  - infinity
+          resources:
+            limits:
+              cpu: 8
+              memory: 20Gi
+            requests:
+              cpu: 6
+              memory: 16Gi
+          command:
+           - sleep
+           - infinity
