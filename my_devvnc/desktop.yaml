@@ -30,7 +30,7 @@ data:
     apt-get -y upgrade
     apt-get -y autopurge
     apt-get -y install openssh-server
-    /etc/init.d/sshd restart
+    /etc/init.d/ssh restart
 
     apt-get -y install language-pack-ja-base language-pack-ja
     update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
@@ -42,7 +42,8 @@ data:
     apt-get -y install sudo
     gpasswd -a atsushi sudo
 
-    apt-get -y install task-xfce-desktop xrdp
+    # apt-get -y install task-xfce-desktop xrdp
+    apt-get -y install xfce4 xfce4-goodies fonts-noto-cjk-extra xrdp
     sed -i "s/test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/# test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh
     sed -i "s/exec \/bin\/sh \/etc\/X11\/Xsession/# exec \/bin\/sh \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh
     echo "startxfce4" >> /etc/xrdp/startwm.sh
