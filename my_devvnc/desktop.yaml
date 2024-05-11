@@ -42,6 +42,8 @@ data:
     sed -i "s/exec \/bin\/sh \/etc\/X11\/Xsession/# exec \/bin\/sh \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh
     echo "startxfce4" >> /etc/xrdp/startwm.sh
     /etc/init.d/xrdp restart
+
+    apt-get -y autoclean
     echo "Setup Finish!"
     sleep infinity
 
