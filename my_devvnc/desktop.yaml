@@ -21,6 +21,8 @@ data:
   setup.sh: |
     #!/bin/bash
 
+    sed -i -e "s/http\:\/\/archive\.ubuntu\.com\/ubuntu\//https\:\/\/ftp\.udx\.icscoe\.jp\/Linux\/ubuntu\//" /etc/apt/sources.list
+
     apt-get -y update
     apt-get -y upgrade
     apt-get -y autopurge
@@ -36,8 +38,8 @@ data:
     gpasswd -a atsushi sudo
 
     apt-get -y install task-xfce-desktop xrdp
-    sed "s/test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/# test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh > /etc/xrdp/startwm.sh
-    sed "s/exec \/bin\/sh \/etc\/X11\/Xsession/# exec \/bin\/sh \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh > /etc/xrdp/startwm.sh
+    sed -i "s/test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/# test -x \/etc\/X11\/Xsession && exec \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh
+    sed -i "s/exec \/bin\/sh \/etc\/X11\/Xsession/# exec \/bin\/sh \/etc\/X11\/Xsession/" /etc/xrdp/startwm.sh
     echo "startxfce4" >> /etc/xrdp/startwm.sh
     /etc/init.d/xrdp restart
     echo "Setup Finish!"
@@ -80,10 +82,10 @@ spec:
               cpu: 6
               memory: 16Gi
           command:
-          #  - sleep
-          #  - infinity
-           - bash
-           - /usr/local/bin/setup.sh
+           - sleep
+           - infinity
+          #  - bash
+          #  - /usr/local/bin/setup.sh
             # - sh
             # - "-c"
             # - |
