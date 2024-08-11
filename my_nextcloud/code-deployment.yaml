@@ -4,8 +4,6 @@ metadata:
   name: nextcloud-code-service
   labels:
     app: my-nextcloud
-  # annotations:
-  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9980
@@ -13,8 +11,6 @@ spec:
     app: my-nextcloud
     tier: office
   type: ClusterIP
-  # clusterIP: None
-  # type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
