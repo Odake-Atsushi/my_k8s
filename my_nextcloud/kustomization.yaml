@@ -21,5 +21,7 @@ resources:
   - nextcloud-deployment.yaml
   - nginx-deployment.yaml
   - code-deployment.yaml
+  - letsencrypt-issuer.yaml
+  - office-letsencrypt-issuer.yaml
   - ingress-service.yaml
   # - backup.yaml
