@@ -22,4 +22,4 @@ resources:
   - nginx-deployment.yaml
   - code-deployment.yaml
   - ingress-service.yaml
-  - backup.yaml
+  # - backup.yaml

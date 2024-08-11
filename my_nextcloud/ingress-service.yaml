@@ -25,20 +25,23 @@ spec:
                 name: nextcloud-nginx-service
                 port:
                   number: 80
-          # - path: /nextcloud(/|$)(.*)
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: nextcloud-nginx-service
-          #       port:
-          #         number: 80
-    # - host: office.atsushi.local
-    #   http:
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    #         backend:
-    #           service:
-    #             name: nextcloud-code-service
-    #             port:
-    #               number: 9980
+    - host: nextcloud.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-nginx-service
+                port:
+                  number: 80
+    - host: office.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-code-service
+                port:
+                  number: 9980
