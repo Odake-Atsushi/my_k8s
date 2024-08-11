@@ -218,7 +218,7 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: nginx:1.25
+        - image: nginx:1.27
           name: nginx
           ports:
             - containerPort: 80
