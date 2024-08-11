@@ -57,5 +57,5 @@ spec:
               memory: 1Gi
 
 ########################
-#url
-#http://nextcloud-code-service.default.svc.cluster.local:9980
+#設定用url
+#https://office.oahs.f5.si/browser/dist/admin/admin.html
