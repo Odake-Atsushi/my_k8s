@@ -13,7 +13,7 @@ secretGenerator:
   #     - root=/nextcloud
   #     - url=http://100.105.100.72/nextcloud
 resources:
-  - addresspool.yaml
+  # - addresspool.yaml
   - my_nfs.yaml
   - my_strage.yaml
   - redis-deployment.yaml
@@ -21,7 +21,8 @@ resources:
   - nextcloud-deployment.yaml
   - nginx-deployment.yaml
   - code-deployment.yaml
+  - office-nginx-deployment.yaml
   - letsencrypt-issuer.yaml
-  - office-letsencrypt-issuer.yaml
+  # - office-letsencrypt-issuer.yaml
   - ingress-service.yaml
   # - backup.yaml
