@@ -25,34 +25,34 @@ data:
     server {
         listen 80;
 
-        set $code-server nextcloud-code-service:9980;
+        set $CodeServer nextcloud-code-service:9980;
 
         location / {
-            proxy_pass http://$code-server/;
+            proxy_pass http://$CodeServer/;
             proxy_set_header Host $http_host;
         }
 
         # static files
         location ^~ /browser {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Host $http_host;
         }
 
         # WOPI discovery URL
         location ^~ /hosting/discovery {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Host $http_host;
         }
 
         # Capabilities
         location ^~ /hosting/capabilities {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Host $http_host;
         }
 
         # main websocket
         location ~ ^/cool/(.*)/ws$ {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $http_host;
@@ -61,13 +61,13 @@ data:
 
         # download, presentation and image upload
         location ~ ^/(c|l)ool {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Host $http_host;
         }
 
         # Admin Console websocket
         location ^~ /cool/adminws {
-            proxy_pass http://$code-server;
+            proxy_pass http://$CodeServer;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $http_host;
