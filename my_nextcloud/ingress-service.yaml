@@ -14,7 +14,6 @@ metadata:
 
     #
     #kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml
-    annotations:
     cert-manager.io/cluster-issuer: "nextcloud-cluster-issuer"
     cert-manager.io/cluster-issuer: "office-cluster-issuer"
 spec:
@@ -56,5 +55,15 @@ spec:
             backend:
               service:
                 name: nextcloud-office-nginx-service #nextcloud-code-service
+                port:
+                  number: 80
+    - host: test.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: test-nginx-service
                 port:
                   number: 80
