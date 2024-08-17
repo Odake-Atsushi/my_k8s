@@ -3,8 +3,10 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   annotations:
-    kubernetes.io/ingress.class: public
+    # kubernetes.io/ingress.class: public
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/tls-acme: "true"
     # 正規表現を使う
     # nginx.ingress.kubernetes.io/use-regex: "true"
     #「/」直後から、正規表現のキャプチャしたグループでパスを指定する
@@ -19,6 +21,7 @@ metadata:
     cert-manager.io/cluster-issuer: "office-cluster-issuer"
 spec:
   # ingressClassName: nginx
+  ingressClassName: public
   tls:
     - hosts:
         - nextcloud.oahs.f5.si # ドメイン記載
