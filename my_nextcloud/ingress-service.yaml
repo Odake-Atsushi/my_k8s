@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   annotations:
+    kubernetes.io/ingress.class: public
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
     # 正規表現を使う
     # nginx.ingress.kubernetes.io/use-regex: "true"
