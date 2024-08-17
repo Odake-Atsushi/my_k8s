@@ -90,7 +90,7 @@ data:
         include mime.types;
         types {
             text/javascript js mjs;
-            application/wasm wasm;
+            # application/wasm wasm;
         }
 
         # Specify how to handle directories -- specifying `/index.php$request_uri`
@@ -187,9 +187,9 @@ data:
             add_header X-XSS-Protection                  "1; mode=block"     always;
             access_log off;     # Optional: Don't log access to assets
 
-            # location ~ \.wasm$ {
-            #   default_type application/wasm;
-            # }
+            location ~ \.wasm$ {
+              default_type application/wasm;
+            }
         }
 
         location ~ \.woff2?$ {
