@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   annotations:
-    # kubernetes.io/ingress.class: public
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
     ingress.kubernetes.io/force-ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
@@ -30,7 +29,6 @@ spec:
         - office.oahs.f5.si # ドメイン記載
       secretName: office-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
-    # - host: atsushi.local
     - host: atsushi.local
       http:
         paths:

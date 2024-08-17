@@ -71,9 +71,9 @@ spec:
               value: 1G
             ####################################
             - name: TRUSTED_PROXIES
-              value: "'nextcloud-nginx-service' '160.248.185.8' '2001:02C0:0100:0423:0051:cafe:03c2:0001'"
+              value: "'nextcloud-nginx-service'"
             - name: NEXTCLOUD_TRUSTED_DOMAINS
-              value: "'atsushi.local' '100.105.100.72' 'nextcloud.oahs.f5.si'"
+              value: "'atsushi.local' 'nextcloud.oahs.f5.si'"
             # - name: OVERWRITEHOST
             #   # value: atsushi.local
             #   valueFrom:
