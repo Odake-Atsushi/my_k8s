@@ -18,12 +18,11 @@ resources:
   - my_strage.yaml
   - redis-deployment.yaml
   - mariadb-deployment.yaml
-  - nextcloud-deployment.yaml
   - nginx-deployment.yaml
-  - code-deployment.yaml
+  - nextcloud-deployment.yaml
   - office-nginx-deployment.yaml
+  - code-deployment.yaml
   - letsencrypt-issuer.yaml
-  # - office-letsencrypt-issuer.yaml
   - ingress-service.yaml
   # - backup.yaml
   - test.yaml
