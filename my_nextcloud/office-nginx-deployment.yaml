@@ -13,7 +13,7 @@ spec:
       # protocol: TCP
   selector:
     app: my-nextcloud
-    tier: frontend
+    tier: prox-office
   type: ClusterIP
 ---
 apiVersion: v1
@@ -86,14 +86,14 @@ spec:
   selector:
     matchLabels:
       app: my-nextcloud
-      tier: frontend
+      tier: prox-office
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: my-nextcloud
-        tier: frontend
+        tier: prox-office
     spec:
       containers:
         - image: nginx:1.27
