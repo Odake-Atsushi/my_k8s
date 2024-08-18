@@ -84,6 +84,9 @@ data:
         add_header X-Robots-Tag                       "noindex, nofollow" always;
         add_header X-XSS-Protection                   "1; mode=block"     always;
 
+        # Enable HTTP Strict Transport Security
+        add_header Strict-Transport-Security          "max-age=15552000; includeSubDomains";
+
         # Remove X-Powered-By, which is an information leak
         fastcgi_hide_header X-Powered-By;
 
