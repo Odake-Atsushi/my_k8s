@@ -7,6 +7,8 @@ metadata:
 spec:
   ports:
     - port: 9000
+      # targetPort: 9000
+      # protocol: TCP
   selector:
     app: my-nextcloud
     tier: backend
@@ -61,12 +63,12 @@ spec:
             - name: NEXTCLOUD_ADMIN_PASSWORD
               value: odake
             ####################################
-            - name: NEXTCLOUD_UPDATE
-              value: "1"
-            - name: NEXTCLOUD_INIT_LOCK
-              value: "true"
-            - name: NEXTCLOUD_INIT_HTACCESS
-              value: "true"
+            # - name: NEXTCLOUD_UPDATE
+            #   value: "1"
+            # - name: NEXTCLOUD_INIT_LOCK
+            #   value: "true"
+            # - name: NEXTCLOUD_INIT_HTACCESS
+            #   value: "true"
             - name: PHP_MEMORY_LIMIT
               value: 1G
             ####################################
@@ -102,10 +104,10 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 4Gi
+              memory: 6Gi
             requests:
-              cpu: 500m
-              memory: 2Gi
+              cpu: 1
+              memory: 3Gi
         - image: nextcloud:29-fpm
           name: cron-nextcloud
           command:
@@ -116,10 +118,10 @@ spec:
           resources:
             limits:
               cpu: 1
-              memory: 1Gi
+              memory: 4Gi
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 500m
+              memory: 2Gi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:

@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      # targetPort: 8080
+      # targetPort: 80
       # protocol: TCP
   selector:
     app: my-nextcloud
@@ -22,6 +22,10 @@ metadata:
   name: nextcloud-nginx-conf
 data:
   nextcloud.conf: |
+    # include mime.types;
+    # default_type  application/octet-stream;
+    # sendfile        on;
+
     upstream php-handler {
         server nextcloud-service:9000;
     }
@@ -32,14 +36,14 @@ data:
         default "immutable";
     }
 
+    # Prevent nginx HTTP Server Detection
+    server_tokens off;
+
     server {
         listen 80;
 
         # Path to the root of your installation
         root /var/www/html;
-
-        # Prevent nginx HTTP Server Detection
-        server_tokens off;
 
         # HSTS settings
         # WARNING: Only add the preload option once you read about
@@ -88,10 +92,10 @@ data:
         # or include you can include that list explicitly and add the file extension
         # only for Nextcloud like below:
         include mime.types;
-        types {
-            text/javascript js mjs;
-            # application/wasm wasm;
-        }
+        # types {
+        #     text/javascript js mjs;
+        #     # application/wasm wasm;
+        # }
 
         # Specify how to handle directories -- specifying `/index.php$request_uri`
         # here as the fallback means that Nginx always exhibits the desired behaviour
@@ -150,8 +154,8 @@ data:
         location ~ \.php(?:$|/) {
             # Required for legacy support
             #rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
-            #rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|ocs-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
-            rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|ocs-provider\/.+|.+\/richdocumentscode(_arm64)?\/proxy) /index.php$request_uri;
+            rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|ocs-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
+            #rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|ocs-provider\/.+|.+\/richdocumentscode(_arm64)?\/proxy) /index.php$request_uri;
 
             fastcgi_split_path_info ^(.+?\.php)(/.*)$;
             set $path_info $fastcgi_path_info;
@@ -173,22 +177,47 @@ data:
             fastcgi_max_temp_file_size 0;
         }
 
-        # Serve static files
-        location ~ \.(?:css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)$ {
+        # # Serve static files
+        # location ~ \.(?:css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)$ {
+        #     try_files $uri /index.php$request_uri;
+        #     #expires 6M;         # Cache-Control policy borrowed from `.htaccess`
+        #     #add_header Cache-Control "public, max-age=15778463, $asset_immutable";
+        #     add_header Cache-Control                     "public, max-age=15778463$asset_immutable";
+        #     add_header Referrer-Policy                   "no-referrer"       always;
+        #     add_header X-Content-Type-Options            "nosniff"           always;
+        #     add_header X-Frame-Options                   "SAMEORIGIN"        always;
+        #     add_header X-Permitted-Cross-Domain-Policies "none"              always;
+        #     add_header X-Robots-Tag                      "noindex, nofollow" always;
+        #     add_header X-XSS-Protection                  "1; mode=block"     always;
+        #     access_log off;     # Optional: Don't log access to assets
+
+        #     location ~ \.wasm$ {
+        #       default_type application/wasm;
+        #     }
+        # }
+
+        # Javascript mimetype fixes for nginx
+        # Note: The block below should be removed, and the js|mjs section should be
+        # added to the block below this one. This is a temporary fix until Nginx
+        # upstream fixes the js mime-type
+        location ~* \.(?:js|mjs)$ {
+            # include mime.types;
+            types {
+                text/javascript js mjs;
+            }
             try_files $uri /index.php$request_uri;
-            #expires 6M;         # Cache-Control policy borrowed from `.htaccess`
-            #add_header Cache-Control "public, max-age=15778463, $asset_immutable";
-            add_header Cache-Control                     "public, max-age=15778463$asset_immutable";
-            add_header Referrer-Policy                   "no-referrer"       always;
-            add_header X-Content-Type-Options            "nosniff"           always;
-            add_header X-Frame-Options                   "SAMEORIGIN"        always;
-            add_header X-Permitted-Cross-Domain-Policies "none"              always;
-            add_header X-Robots-Tag                      "noindex, nofollow" always;
-            add_header X-XSS-Protection                  "1; mode=block"     always;
+            add_header Cache-Control "public, max-age=15778463, $asset_immutable";
+            access_log off;
+        }
+
+        # Serve static files
+        location ~ \.(?:css|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)$ {
+            try_files $uri /index.php$request_uri;
+            add_header Cache-Control "public, max-age=15778463, $asset_immutable";
             access_log off;     # Optional: Don't log access to assets
 
             location ~ \.wasm$ {
-              default_type application/wasm;
+                default_type application/wasm;
             }
         }
 
@@ -242,10 +271,10 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 1Gi
+              memory: 4Gi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1
+              memory: 2Gi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:
