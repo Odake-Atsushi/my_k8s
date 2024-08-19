@@ -60,79 +60,183 @@ spec:
   resources:
     requests:
       storage: 1Ti
-############################################
 ---
 apiVersion: v1
-kind: Service
+kind: ConfigMap
 metadata:
-  name: nextcloud-backup
-  labels:
-    app: my-nextcloud
-spec:
-  ports:
-    - port: 22
-  selector:
-    app: my-nextcloud
-    tier: backup
-  type: ClusterIP
+  name: backup-script
+data:
+  backup.sh: |
+    #!/bin/bash
+
+    apt-get -y update
+    apt-get -y upgrade
+    apt-get -y autopurge
+    apt-get -y install rsync
+    apt-get -y autoclean
+
+    # Maintenance mode on
+    CONFIGFILEPATH="/mnt/data/config/config.php"
+    if grep -q "'maintenance' => false" $CONFIGFILEPATH; then
+        echo "Switch maintenance mode!"
+        sed -i -e "s/'maintenance' => false/'maintenance' => true/" $CONFIGFILEPATH
+    elif grep -q "'maintenance' => true" $CONFIGFILEPATH; then
+        echo "Already maintenance mode!"
+    else
+        echo "NO maintenance!"
+        sed -i -e "s/)\;/  'maintenance' => true,\n)\;/" $CONFIGFILEPATH
+    fi
+
+    # Data
+    DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
+    BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
+    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    # DB
+    DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
+    BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
+    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+
+    # Maintenance mode off
+    sed -i -e "s/'maintenance' => true/'maintenance' => false/" $CONFIGFILEPATH
+
+    echo "Backup Finish!"
+
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: nextcloud-backup-deployment
+  name: nextcloud-backup-cronjob
   labels:
     app: my-nextcloud
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: my-nextcloud
-      tier: backup
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: my-nextcloud
-        tier: backup
+  schedule: "0 4 * * *"
+  timeZone: Asia/Tokyo
+  concurrencyPolicy: Forbid
+  jobTemplate:
     spec:
-      containers:
-        - image: debian:12
-          name: backup
-          ports:
-            - containerPort: 22
-          command:
-            - sleep
-            - infinity
-            # - /cron.sh
-          volumeMounts:
+      template:
+        spec:
+          containers:
+            - name: backup
+              image: debian:12
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: TZ
+                  value: Asia/Tokyo
+              command:
+                - bash
+                - /usr/local/bin/backup.sh
+              volumeMounts:
+                - name: backup-script-file
+                  mountPath: /usr/local/bin/
+                #data
+                - name: data-persistent-storage
+                  mountPath: /mnt/data
+                - name: db-persistent-storage
+                  mountPath: /mnt/db
+                #backup
+                - name: backup-data-persistent-storage
+                  mountPath: /mnt/backupData
+                - name: backup-db-persistent-storage
+                  mountPath: /mnt/backupDb
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-script-file
+              configMap:
+                name: backup-script
+            #data
             - name: data-persistent-storage
-              mountPath: /mnt/data
+              persistentVolumeClaim:
+                claimName: nextcloud-pv-claim
             - name: db-persistent-storage
-              mountPath: /mnt/db
+              persistentVolumeClaim:
+                claimName: mariadb-pv-claim
             #backup
             - name: backup-data-persistent-storage
-              mountPath: /mnt/backupData
+              persistentVolumeClaim:
+                claimName: nextcloud-backup-data-pv-claim
             - name: backup-db-persistent-storage
-              mountPath: /mnt/backupDb
-          resources:
-            limits:
-              cpu: 2
-              memory: 2Gi
-            requests:
-              cpu: 1
-              memory: 1Gi
-      volumes:
-        - name: data-persistent-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-pv-claim
-        - name: db-persistent-storage
-          persistentVolumeClaim:
-            claimName: mariadb-pv-claim
-        #backup
-        - name: backup-data-persistent-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-backup-data-pv-claim
-        - name: backup-db-persistent-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-backup-db-pv-claim
+              persistentVolumeClaim:
+                claimName: nextcloud-backup-db-pv-claim
+
+# ############################################
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: nextcloud-backup
+#   labels:
+#     app: my-nextcloud
+# spec:
+#   ports:
+#     - port: 22
+#   selector:
+#     app: my-nextcloud
+#     tier: backup
+#   type: ClusterIP
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nextcloud-backup-deployment
+#   labels:
+#     app: my-nextcloud
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: my-nextcloud
+#       tier: backup
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       labels:
+#         app: my-nextcloud
+#         tier: backup
+#     spec:
+#       containers:
+#         - image: debian:12
+#           name: backup
+#           ports:
+#             - containerPort: 22
+#           env:
+#             - name: TZ
+#               value: Asia/Tokyo
+#           command:
+#             - sleep
+#             - infinity
+#             # - /cron.sh
+#           volumeMounts:
+#             - name: data-persistent-storage
+#               mountPath: /mnt/data
+#             - name: db-persistent-storage
+#               mountPath: /mnt/db
+#             #backup
+#             - name: backup-data-persistent-storage
+#               mountPath: /mnt/backupData
+#             - name: backup-db-persistent-storage
+#               mountPath: /mnt/backupDb
+#           resources:
+#             limits:
+#               cpu: 2
+#               memory: 2Gi
+#             requests:
+#               cpu: 1
+#               memory: 1Gi
+#       volumes:
+#         - name: data-persistent-storage
+#           persistentVolumeClaim:
+#             claimName: nextcloud-pv-claim
+#         - name: db-persistent-storage
+#           persistentVolumeClaim:
+#             claimName: mariadb-pv-claim
+#         #backup
+#         - name: backup-data-persistent-storage
+#           persistentVolumeClaim:
+#             claimName: nextcloud-backup-data-pv-claim
+#         - name: backup-db-persistent-storage
+#           persistentVolumeClaim:
+#             claimName: nextcloud-backup-db-pv-claim
