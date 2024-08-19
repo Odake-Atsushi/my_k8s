@@ -18,5 +18,5 @@ resources:
   - code-deployment.yaml
   - letsencrypt-issuer.yaml
   - ingress-service.yaml
-  # - backup.yaml
+  - backup.yaml
   - test.yaml

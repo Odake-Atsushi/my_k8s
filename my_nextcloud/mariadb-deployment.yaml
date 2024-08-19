@@ -68,7 +68,7 @@ spec:
             - --binlog-format=ROW
           volumeMounts:
             - name: mariadb-persistent-storage
-              mountPath: /var/lib/mariadb
+              mountPath: /var/lib/mysql #/var/lib/mariadb
           resources:
             limits:
               cpu: 2

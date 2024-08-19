@@ -70,7 +70,7 @@ metadata:
     app: my-nextcloud
 spec:
   ports:
-    - port: 22222
+    - port: 22
   selector:
     app: my-nextcloud
     tier: backup
@@ -99,8 +99,12 @@ spec:
       containers:
         - image: debian:12
           name: backup
-          # command:
-          #   - /cron.sh
+          ports:
+            - containerPort: 22
+          command:
+            - sleep
+            - infinity
+            # - /cron.sh
           volumeMounts:
             - name: data-persistent-storage
               mountPath: /mnt/data
@@ -113,18 +117,18 @@ spec:
               mountPath: /mnt/backupDb
           resources:
             limits:
+              cpu: 2
+              memory: 2Gi
+            requests:
               cpu: 1
               memory: 1Gi
-            requests:
-              cpu: 500m
-              memory: 512Mi
       volumes:
         - name: data-persistent-storage
           persistentVolumeClaim:
-            claimName: nextcloud-data-pv-claim
+            claimName: nextcloud-pv-claim
         - name: db-persistent-storage
           persistentVolumeClaim:
-            claimName: nextcloud-db-pv-claim
+            claimName: mariadb-pv-claim
         #backup
         - name: backup-data-persistent-storage
           persistentVolumeClaim:
