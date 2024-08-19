@@ -73,29 +73,9 @@ spec:
               value: 1G
             ####################################
             - name: TRUSTED_PROXIES
-              value: "gethostbyname('nextcloud-nginx-service')"
+              value: "10.152.183.0/24" #gethostbyname("nextcloud-nginx-service")
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: "'atsushi.local' 'nextcloud.oahs.f5.si' '100.105.100.72'"
-            # - name: OVERWRITEHOST
-            #   # value: atsushi.local
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: host
-            # - name: OVERWRITEPROTOCOL
-            #   value: http
-            # - name: OVERWRITEWEBROOT
-            #   # value: /nextcloud
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: root
-            # - name: OVERWRITECLIURL
-            #   # value: http://atsushi.local/nextcloud
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: url
           ports:
             - containerPort: 9000
           volumeMounts:
