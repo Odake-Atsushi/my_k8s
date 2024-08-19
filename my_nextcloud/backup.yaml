@@ -75,6 +75,8 @@ data:
     apt-get -y install rsync
     apt-get -y autoclean
 
+    echo "#####################################################"
+
     # Maintenance mode on
     CONFIGFILEPATH="/mnt/data/config/config.php"
     if grep -q "'maintenance' => false" $CONFIGFILEPATH; then
@@ -87,20 +89,28 @@ data:
         sed -i -e "s/)\;/  'maintenance' => true,\n)\;/" $CONFIGFILEPATH
     fi
 
+    echo "#####################################################"
+
     # Data
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
     rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+
+    echo "#####################################################"
+
     # DB
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
     rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
+    echo "#####################################################"
+
     # Maintenance mode off
     sed -i -e "s/'maintenance' => true/'maintenance' => false/" $CONFIGFILEPATH
 
+    echo "#####################################################"
     echo "Backup Finish!"
 
 ---
