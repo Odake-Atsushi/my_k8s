@@ -4,16 +4,13 @@ metadata:
   name: nextcloud-code-service
   labels:
     app: my-nextcloud
-  # annotations:
-  #   metallb.universe.tf/address-pool: custom-addresspool
 spec:
   ports:
     - port: 9980
   selector:
     app: my-nextcloud
     tier: office
-  type: ClusterIP # LoadBalancer
-  # clusterIP: None
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,13 +33,19 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code
+        - image: collabora/code:24.04.6.1.1
           name: code
           env:
             - name: password
               value: nextcloud
             - name: username
               value: nextcloud
+            ####################
+            - name: extra_params
+              value: "--o:ssl.enable=false --o:ssl.termination=true --o:admin_console.username=atsushi --o:admin_console.password=atsushi"
+              # value: "--o:ssl.enable=false --o:ssl.termination=false"
+            # - name: server_name
+            #   value: "nextcloud-code-service.default.svc.cluster.local"
           ports:
             - containerPort: 9980
           resources:
@@ -50,5 +53,9 @@ spec:
               cpu: 2
               memory: 2Gi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1
+              memory: 1Gi
+
+########################
+#設定用url
+#https://office.oahs.f5.si/browser/dist/admin/admin.html

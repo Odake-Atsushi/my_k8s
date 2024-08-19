@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-office-nginx-service
+  labels:
+    app: my-nextcloud
+  # annotations:
+  #   metallb.universe.tf/address-pool: custom-addresspool
+spec:
+  ports:
+    - port: 80
+      # targetPort: 80
+      # protocol: TCP
+  selector:
+    app: my-nextcloud
+    tier: prox-office
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud-office-nginx-conf
+data:
+  nextcloud.conf: |
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # static files
+        location ^~ /browser {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # WOPI discovery URL
+        location ^~ /hosting/discovery {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # Capabilities
+        location ^~ /hosting/capabilities {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # main websocket
+        location ~ ^/cool/(.*)/ws$ {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $http_host;
+            proxy_read_timeout 36000s;
+        }
+
+        # download, presentation and image upload
+        location ~ ^/(c|l)ool {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # Admin Console websocket
+        location ^~ /cool/adminws {
+            proxy_pass http://nextcloud-code-service:9980;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $http_host;
+            proxy_read_timeout 36000s;
+        }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-office-nginx-deployment
+  labels:
+    app: my-nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nextcloud
+      tier: prox-office
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-nextcloud
+        tier: prox-office
+    spec:
+      containers:
+        - image: nginx:1.27
+          name: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nextcloud-office-nginx-config
+              mountPath: /etc/nginx/conf.d/
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: nextcloud-office-nginx-config # volumeMountsで/etc/nginxにmountするやつ
+          configMap:
+            name: nextcloud-office-nginx-conf # ConfigMapのnginx-confを/etc/nginx以下に配置する

@@ -33,7 +33,7 @@ spec:
         tier: db
     spec:
       containers:
-        - image: mariadb:10.6
+        - image: mariadb:11.5
           name: mariadb
           env:
             - name: MARIADB_ROOT_PASSWORD
@@ -68,13 +68,13 @@ spec:
             - --binlog-format=ROW
           volumeMounts:
             - name: mariadb-persistent-storage
-              mountPath: /var/lib/mariadb
+              mountPath: /var/lib/mysql #/var/lib/mariadb
           resources:
             limits:
-              cpu: 1
+              cpu: 2
               memory: 1Gi
             requests:
-              cpu: 200m
+              cpu: 500m
               memory: 512Mi
       volumes:
         - name: mariadb-persistent-storage
