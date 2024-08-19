@@ -7,19 +7,16 @@ secretGenerator:
       - database=nextcloud
       - user=nextcloud
       - password=nextcloud
-  # - name: server-hostname
-  #   literals:
-  #     - host=100.105.100.72
-  #     - root=/nextcloud
-  #     - url=http://100.105.100.72/nextcloud
 resources:
-  - addresspool.yaml
   - my_nfs.yaml
   - my_strage.yaml
   - redis-deployment.yaml
   - mariadb-deployment.yaml
-  - nextcloud-deployment.yaml
   - nginx-deployment.yaml
+  - nextcloud-deployment.yaml
+  - office-nginx-deployment.yaml
   - code-deployment.yaml
+  - letsencrypt-issuer.yaml
   - ingress-service.yaml
   # - backup.yaml
+  - test.yaml

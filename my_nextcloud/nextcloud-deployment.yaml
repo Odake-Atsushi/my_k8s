@@ -7,6 +7,8 @@ metadata:
 spec:
   ports:
     - port: 9000
+      # targetPort: 9000
+      # protocol: TCP
   selector:
     app: my-nextcloud
     tier: backend
@@ -61,39 +63,19 @@ spec:
             - name: NEXTCLOUD_ADMIN_PASSWORD
               value: odake
             ####################################
-            - name: NEXTCLOUD_UPDATE
-              value: "1"
-            - name: NEXTCLOUD_INIT_LOCK
-              value: "true"
-            - name: NEXTCLOUD_INIT_HTACCESS
-              value: "true"
+            # - name: NEXTCLOUD_UPDATE
+            #   value: "1"
+            # - name: NEXTCLOUD_INIT_LOCK
+            #   value: "true"
+            # - name: NEXTCLOUD_INIT_HTACCESS
+            #   value: "true"
             - name: PHP_MEMORY_LIMIT
               value: 1G
             ####################################
             - name: TRUSTED_PROXIES
-              value: "'nextcloud-nginx-service' '160.248.185.8' '2001:02C0:0100:0423:0051:cafe:03c2:0001'"
+              value: "10.152.183.0/24" #gethostbyname("nextcloud-nginx-service")
             - name: NEXTCLOUD_TRUSTED_DOMAINS
-              value: "'atsushi.local' '100.105.100.72' 'nextcloud.oahs.f5.si'"
-            # - name: OVERWRITEHOST
-            #   # value: atsushi.local
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: host
-            - name: OVERWRITEPROTOCOL
-              value: http
-            # - name: OVERWRITEWEBROOT
-            #   # value: /nextcloud
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: root
-            # - name: OVERWRITECLIURL
-            #   # value: http://atsushi.local/nextcloud
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: server-hostname
-            #       key: url
+              value: "'atsushi.local' 'nextcloud.oahs.f5.si' '100.105.100.72'"
           ports:
             - containerPort: 9000
           volumeMounts:
@@ -102,10 +84,10 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 4Gi
+              memory: 6Gi
             requests:
-              cpu: 500m
-              memory: 2Gi
+              cpu: 1
+              memory: 3Gi
         - image: nextcloud:29-fpm
           name: cron-nextcloud
           command:
@@ -116,10 +98,10 @@ spec:
           resources:
             limits:
               cpu: 1
-              memory: 1Gi
+              memory: 4Gi
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 500m
+              memory: 2Gi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:

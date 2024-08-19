@@ -3,18 +3,21 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    # 正規表現を使う
-    # nginx.ingress.kubernetes.io/use-regex: "true"
-    #「/」直後から、正規表現のキャプチャしたグループでパスを指定する
-    # nginx.ingress.kubernetes.io/rewrite-target: /$2
-    # code
-    nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
-    nginx.ingress.kubernetes.io/proxy-send-timeout: 3600
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/tls-acme: "true"
+    #
+    cert-manager.io/cluster-issuer: "nextcloud-cluster-issuer"
+    cert-manager.io/cluster-issuer: "office-cluster-issuer"
 spec:
-  ingressClassName: nginx
+  ingressClassName: public
+  tls:
+    - hosts:
+        - nextcloud.oahs.f5.si # ドメイン記載
+      secretName: nextcloud-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+    - hosts:
+        - office.oahs.f5.si # ドメイン記載
+      secretName: office-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
-    # - host: atsushi.local
     - host: atsushi.local
       http:
         paths:
@@ -42,6 +45,26 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nextcloud-code-service
+                name: nextcloud-office-nginx-service
                 port:
-                  number: 9980
+                  number: 80
+    - host: test.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: test-nginx-service
+                port:
+                  number: 80
+    - host:
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-nginx-service
+                port:
+                  number: 80
