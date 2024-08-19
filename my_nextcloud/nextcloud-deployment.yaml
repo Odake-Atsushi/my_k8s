@@ -82,8 +82,8 @@ spec:
             #     secretKeyRef:
             #       name: server-hostname
             #       key: host
-            - name: OVERWRITEPROTOCOL
-              value: http
+            # - name: OVERWRITEPROTOCOL
+            #   value: http
             # - name: OVERWRITEWEBROOT
             #   # value: /nextcloud
             #   valueFrom:
