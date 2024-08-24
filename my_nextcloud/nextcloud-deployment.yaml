@@ -71,6 +71,8 @@ spec:
             #   value: "true"
             - name: PHP_MEMORY_LIMIT
               value: 2G
+            - name: PHP_UPLOAD_LIMIT
+              value: 1G
             ####################################
             - name: TRUSTED_PROXIES
               value: "10.152.183.0/24 10.1.174.0/24" #gethostbyname("nextcloud-nginx-service")
