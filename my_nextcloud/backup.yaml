@@ -130,7 +130,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: debian:12
+              image: debian:12.7
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
@@ -170,7 +170,6 @@ spec:
             - name: backup-db-persistent-storage
               persistentVolumeClaim:
                 claimName: nextcloud-backup-db-pv-claim
-
 # ############################################
 # ---
 # apiVersion: v1
