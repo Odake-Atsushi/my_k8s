@@ -90,6 +90,7 @@ data:
     fi
 
     echo "#####################################################"
+    echo "-->  Data Backup !!"
 
     # Data
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
@@ -98,6 +99,7 @@ data:
     rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
+    echo "-->  DB Backup !!"
 
     # DB
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
@@ -110,7 +112,6 @@ data:
     # Maintenance mode off
     sed -i -e "s/'maintenance' => true/'maintenance' => false/" $CONFIGFILEPATH
 
-    echo "#####################################################"
     echo "Backup Finish!"
 
 ---
