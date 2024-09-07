@@ -14,21 +14,3 @@ spec:
       - http01:
           ingress:
             class: public # Ingress-Controller の ingress class を確認
-
----
-# Office用
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: office-cluster-issuer
-spec:
-  acme:
-    email: atsusatoakimeg04@gmail.com # your emailadress
-    server: https://acme-v02.api.letsencrypt.org/directory
-    # server: https://acme-staging-v02.api.letsencrypt.org/directory  # test
-    privateKeySecretRef:
-      name: office-cluster-issuer-secret # # Managed by cert-manager. cert-manager create secret name.
-    solvers:
-      - http01:
-          ingress:
-            class: public # Ingress-Controller の ingress class を確認
