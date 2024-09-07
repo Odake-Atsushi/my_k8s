@@ -51,11 +51,10 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 2Gi
+              memory: 6Gi
             requests:
               cpu: 1
-              memory: 1Gi
-
+              memory: 4Gi
 ########################
 #設定用url
 #https://office.oahs.f5.si/browser/dist/admin/admin.html
