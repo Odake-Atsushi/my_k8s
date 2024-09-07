@@ -90,6 +90,7 @@ data:
     fi
 
     echo "#####################################################"
+    echo "-->  Data Backup !!"
 
     # Data
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
@@ -98,6 +99,7 @@ data:
     rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
+    echo "-->  DB Backup !!"
 
     # DB
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
@@ -110,7 +112,6 @@ data:
     # Maintenance mode off
     sed -i -e "s/'maintenance' => true/'maintenance' => false/" $CONFIGFILEPATH
 
-    echo "#####################################################"
     echo "Backup Finish!"
 
 ---
@@ -121,7 +122,7 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  schedule: "0 4 * * *"
+  schedule: "0 20 * * *"
   timeZone: Asia/Tokyo
   concurrencyPolicy: Forbid
   jobTemplate:
@@ -130,7 +131,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: debian:12
+              image: debian:12.7
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
@@ -170,83 +171,3 @@ spec:
             - name: backup-db-persistent-storage
               persistentVolumeClaim:
                 claimName: nextcloud-backup-db-pv-claim
-
-# ############################################
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: nextcloud-backup
-#   labels:
-#     app: my-nextcloud
-# spec:
-#   ports:
-#     - port: 22
-#   selector:
-#     app: my-nextcloud
-#     tier: backup
-#   type: ClusterIP
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: nextcloud-backup-deployment
-#   labels:
-#     app: my-nextcloud
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: my-nextcloud
-#       tier: backup
-#   strategy:
-#     type: Recreate
-#   template:
-#     metadata:
-#       labels:
-#         app: my-nextcloud
-#         tier: backup
-#     spec:
-#       containers:
-#         - image: debian:12
-#           name: backup
-#           ports:
-#             - containerPort: 22
-#           env:
-#             - name: TZ
-#               value: Asia/Tokyo
-#           command:
-#             - sleep
-#             - infinity
-#             # - /cron.sh
-#           volumeMounts:
-#             - name: data-persistent-storage
-#               mountPath: /mnt/data
-#             - name: db-persistent-storage
-#               mountPath: /mnt/db
-#             #backup
-#             - name: backup-data-persistent-storage
-#               mountPath: /mnt/backupData
-#             - name: backup-db-persistent-storage
-#               mountPath: /mnt/backupDb
-#           resources:
-#             limits:
-#               cpu: 2
-#               memory: 2Gi
-#             requests:
-#               cpu: 1
-#               memory: 1Gi
-#       volumes:
-#         - name: data-persistent-storage
-#           persistentVolumeClaim:
-#             claimName: nextcloud-pv-claim
-#         - name: db-persistent-storage
-#           persistentVolumeClaim:
-#             claimName: mariadb-pv-claim
-#         #backup
-#         - name: backup-data-persistent-storage
-#           persistentVolumeClaim:
-#             claimName: nextcloud-backup-data-pv-claim
-#         - name: backup-db-persistent-storage
-#           persistentVolumeClaim:
-#             claimName: nextcloud-backup-db-pv-claim
