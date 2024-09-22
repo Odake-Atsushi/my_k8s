@@ -6,7 +6,7 @@ metadata:
     ingress.kubernetes.io/force-ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
     #
-    cert-manager.io/cluster-issuer: "nextcloud-cluster-issuer"
+    cert-manager.io/cluster-issuer: "my-cluster-issuer"
     #
     nginx.ingress.kubernetes.io/proxy-body-size: "5G"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
@@ -20,7 +20,7 @@ spec:
         - nextcloud.oahs.f5.si
         - office.oahs.f5.si
         - test.oahs.f5.si
-      secretName: nextcloud-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: atsushi.local
       http:
