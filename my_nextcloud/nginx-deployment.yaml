@@ -54,7 +54,7 @@ data:
         add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
         # set max upload size and increase upload timeout:
-        client_max_body_size 4G; #512M
+        client_max_body_size 5G; #512M
         client_body_timeout 3600s; #300s
         fastcgi_buffers 64 4K;
 

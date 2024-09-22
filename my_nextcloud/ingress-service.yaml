@@ -8,10 +8,10 @@ metadata:
     #
     cert-manager.io/cluster-issuer: "nextcloud-cluster-issuer"
     #
-    ingress.kubernetes.io/proxy-body-size: "4G"
-    ingress.kubernetes.io/proxy-connect-timeout: "3600"
-    ingress.kubernetes.io/proxy-read-timeout: "3600"
-    ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-body-size: "5G"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   ingressClassName: public
   tls:
