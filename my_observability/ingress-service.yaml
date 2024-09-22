@@ -1,5 +1,7 @@
 # PrometheusとGrafanaを使用する。
 # sudo microk8s enable observability
+# admin
+# prom-operator
 #####################################
 apiVersion: networking.k8s.io/v1
 kind: Ingress
