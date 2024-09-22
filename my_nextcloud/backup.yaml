@@ -96,7 +96,8 @@ data:
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
     echo "-->  DB Backup !!"
@@ -105,7 +106,8 @@ data:
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
 
