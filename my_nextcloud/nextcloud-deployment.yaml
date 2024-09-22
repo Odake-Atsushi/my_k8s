@@ -35,7 +35,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:29.0.6-fpm
+        - image: nextcloud:29.0.7-fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -67,12 +67,12 @@ spec:
             #   value: "1"
             # - name: NEXTCLOUD_INIT_LOCK
             #   value: "true"
-            # - name: NEXTCLOUD_INIT_HTACCESS
-            #   value: "true"
+            - name: NEXTCLOUD_INIT_HTACCESS
+              value: "true"
             - name: PHP_MEMORY_LIMIT
-              value: 2G
+              value: 8G
             - name: PHP_UPLOAD_LIMIT
-              value: 1G
+              value: 5G
             ####################################
             - name: TRUSTED_PROXIES
               value: "10.152.183.0/24 10.1.174.0/24" #gethostbyname("nextcloud-nginx-service")
@@ -90,11 +90,11 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 6Gi
+              memory: 10Gi
             requests:
               cpu: 1
-              memory: 4Gi
-        - image: nextcloud:29.0.6-fpm
+              memory: 8Gi
+        - image: nextcloud:29.0.7-fpm
           name: cron-nextcloud
           command:
             - /cron.sh
@@ -136,7 +136,8 @@ data:
     #!/bin/bash
 
     php occ maintenance:mode --on
-    php occ config:system:set maintenance_window_start --type=integer --value=1
+    php occ config:system:set default_timezone --value="Asia/Tokyo"
+    php occ config:system:set maintenance_window_start --type=integer --value=10 #UTC
     php occ config:system:set default_phone_region --value="JP"
     php occ files:scan --all
     php occ groupfolders:scanl --all
@@ -154,7 +155,8 @@ data:
     #!/bin/bash
 
     php occ maintenance:mode --on
-    php occ config:system:set maintenance_window_start --type=integer --value=1
+    php occ config:system:set default_timezone --value="Asia/Tokyo"
+    php occ config:system:set maintenance_window_start --type=integer --value=10 #UTC
     php occ config:system:set default_phone_region --value="JP"
     php occ files:scan --all
     php occ groupfolders:scanl --all
@@ -163,3 +165,4 @@ data:
     php occ maintenance:mode --off
 
 # ls /var/www/html/ | grep -v -E 'data|custom_apps|themes' | xargs rm -rf
+# su www-data -s /bin/bash  -c "php occ config:system:set default_timezone --value='Asia/Tokyo'"
