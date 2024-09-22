@@ -67,12 +67,12 @@ spec:
             #   value: "1"
             # - name: NEXTCLOUD_INIT_LOCK
             #   value: "true"
-            # - name: NEXTCLOUD_INIT_HTACCESS
-            #   value: "true"
+            - name: NEXTCLOUD_INIT_HTACCESS
+              value: "true"
             - name: PHP_MEMORY_LIMIT
-              value: 2G
+              value: 8G
             - name: PHP_UPLOAD_LIMIT
-              value: 1G
+              value: 4G
             ####################################
             - name: TRUSTED_PROXIES
               value: "10.152.183.0/24 10.1.174.0/24" #gethostbyname("nextcloud-nginx-service")
@@ -90,10 +90,10 @@ spec:
           resources:
             limits:
               cpu: 2
-              memory: 6Gi
+              memory: 10Gi
             requests:
               cpu: 1
-              memory: 4Gi
+              memory: 8Gi
         - image: nextcloud:29.0.7-fpm
           name: cron-nextcloud
           command:
