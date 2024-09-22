@@ -11,8 +11,16 @@ metadata:
   annotations:
     ingress.kubernetes.io/force-ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
+    #
+    cert-manager.io/cluster-issuer: "my-cluster-issuer"
 spec:
   ingressClassName: public
+  tls:
+    - hosts:
+        # ドメイン記載
+        - prometheus.oahs.f5.si
+        - grafana.oahs.f5.si
+      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: prometheus.oahs.f5.si
       http:
