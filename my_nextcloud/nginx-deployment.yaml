@@ -83,6 +83,8 @@ data:
         add_header X-Permitted-Cross-Domain-Policies  "none"              always;
         add_header X-Robots-Tag                       "noindex, nofollow" always;
         add_header X-XSS-Protection                   "1; mode=block"     always;
+        # Ingress buffer off
+        add_header X-Accel-Buffering                                          no;
 
         # Remove X-Powered-By, which is an information leak
         fastcgi_hide_header X-Powered-By;
