@@ -1,0 +1,90 @@
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: drupal-pv-claim
+#   labels:
+#     app: my-drupal
+# spec:
+#   storageClassName: my-data-drupal
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 64Gi
+# ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-mariadb-pv-claim
+  labels:
+    app: my-drupal
+spec:
+  storageClassName: my-db-drupal
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 32Gi
+---
+####################
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-sites-pv-claim
+  labels:
+    app: my-drupal
+spec:
+  storageClassName: my-data-drupal-sites
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 32Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-themes-pv-claim
+  labels:
+    app: my-drupal
+spec:
+  storageClassName: my-data-drupal-themes
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 16Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-modules-pv-claim
+  labels:
+    app: my-drupal
+spec:
+  storageClassName: my-data-drupal-modules
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 16Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-profiles-pv-claim
+  labels:
+    app: my-drupal
+spec:
+  storageClassName: my-data-drupal-profiles
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 16Gi
