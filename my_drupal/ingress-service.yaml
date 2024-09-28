@@ -8,10 +8,11 @@ metadata:
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
     #
-    nginx.ingress.kubernetes.io/proxy-body-size: "5G"
+    nginx.ingress.kubernetes.io/proxy-body-size: "512M"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # nginx.ingress.kubernetes.io/proxy_buffering: "off"
 spec:
   ingressClassName: public
   tls:
