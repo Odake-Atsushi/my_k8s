@@ -9,7 +9,7 @@ secretGenerator:
       - password=nextcloud
 resources:
   - my_nfs.yaml
-  - my_strage.yaml
+  - my_storage.yaml
   - redis-deployment.yaml
   - mariadb-deployment.yaml
   - nginx-deployment.yaml
