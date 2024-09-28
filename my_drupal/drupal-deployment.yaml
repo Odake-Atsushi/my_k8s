@@ -42,14 +42,27 @@ spec:
             # - name: drupal-persistent-storage
             #   mountPath: /var/www/html
             #############################################
-            - name: drupal-sites-persistent-storage
+            # - name: drupal-sites-persistent-storage
+            #   mountPath: /var/www/html/sites
+            # - name: drupal-themes-persistent-storage
+            #   mountPath: /var/www/html/themes
+            # - name: drupal-modules-persistent-storage
+            #   mountPath: /var/www/html/modules
+            # - name: drupal-profiles-persistent-storage
+            #   mountPath: /var/www/html/profiles
+            ################################################
+            - name: drupal-persistent-storage
               mountPath: /var/www/html/sites
-            - name: drupal-themes-persistent-storage
+              subPath: sites
+            - name: drupal-persistent-storage
               mountPath: /var/www/html/themes
-            - name: drupal-modules-persistent-storage
+              subPath: themes
+            - name: drupal-persistent-storage
               mountPath: /var/www/html/modules
-            - name: drupal-profiles-persistent-storage
+              subPath: modules
+            - name: drupal-persistent-storage
               mountPath: /var/www/html/profiles
+              subPath: profiles
           resources:
             limits:
               cpu: 2
@@ -58,19 +71,19 @@ spec:
               cpu: 1
               memory: 4Gi
       volumes:
-        # - name: drupal-persistent-storage
-        #   persistentVolumeClaim:
-        #     claimName: drupal-pv-claim
+        - name: drupal-persistent-storage
+          persistentVolumeClaim:
+            claimName: drupal-pv-claim
         #############################################
-        - name: drupal-sites-persistent-storage
-          persistentVolumeClaim:
-            claimName: drupal-sites-pv-claim
-        - name: drupal-themes-persistent-storage
-          persistentVolumeClaim:
-            claimName: drupal-themes-pv-claim
-        - name: drupal-modules-persistent-storage
-          persistentVolumeClaim:
-            claimName: drupal-modules-pv-claim
-        - name: drupal-profiles-persistent-storage
-          persistentVolumeClaim:
-            claimName: drupal-profiles-pv-claim
+        # - name: drupal-sites-persistent-storage
+        #   persistentVolumeClaim:
+        #     claimName: drupal-sites-pv-claim
+        # - name: drupal-themes-persistent-storage
+        #   persistentVolumeClaim:
+        #     claimName: drupal-themes-pv-claim
+        # - name: drupal-modules-persistent-storage
+        #   persistentVolumeClaim:
+        #     claimName: drupal-modules-pv-claim
+        # - name: drupal-profiles-persistent-storage
+        #   persistentVolumeClaim:
+        #     claimName: drupal-profiles-pv-claim
