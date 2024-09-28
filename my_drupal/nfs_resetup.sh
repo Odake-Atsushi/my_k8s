@@ -2,7 +2,7 @@
 
 cd /mnt/storage/drupal/data
 
-# rm -rf /mnt/storage/drupal/data/*
+rm -rf /mnt/storage/drupal/data/*
 
 mkdir modules profiles sites themes
 mkdir -p sites/default/files
