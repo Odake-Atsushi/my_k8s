@@ -48,6 +48,8 @@ data:
         location ^~ /hosting/capabilities {
             proxy_pass http://nextcloud-code-service:9980;
             proxy_set_header Host $http_host;
+
+            proxy_read_timeout 3600s;
         }
 
         # main websocket
