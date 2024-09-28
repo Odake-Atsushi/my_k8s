@@ -1,0 +1,32 @@
+#NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mydata-drupal-pv
+spec:
+  storageClassName: my-data-drupal
+  capacity:
+    storage: 64Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/drupal/data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mydb-drupal-pv
+spec:
+  storageClassName: my-db-drupal
+  capacity:
+    storage: 32Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/drupal/db

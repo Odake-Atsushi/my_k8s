@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: drupal-ingress
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/tls-acme: "true"
+    #
+    cert-manager.io/cluster-issuer: "my-cluster-issuer"
+    #
+    nginx.ingress.kubernetes.io/proxy-body-size: "512M"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: public
+  tls:
+    - hosts:
+        # ドメイン記載
+        - web.oahs.f5.si
+      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+  rules:
+    - host: web.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: drupal-service
+                port:
+                  number: 80
