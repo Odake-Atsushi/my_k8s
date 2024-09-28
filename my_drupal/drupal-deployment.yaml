@@ -32,9 +32,19 @@ spec:
         app: my-drupal
         tier: backend
     spec:
+      initContainers:
+        - image: drupal:11.0.4
+          name: init-site-volume
+          command: ["/bin/bash", "-c"]
+          args:
+            [
+              "cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R",
+            ]
+          volumeMounts:
+            - name: drupal-persistent-storage
+              mountPath: /data
       containers:
         - image: drupal:11.0.4
-          # imagePullPolicy: Always
           name: drupal
           ports:
             - containerPort: 80 #9000
