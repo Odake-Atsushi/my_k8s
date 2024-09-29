@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-drupal
 spec:
-  storageClassName: my-data-drupal
+  storageClassName: drupal-my-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
@@ -20,7 +20,7 @@ metadata:
   labels:
     app: my-drupal
 spec:
-  storageClassName: my-db-drupal
+  storageClassName: drupal-my-db
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem

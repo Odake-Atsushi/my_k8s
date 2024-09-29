@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mydata-drupal-pv
+  name: drupal-my-data-pv
 spec:
-  storageClassName: my-data-drupal
+  storageClassName: drupal-my-data
   capacity:
     storage: 64Gi
   accessModes:
@@ -18,9 +18,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mydb-drupal-pv
+  name: drupal-my-db-pv
 spec:
-  storageClassName: my-db-drupal
+  storageClassName: drupal-my-db
   capacity:
     storage: 32Gi
   accessModes:
