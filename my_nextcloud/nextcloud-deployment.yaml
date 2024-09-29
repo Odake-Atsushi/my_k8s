@@ -166,3 +166,4 @@ data:
 
 # ls /var/www/html/ | grep -v -E 'data|custom_apps|themes' | xargs rm -rf
 # su www-data -s /bin/bash  -c "php occ config:system:set default_timezone --value='Asia/Tokyo'"
+# truncate --size 0 /var/www/html/data/nextcloud.log

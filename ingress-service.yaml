@@ -1,55 +1,43 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nextcloud-ingress
+  name: oahs-ingress
   annotations:
     ingress.kubernetes.io/force-ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
-    #
-    nginx.ingress.kubernetes.io/proxy-body-size: "5G"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    # nginx.ingress.kubernetes.io/proxy_buffering: "off"
 spec:
   ingressClassName: public
   tls:
     - hosts:
         # ドメイン記載
+        - oahs.f5.si
+        - test.oahs.f5.si
         - nextcloud.oahs.f5.si
         - office.oahs.f5.si
-        - test.oahs.f5.si
+        - web.oahs.f5.si
+        - prometheus.oahs.f5.si
+        - grafana.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
-    - host: atsushi.local
+    - host: oahs.f5.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nextcloud-nginx-service
+                name: test-nginx-service
                 port:
                   number: 80
-    - host: nextcloud.oahs.f5.si
+    - host: test.oahs.f5.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nextcloud-nginx-service
-                port:
-                  number: 80
-    - host: office.oahs.f5.si
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nextcloud-office-nginx-service
+                name: test-nginx-service
                 port:
                   number: 80

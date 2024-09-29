@@ -18,4 +18,3 @@ resources:
   - code-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
-  - test.yaml
