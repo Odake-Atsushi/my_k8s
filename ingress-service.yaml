@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oahs-ingress
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/tls-acme: "true"
+    #
+    cert-manager.io/cluster-issuer: "my-cluster-issuer"
+spec:
+  ingressClassName: public
+  tls:
+    - hosts:
+        # ドメイン記載
+        - oahs.f5.si
+      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+  rules:
+    - host: oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: test-nginx-service
+                port:
+                  number: 80

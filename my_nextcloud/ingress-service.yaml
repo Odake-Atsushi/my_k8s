@@ -53,23 +53,3 @@ spec:
                 name: nextcloud-office-nginx-service
                 port:
                   number: 80
-    - host: test.oahs.f5.si
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: test-nginx-service
-                port:
-                  number: 80
-    - host:
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: test-nginx-service
-                port:
-                  number: 80
