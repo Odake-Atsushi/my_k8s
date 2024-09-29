@@ -13,9 +13,25 @@ spec:
     - hosts:
         # ドメイン記載
         - oahs.f5.si
+        - test.oahs.f5.si
+        - nextcloud.oahs.f5.si
+        - office.oahs.f5.si
+        - web.oahs.f5.si
+        - prometheus.oahs.f5.si
+        - grafana.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: test-nginx-service
+                port:
+                  number: 80
+    - host: test.oahs.f5.si
       http:
         paths:
           - path: /
