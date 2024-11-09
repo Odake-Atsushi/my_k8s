@@ -35,7 +35,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:30.0.1-fpm
+        - image: nextcloud:30.0.2-fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -89,12 +89,12 @@ spec:
               mountPath: /docker-entrypoint-hooks.d/post-installation/
           resources:
             limits:
-              cpu: 2
+              cpu: "2"
               memory: 10Gi
             requests:
-              cpu: 1
+              cpu: "1"
               memory: 8Gi
-        - image: nextcloud:30.0.1-fpm
+        - image: nextcloud:30.0.2-fpm
           name: cron-nextcloud
           command:
             - /cron.sh
@@ -103,10 +103,10 @@ spec:
               mountPath: /var/www/html
           resources:
             limits:
-              cpu: 1
+              cpu: "1"
               memory: 4Gi
             requests:
-              cpu: 500m
+              cpu: "500m"
               memory: 2Gi
       volumes:
         - name: nextcloud-persistent-storage

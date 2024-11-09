@@ -71,10 +71,10 @@ spec:
               mountPath: /var/lib/mysql #/var/lib/mariadb
           resources:
             limits:
-              cpu: 2
+              cpu: "2"
               memory: 2Gi
             requests:
-              cpu: 500m
+              cpu: "500m"
               memory: 1Gi
       volumes:
         - name: mariadb-persistent-storage

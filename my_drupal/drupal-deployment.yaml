@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       initContainers:
-        - image: drupal:11.0.5
+        - image: drupal:11.0.6
           name: init-site-volume
           command: ["/bin/bash", "-c"]
           args:
@@ -44,7 +44,7 @@ spec:
             - name: drupal-persistent-storage
               mountPath: /data
       containers:
-        - image: drupal:11.0.5
+        - image: drupal:11.0.6
           name: drupal
           ports:
             - containerPort: 80 #9000
