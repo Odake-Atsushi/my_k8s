@@ -133,7 +133,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: debian:12.7
+              image: debian:12.8
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
