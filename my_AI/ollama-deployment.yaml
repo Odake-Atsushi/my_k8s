@@ -35,6 +35,7 @@ spec:
       containers:
         - image: ollama/ollama:0.5.4
           name: ollama
+          command: ["/bin/ollama", "run", "gemma2:2b"]
           ports:
             - containerPort: 11434
           resources:
