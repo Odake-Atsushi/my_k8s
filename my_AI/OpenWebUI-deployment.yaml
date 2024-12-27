@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-webui-service
+  labels:
+    app: my-AI
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: my-AI
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-webui-deployment
+  labels:
+    app: my-AI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-AI
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-AI
+        tier: backend
+    spec:
+      containers:
+        - image: ghcr.io/open-webui/open-webui:main
+          name: open-webui
+          env:
+            - name: OLLAMA_BASE_URL
+              value: http://ollama-service:11434
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: 3Gi
