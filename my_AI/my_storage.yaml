@@ -6,28 +6,28 @@ metadata:
   labels:
     app: my-AI
 spec:
-  storageClassName: my-llm
+  storageClassName: microk8s-hostpath # my-llm
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
       storage: 64Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ollama-pv
-spec:
-  storageClassName: my-llm
-  capacity:
-    storage: 64Gi
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: "~/LLM_data"
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: ollama-pv
+# spec:
+#   storageClassName: my-llm
+#   capacity:
+#     storage: 64Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: "~/LLM_data"
 ---
 #Open Web UI
 apiVersion: v1
@@ -37,25 +37,25 @@ metadata:
   labels:
     app: my-AI
 spec:
-  storageClassName: my-open-webui
+  storageClassName: microk8s-hostpath # my-open-webui
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
       storage: 4Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: open-webui-pv
-spec:
-  storageClassName: my-open-webui
-  capacity:
-    storage: 4Gi
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: "~/OpenWebUI_data"
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: open-webui-pv
+# spec:
+#   storageClassName: my-open-webui
+#   capacity:
+#     storage: 4Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: "~/OpenWebUI_data"
