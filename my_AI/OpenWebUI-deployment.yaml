@@ -37,7 +37,7 @@ spec:
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
-              value: http://ollama-service.default.svc.cluster.local:11434
+              value: "http://ollama-service.default.svc.cluster.local:11434"
           ports:
             - containerPort: 8080
           resources:
