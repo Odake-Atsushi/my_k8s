@@ -43,10 +43,17 @@ spec:
           #       command: ["ollama", "run", "gemma2:2b"]
           ports:
             - containerPort: 11434
+          volumeMounts:
+            - name: ollama-persistent-storage
+              mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "6"
+              cpu: "8"
               memory: 32Gi
             requests:
               cpu: "4"
               memory: 16Gi
+      volumes:
+        - name: ollama-persistent-storage
+          persistentVolumeClaim:
+            claimName: ollama-pv-claim

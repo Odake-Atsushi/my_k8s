@@ -40,6 +40,9 @@ spec:
               value: "http://ollama-service.default.svc.cluster.local:11434"
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: open-webui-persistent-storage
+              mountPath: /app/backend/data
           resources:
             limits:
               cpu: "1"
@@ -47,3 +50,7 @@ spec:
             requests:
               cpu: "500m"
               memory: 1Gi
+      volumes:
+        - name: open-webui-persistent-storage
+          persistentVolumeClaim:
+            claimName: open-webui-pv-claim
