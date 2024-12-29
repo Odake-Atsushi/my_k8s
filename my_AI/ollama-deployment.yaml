@@ -35,14 +35,15 @@ spec:
       containers:
         - image: ollama/ollama:0.5.4
           name: ollama
-          # command: ["/bin/ollama"]
-          # args: ["serve"]
-          # lifecycle:
-          #   postStart:
-          #     exec:
-          #       command: ["ollama", "run", "gemma2:2b"]
-          command: ["/bin/bash", "-c"]
-          args: ["ollama serve; ollama run gemma2"]
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/bash"
+                  - "-c"
+                  - >
+                    apt -y update && apt -y install curl &&
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma2\"}"
           ports:
             - containerPort: 11434
           volumeMounts:

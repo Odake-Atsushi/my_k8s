@@ -12,7 +12,7 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 64Gi
+      storage: 128Gi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume
@@ -43,7 +43,7 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 4Gi
+      storage: 8Gi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume
