@@ -41,6 +41,8 @@ spec:
           #   postStart:
           #     exec:
           #       command: ["ollama", "run", "gemma2:2b"]
+          command: ["/bin/bash", "-c"]
+          args: ["ollama serve; ollama run gemma2"]
           ports:
             - containerPort: 11434
           volumeMounts:
