@@ -4,12 +4,20 @@ metadata:
   name: ai-ingress
   annotations:
     ingress.kubernetes.io/force-ssl-redirect: "false"
-
+    kubernetes.io/tls-acme: "true"
+    #
+    cert-manager.io/cluster-issuer: "my-cluster-issuer"
+    #
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   ingressClassName: public
+  tls:
+    - hosts:
+        # ドメイン記載
+        - ai.oahs.f5.si
+      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: ai.oahs.f5.si
       http:

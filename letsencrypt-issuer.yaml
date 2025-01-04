@@ -7,8 +7,8 @@ metadata:
 spec:
   acme:
     email: atsusatoakimeg04@gmail.com # your emailadress
-    server: https://acme-v02.api.letsencrypt.org/directory
-    # server: https://acme-staging-v02.api.letsencrypt.org/directory  # test
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory # test
     privateKeySecretRef:
       name: my-cluster-issuer-secret # # Managed by cert-manager. cert-manager create secret name.
     solvers:
