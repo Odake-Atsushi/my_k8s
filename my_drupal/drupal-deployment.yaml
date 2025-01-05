@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       initContainers:
-        - image: drupal:11.0.4
+        - image: drupal:11.1.0
           name: init-site-volume
           command: ["/bin/bash", "-c"]
           args:
@@ -44,7 +44,7 @@ spec:
             - name: drupal-persistent-storage
               mountPath: /data
       containers:
-        - image: drupal:11.0.4
+        - image: drupal:11.1.0
           name: drupal
           ports:
             - containerPort: 80 #9000
@@ -63,11 +63,11 @@ spec:
               subPath: profiles
           resources:
             limits:
-              cpu: "2"
-              memory: 6Gi
-            requests:
               cpu: "1"
               memory: 4Gi
+            requests:
+              cpu: "500m"
+              memory: 2Gi
       volumes:
         - name: drupal-persistent-storage
           persistentVolumeClaim:

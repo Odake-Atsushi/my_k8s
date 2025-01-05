@@ -33,7 +33,7 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code:24.04.7.2.1
+        - image: collabora/code:24.04.10.2.1
           name: code
           env:
             - name: password
@@ -50,11 +50,11 @@ spec:
             - containerPort: 9980
           resources:
             limits:
-              cpu: 2
-              memory: 6Gi
-            requests:
-              cpu: 1
+              cpu: "2"
               memory: 4Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
 ########################
 #設定用url
 #https://office.oahs.f5.si/browser/dist/admin/admin.html

@@ -3,14 +3,14 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: my-cluster-issuer
+  name: test-my-cluster-issuer
 spec:
   acme:
     email: atsusatoakimeg04@gmail.com # your emailadress
-    server: https://acme-v02.api.letsencrypt.org/directory
-    # server: https://acme-staging-v02.api.letsencrypt.org/directory # test
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory # test
     privateKeySecretRef:
-      name: my-cluster-issuer-secret # # Managed by cert-manager. cert-manager create secret name.
+      name: test-my-cluster-issuer-secret # # Managed by cert-manager. cert-manager create secret name.
     solvers:
       - http01:
           ingress:

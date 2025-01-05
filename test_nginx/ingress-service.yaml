@@ -1,27 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: oahs-ingress
+  name: test-oahs-ingress
   annotations:
     ingress.kubernetes.io/force-ssl-redirect: "false"
     kubernetes.io/tls-acme: "true"
     #
-    cert-manager.io/cluster-issuer: "my-cluster-issuer"
+    cert-manager.io/cluster-issuer: "test-my-cluster-issuer"
 spec:
   ingressClassName: public
   tls:
     - hosts:
         # ドメイン記載
-        - oahs.f5.si
-        - prometheus.oahs.f5.si
-        - grafana.oahs.f5.si
-        - nextcloud.oahs.f5.si
-        - office.oahs.f5.si
-        - web.oahs.f5.si
-        - ai.oahs.f5.si
-      secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+        - test.oahs.f5.si
+      secretName: test-my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
-    - host: oahs.f5.si
+    - host: test.oahs.f5.si
       http:
         paths:
           - path: /
