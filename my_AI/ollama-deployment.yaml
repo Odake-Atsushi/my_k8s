@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+  labels:
+    app: my-AI
+spec:
+  ports:
+    - port: 11434
+  selector:
+    app: my-AI
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-deployment
+  labels:
+    app: my-AI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-AI
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-AI
+        tier: backend
+    spec:
+      containers:
+        - image: ollama/ollama:0.5.4
+          name: ollama
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/bash"
+                  - "-c"
+                  - >
+                    apt -y update && apt -y install curl &&
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma2\"}"
+          ports:
+            - containerPort: 11434
+          volumeMounts:
+            - name: ollama-persistent-storage
+              mountPath: /root/.ollama
+          resources:
+            limits:
+              cpu: "8"
+              memory: 32Gi
+            requests:
+              cpu: "4"
+              memory: 16Gi
+      volumes:
+        - name: ollama-persistent-storage
+          persistentVolumeClaim:
+            claimName: ollama-pv-claim

@@ -22,6 +22,7 @@ spec:
         - grafana.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
+    # user/pass: admin/prom-operator
     - host: prometheus.oahs.f5.si
       http:
         paths:

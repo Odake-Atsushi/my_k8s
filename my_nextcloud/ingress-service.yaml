@@ -20,7 +20,6 @@ spec:
         # ドメイン記載
         - nextcloud.oahs.f5.si
         - office.oahs.f5.si
-        - test.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: atsushi.local
