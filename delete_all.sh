@@ -10,5 +10,5 @@ microk8s kubectl delete -k my_AI
 microk8s kubectl delete -k test_nginx
 
 #後片付け
-# microk8s kubectl delete -f ingress-service.yaml
-# microk8s kubectl delete -f letsencrypt-issuer.yaml
+microk8s kubectl delete -f ingress-service.yaml
+microk8s kubectl delete -f letsencrypt-issuer.yaml

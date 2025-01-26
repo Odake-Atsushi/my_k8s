@@ -41,17 +41,17 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: password
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: database
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: user
             - name: MYSQL_HOST
               value: nextcloud-mariadb-service
@@ -59,9 +59,15 @@ spec:
               value: nextcloud-redis-service
             ####################################
             - name: NEXTCLOUD_ADMIN_USER
-              value: atsushi
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-admin-user
+                  key: user
             - name: NEXTCLOUD_ADMIN_PASSWORD
-              value: odake
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-admin-user
+                  key: password
             ####################################
             # - name: NEXTCLOUD_UPDATE
             #   value: "1"
