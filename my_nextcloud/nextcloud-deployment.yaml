@@ -81,8 +81,7 @@ spec:
               value: 5G
             ####################################
             - name: TRUSTED_PROXIES
-              # value: "10.152.183.0/24 10.1.174.0/24" #gethostbyname("nextcloud-nginx-service")
-              value: "gethostbyname('nextcloud-nginx-service')"
+              value: "10.152.183.0/24 10.1.174.0/24" #service,pod
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: "'atsushi.local' 'nextcloud.oahs.f5.si'"
           ports:
