@@ -38,6 +38,8 @@ network:
 
 /mnt/storage/drupal/data        192.168.128.0/24(rw,no_root_squash) atsushi.local(rw,no_root_squash)
 /mnt/storage/drupal/db          192.168.128.0/24(rw,no_root_squash) atsushi.local(rw,no_root_squash)
+/mnt/backup/drupal/data         192.168.128.0/24(rw,no_root_squash) atsushi.local(rw,no_root_squash)
+/mnt/backup/drupal/db           192.168.128.0/24(rw,no_root_squash) atsushi.local(rw,no_root_squash)
 #######################################################################################################
 cat /etc/idmapd.conf
 #####################################
