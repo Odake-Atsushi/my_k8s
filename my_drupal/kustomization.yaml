@@ -13,4 +13,4 @@ resources:
   - mariadb-deployment.yaml
   - drupal-deployment.yaml
   - ingress-service.yaml
-  # - backup.yaml
+  - backup.yaml

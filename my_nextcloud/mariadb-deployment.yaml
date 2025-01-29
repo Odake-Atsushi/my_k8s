@@ -39,22 +39,22 @@ spec:
             - name: MARIADB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: root_password
             - name: MARIADB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: password
             - name: MARIADB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: database
             - name: MARIADB_USER
               valueFrom:
                 secretKeyRef:
-                  name: mariadb-pass
+                  name: nextcloud-mariadb-pass
                   key: user
             - name: MARIADB_AUTO_UPGRADE
               value: "1"
