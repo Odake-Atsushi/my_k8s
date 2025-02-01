@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nextcloud-code-service
+  name: nextcloud-office-service
   labels:
     app: my-nextcloud
 spec:
@@ -15,7 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nextcloud-code-deployment
+  name: nextcloud-office-deployment
   labels:
     app: my-nextcloud
 spec:
@@ -33,8 +33,8 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code:24.04.12.1.1
-          name: code
+        - image: collabora/code:24.04.12.2.1
+          name: office
           env:
             - name: password
               value: nextcloud
@@ -42,10 +42,7 @@ spec:
               value: nextcloud
             ####################
             - name: extra_params
-              value: "--o:ssl.enable=false --o:ssl.termination=true --o:admin_console.username=atsushi --o:admin_console.password=atsushi"
-              # value: "--o:ssl.enable=false --o:ssl.termination=false"
-            # - name: server_name
-            #   value: "nextcloud-code-service.default.svc.cluster.local"
+              value: "--o:ssl.enable=false --o:ssl.termination=true"
           ports:
             - containerPort: 9980
           resources:

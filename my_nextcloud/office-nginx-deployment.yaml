@@ -26,19 +26,19 @@ data:
         listen 80;
 
         location / {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Host $http_host;
         }
 
         # static files
         location ^~ /browser {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Host $http_host;
         }
 
         # WOPI discovery URL
         location ^~ /hosting/discovery {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Host $http_host;
 
             proxy_read_timeout 36000s;
@@ -46,7 +46,7 @@ data:
 
         # Capabilities
         location ^~ /hosting/capabilities {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Host $http_host;
 
             proxy_read_timeout 36000s;
@@ -54,7 +54,7 @@ data:
 
         # main websocket
         location ~ ^/cool/(.*)/ws$ {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $http_host;
@@ -63,13 +63,13 @@ data:
 
         # download, presentation and image upload
         location ~ ^/(c|l)ool {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Host $http_host;
         }
 
         # Admin Console websocket
         location ^~ /cool/adminws {
-            proxy_pass http://nextcloud-code-service:9980;
+            proxy_pass http://nextcloud-office-service:9980;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $http_host;

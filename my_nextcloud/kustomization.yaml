@@ -16,9 +16,9 @@ resources:
   - my_storage.yaml
   - redis-deployment.yaml
   - mariadb-deployment.yaml
-  - nginx-deployment.yaml
   - nextcloud-deployment.yaml
+  - nginx-deployment.yaml
+  - office-deployment.yaml
   - office-nginx-deployment.yaml
-  - code-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
