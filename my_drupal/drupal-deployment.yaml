@@ -12,6 +12,15 @@ spec:
     tier: backend
   type: ClusterIP
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drupal-php-config
+data:
+  drupal-php-config.ini: |
+    output_buffering = 4096
+    memory_limit = 512M
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -48,6 +57,10 @@ spec:
           name: drupal
           ports:
             - containerPort: 80 #9000
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/bash", "-c","cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini"]
           volumeMounts:
             - name: drupal-persistent-storage
               mountPath: /var/www/html/sites
@@ -61,14 +74,20 @@ spec:
             - name: drupal-persistent-storage
               mountPath: /var/www/html/profiles
               subPath: profiles
+            - name: drupal-php-config-ini
+              mountPath: /usr/local/etc/php/conf.d/drupal-php-config.ini
+              subPath: drupal-php-config.ini
           resources:
             limits:
               cpu: "1"
-              memory: 4Gi
+              memory: 2Gi
             requests:
               cpu: "500m"
-              memory: 2Gi
+              memory: 1Gi
       volumes:
         - name: drupal-persistent-storage
           persistentVolumeClaim:
             claimName: drupal-pv-claim
+        - name: drupal-php-config-ini
+          configMap:
+            name: drupal-php-config
