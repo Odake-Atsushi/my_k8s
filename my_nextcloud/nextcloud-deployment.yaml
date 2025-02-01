@@ -95,10 +95,10 @@ spec:
               mountPath: /docker-entrypoint-hooks.d/post-installation/
           resources:
             limits:
-              cpu: "3"
+              cpu: "2"
               memory: 12Gi
             requests:
-              cpu: "2"
+              cpu: "1"
               memory: 8Gi
         - image: nextcloud:30.0.5-fpm
           name: cron-nextcloud
@@ -109,7 +109,7 @@ spec:
               mountPath: /var/www/html
           resources:
             limits:
-              cpu: "500"
+              cpu: "500m"
               memory: 1Gi
             requests:
               cpu: "256m"
