@@ -104,7 +104,8 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: nextcloud-office-nginx-config
-              mountPath: /etc/nginx/conf.d/
+              mountPath: /etc/nginx/conf.d/nextcloud.conf
+              subPath: nextcloud.conf
           resources:
             limits:
               cpu: "500m"

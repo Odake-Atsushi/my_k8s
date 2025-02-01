@@ -240,7 +240,8 @@ spec:
               mountPath: /var/www/html
               readOnly: true
             - name: nextcloud-nginx-config
-              mountPath: /etc/nginx/conf.d/
+              mountPath: /etc/nginx/conf.d/nextcloud.conf
+              subPath: nextcloud.conf
           resources:
             limits:
               cpu: "1"
