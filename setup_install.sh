@@ -4,6 +4,7 @@ sudo snap remove --purge microk8s
 
 sudo apt -y autopurge snapd
 sudo apt update
+sudo apt -y upgrade
 sudo apt -y install snapd
 
 rm -rf ~/.kube
