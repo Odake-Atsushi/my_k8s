@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ghcr.io/open-webui/open-webui:git-b72150c
+        - image: ghcr.io/open-webui/open-webui:git-e9d6ada
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
