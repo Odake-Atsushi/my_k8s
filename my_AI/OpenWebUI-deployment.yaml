@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ghcr.io/open-webui/open-webui:v0.5.16
+        - image: ghcr.io/open-webui/open-webui:v0.5.18
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
@@ -46,10 +46,10 @@ spec:
           resources:
             limits:
               cpu: "1"
-              memory: 2Gi
+              memory: 3Gi
             requests:
               cpu: "500m"
-              memory: 1Gi
+              memory: 2Gi
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:
