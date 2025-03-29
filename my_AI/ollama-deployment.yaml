@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ollama/ollama:0.5.7
+        - image: ollama/ollama:0.6.3
           name: ollama
           lifecycle:
             postStart:
@@ -43,7 +43,7 @@ spec:
                   - "-c"
                   - >
                     apt -y update && apt -y install curl &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma2\"}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
