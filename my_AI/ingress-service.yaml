@@ -39,4 +39,4 @@ spec:
               service:
                 name: searxng-service
                 port:
-                  number: 808080
+                  number: 8888
