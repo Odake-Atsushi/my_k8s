@@ -38,6 +38,14 @@ spec:
           env:
             - name: OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
+            - name: ENABLE_RAG_WEB_SEARCH
+              value: "True"
+            - name: ENABLE_RAG_LOCAL_WEB_FETCH
+              value: "True"
+            - name: RAG_WEB_SEARCH_ENGINE
+              value: "searxng"
+            - name: SEARXNG_QUERY_URL
+              value: "https://searxng.oahs.f5.si/search?q=<query>"
           ports:
             - containerPort: 8080
           volumeMounts:
