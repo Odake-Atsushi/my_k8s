@@ -13,6 +13,18 @@ spec:
     tier: backend
   type: ClusterIP
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-settings
+data:
+  settings.yml: |
+    use_default_settings: true
+    search:
+      formats:
+        - html
+        - json
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,6 +56,10 @@ spec:
           # volumeMounts:
           #   - name: open-webui-persistent-storage
           #     mountPath: /app/backend/data
+          volumeMounts:
+            - name: searxng-settings-file
+              mountPath: /usr/local/searxng/settings.yml
+              subPath: settings.yml
           resources:
             limits:
               cpu: "1"
@@ -55,3 +71,7 @@ spec:
       #   - name: open-webui-persistent-storage
       #     persistentVolumeClaim:
       #       claimName: open-webui-pv-claim
+      volumes:
+        - name: searxng-settings-file # volumeMountsで/etc/nginxにmountするやつ
+          configMap:
+            name: searxng-settings # ConfigMapのnginx-confを/etc/nginx以下に配置する
