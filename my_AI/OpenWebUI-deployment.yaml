@@ -51,7 +51,7 @@ spec:
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
-              value: "https://searxng.oahs.f5.si/search?q=<query>"
+              value: "https://searxng.oahs.f5.si/search?lang=ja&q=<query>"
           ports:
             - containerPort: 8080
           volumeMounts:
