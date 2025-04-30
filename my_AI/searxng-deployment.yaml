@@ -53,10 +53,9 @@ spec:
               value: "https://searxng.oahs.f5.si"
           ports:
             - containerPort: 8080
-          # volumeMounts:
-          #   - name: open-webui-persistent-storage
-          #     mountPath: /app/backend/data
           volumeMounts:
+            - name: searxng-persistent-storage
+              mountPath: /etc/searxng
             - name: searxng-settings-file
               mountPath: /usr/local/searxng/settings.yml
               subPath: settings.yml
@@ -67,11 +66,10 @@ spec:
             requests:
               cpu: "500m"
               memory: 1Gi
-      # volumes:
-      #   - name: open-webui-persistent-storage
-      #     persistentVolumeClaim:
-      #       claimName: open-webui-pv-claim
       volumes:
+        - name: searxng-persistent-storage
+          persistentVolumeClaim:
+            claimName: searxng-pv-claim
         - name: searxng-settings-file # volumeMountsで/etc/nginxにmountするやつ
           configMap:
             name: searxng-settings # ConfigMapのnginx-confを/etc/nginx以下に配置する
