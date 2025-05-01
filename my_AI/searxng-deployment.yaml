@@ -48,6 +48,23 @@ spec:
       containers:
         - image: searxng/searxng:2025.4.27-c733aa83e
           name: searxng
+          # command:
+          #   - "/bin/ash"
+          # args:
+          #   - "-c"
+          #   - >
+          #     sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml &&
+          #     sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/ash"
+                  - "-c"
+                  - >
+                    cp -n /etc/searxng/settings.yml /etc/searxng/settings_default.yml &&
+                    sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml &&
+                    sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
           env:
             - name: BASE_URL
               value: "https://searxng.oahs.f5.si"
@@ -56,9 +73,9 @@ spec:
           volumeMounts:
             - name: searxng-persistent-storage
               mountPath: /etc/searxng
-            - name: searxng-settings-file
-              mountPath: /usr/local/searxng/settings.yml
-              subPath: settings.yml
+            # - name: searxng-settings-file
+            #   mountPath: /usr/local/searxng/settings.yml
+            #   subPath: settings.yml
           resources:
             limits:
               cpu: "1"
