@@ -52,10 +52,10 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "12"
+              cpu: "14" #"12"
               memory: 32Gi
             requests:
-              cpu: "6"
+              cpu: "12" #"6"
               memory: 16Gi
       volumes:
         - name: ollama-persistent-storage
