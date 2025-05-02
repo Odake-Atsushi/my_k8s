@@ -44,7 +44,7 @@ spec:
                   - >
                     apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base:latest\"}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
