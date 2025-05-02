@@ -76,7 +76,8 @@ spec:
           #           sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
           env:
             - name: BASE_URL
-              value: "https://searxng.oahs.f5.si"
+              value: "http://searxng-service.default.svc.cluster.local"
+              # value: "https://searxng.oahs.f5.si"
           ports:
             - containerPort: 8080
           volumeMounts:
