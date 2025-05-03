@@ -25,7 +25,7 @@ spec:
               volumeMounts:
                 - name: nextcloud-cron-persistent-storage
                   mountPath: /var/www/html
-          restartPolicy: Never #OnFailure
+          restartPolicy: OnFailure
           volumes:
             - name: nextcloud-cron-persistent-storage
               persistentVolumeClaim:
