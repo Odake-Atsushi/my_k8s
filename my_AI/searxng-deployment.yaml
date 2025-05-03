@@ -18,12 +18,15 @@ kind: ConfigMap
 metadata:
   name: searxng-settings
 data:
-  settings.yml: |
-    use_default_settings: true
-    search:
-      formats:
-        - html
-        - json
+  my-settings.sh: |
+    #! /bin/ash
+
+    # mkdir -p /usr/local/searxng/searx
+    wget -xP /usr/local/searxng/searx https://raw.githubusercontent.com/searxng/searxng/refs/heads/master/searx/settings.yml
+    sed -i s/"- html"/"- html\n    - json\n"/g /usr/local/searxng/searx/settings.yml
+    sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /usr/local/searxng/searx/settings.yml
+    # killall SIGINT uwsgi
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -45,22 +48,25 @@ spec:
         app: my-SearXNG
         tier: backend
     spec:
-      # initContainers:
-      #   - image: searxng/searxng:2025.4.27-c733aa83e
-      #     name: init-settings-volume
-      #     command:
-      #       - "/bin/ash"
-      #     args:
-      #       - "-c"
-      #       - >
-      #         sleep 10s &&
-      #         cp -n /etc/searxng/settings.yml /etc/searxng/settings_default.yml &&
-      #         sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml &&
-      #         sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml &&
-      #         exit
-      #     volumeMounts:
-      #       - name: searxng-persistent-storage
-      #         mountPath: /etc/searxng
+      initContainers:
+        - image: alpine:3.21.3 #searxng/searxng:2025.4.27-c733aa83e
+          name: init-settings-volume
+          command:
+            - /bin/ash
+          args:
+            - /usr/local/searxng/my-settings.sh
+            # - -c
+            # - >
+            #   wget https://github.com/searxng/searxng/blob/master/searx/settings.yml /usr/local/searxng/searx/settings.yml ;
+            #   sed -i s/"- html"/"- html\n    - json\n"/g /usr/local/searxng/searx/settings.yml ;
+            #   sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /usr/local/searxng/searx/settings.yml ;
+            #   killall SIGINT uwsgi
+          volumeMounts:
+            - name: searxng-persistent-storage
+              mountPath: /usr/local/searxng/searx
+            - name: searxng-settings-file
+              mountPath: /usr/local/searxng/my-settings.sh
+              subPath: my-settings.sh
       containers:
         - image: searxng/searxng:2025.4.27-c733aa83e
           name: searxng
@@ -76,16 +82,18 @@ spec:
           #           sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
           env:
             - name: BASE_URL
-              value: "http://searxng-service.default.svc.cluster.local"
-              # value: "https://searxng.oahs.f5.si"
+              # value: "http://searxng-service.default.svc.cluster.local"
+              value: "https://searxng.oahs.f5.si"
+            # - name: SEARXNG_SETTINGS_PATH
+            #   value: "/usr/local/searxng/my-settings.yml"
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: searxng-persistent-storage
-              mountPath: /etc/searxng
+              mountPath: /usr/local/searxng/searx #/etc/searxng
             # - name: searxng-settings-file
-            #   mountPath: /usr/local/searxng/settings.yml
-            #   subPath: settings.yml
+            #   mountPath: /usr/local/searxng/my-settings.yml
+            #   subPath: my-settings.yml
           resources:
             limits:
               cpu: "2"
@@ -100,3 +108,5 @@ spec:
         - name: searxng-settings-file # volumeMountsで/etc/nginxにmountするやつ
           configMap:
             name: searxng-settings # ConfigMapのnginx-confを/etc/nginx以下に配置する
+
+#/etc/searx/settings.yml を書き換える
