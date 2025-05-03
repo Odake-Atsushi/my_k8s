@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nextcloud-cron-cronjob
+  labels:
+    app: my-nextcloud
+spec:
+  schedule: "*/5 * * * *"
+  timeZone: Asia/Tokyo
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cron-nextcloud
+              image: nextcloud:31.0.4-fpm
+              imagePullPolicy: IfNotPresent
+              securityContext:
+                runAsUser: 33
+                runAsGroup: 33
+              command:
+                - php
+                - /var/www/html/cron.php
+              volumeMounts:
+                - name: nextcloud-cron-persistent-storage
+                  mountPath: /var/www/html
+          restartPolicy: Never #OnFailure
+          volumes:
+            - name: nextcloud-cron-persistent-storage
+              persistentVolumeClaim:
+                claimName: nextcloud-pv-claim
