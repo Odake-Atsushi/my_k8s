@@ -33,11 +33,34 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ghcr.io/open-webui/open-webui:v0.5.20
+        - image: ghcr.io/open-webui/open-webui:v0.6.5
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
+            - name: DEFAULT_MODELS
+              value: "gemma3:4b"
+            - name: ENABLE_WEB_SEARCH
+              value: "True"
+            - name: WEB_SEARCH_ENGINE
+              value: "searxng"
+            - name: ENABLE_RAG_WEB_SEARCH
+              value: "True"
+            - name: ENABLE_RAG_LOCAL_WEB_FETCH
+              value: "True"
+            - name: RAG_EMBEDDING_ENGINE
+              value: "ollama"
+            - name: RAG_EMBEDDING_MODEL
+              value: "kun432/cl-nagoya-ruri-base:latest"
+            - name: RAG_OLLAMA_BASE_URL
+              value: "http://ollama-service.default.svc.cluster.local:11434"
+            - name: CHUNK_SIZE
+              value : "500"
+            - name: RAG_WEB_SEARCH_ENGINE
+              value: "searxng"
+            - name: SEARXNG_QUERY_URL
+              value: "http://searxng-service.default.svc.cluster.local:8888/search?lang=ja&q=<query>"
+              # value: "https://searxng.oahs.f5.si/search?lang=ja&q=<query>"
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -45,11 +68,11 @@ spec:
               mountPath: /app/backend/data
           resources:
             limits:
-              cpu: "1"
-              memory: 3Gi
+              cpu: "3"
+              memory: 8Gi
             requests:
-              cpu: "500m"
-              memory: 2Gi
+              cpu: "2"
+              memory: 6Gi
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:

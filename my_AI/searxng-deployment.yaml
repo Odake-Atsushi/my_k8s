@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: searxng-service
+  labels:
+    app: my-SearXNG
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8080
+  selector:
+    app: my-SearXNG
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searxng-deployment
+  labels:
+    app: my-SearXNG
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-SearXNG
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-SearXNG
+        tier: backend
+    spec:
+      containers:
+        - image: searxng/searxng:2025.4.27-c733aa83e
+          name: searxng
+          env:
+            - name: BASE_URL
+              value: "http://searxng-service.default.svc.cluster.local"
+              # value: "https://searxng.oahs.f5.si"
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "2"
+              memory: 3Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+
+##########################################################################################
+# 設定変更
+
+# kubectl exec --tty --stdin searxng-deployment-(番号) -- /bin/ash
+# cp /etc/searxng/settings.yml /etc/searxng/settings_default.yml
+# sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml
+# sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
+
+# 再起動
+# kubectl rollout restart deployment searxng-deployment

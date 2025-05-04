@@ -17,6 +17,7 @@ spec:
         - office.oahs.f5.si
         - web.oahs.f5.si
         - ai.oahs.f5.si
+        - searxng.oahs.f5.si
         # - grafana.oahs.f5.si #ネームスペースが違う
         # - prometheus.oahs.f5.si #ネームスペースが違う
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する

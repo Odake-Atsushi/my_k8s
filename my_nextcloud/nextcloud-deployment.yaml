@@ -35,7 +35,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:30.0.8-fpm
+        - image: nextcloud:31.0.4-fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -96,24 +96,24 @@ spec:
           resources:
             limits:
               cpu: "2"
-              memory: 12Gi
+              memory: 10Gi
             requests:
               cpu: "1"
               memory: 8Gi
-        - image: nextcloud:30.0.8-fpm
-          name: cron-nextcloud
-          command:
-            - /cron.sh
-          volumeMounts:
-            - name: nextcloud-persistent-storage
-              mountPath: /var/www/html
-          resources:
-            limits:
-              cpu: "500m"
-              memory: 1Gi
-            requests:
-              cpu: "256m"
-              memory: 512Mi
+        # - image: nextcloud:31.0.4-fpm
+        #   name: cron-nextcloud
+        #   command:
+        #     - /cron.sh
+        #   volumeMounts:
+        #     - name: nextcloud-persistent-storage
+        #       mountPath: /var/www/html
+        #   resources:
+        #     limits:
+        #       cpu: "500m"
+        #       memory: 1Gi
+        #     requests:
+        #       cpu: "256m"
+        #       memory: 512Mi
       volumes:
         - name: nextcloud-persistent-storage
           persistentVolumeClaim:
@@ -172,4 +172,4 @@ data:
 
 # ls /var/www/html/ | grep -v -E 'data|custom_apps|themes' | xargs rm -rf
 # su www-data -s /bin/bash  -c "php occ config:system:set default_timezone --value='Asia/Tokyo'"
-# truncate --size 0 /var/www/html/data/nextcloud.log
+# truncate --size 0 /var/www/html/data/nextcloud.log  #ログファイル削除
