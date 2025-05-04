@@ -17,4 +17,4 @@ scale_replicas=0
 # microk8s kubectl scale deployments nextcloud-redis-deployment --replicas=$scale_replicas
 microk8s kubectl scale deployments ollama-deployment --replicas=$scale_replicas
 microk8s kubectl scale deployments open-webui-deployment --replicas=$scale_replicas
-# microk8s kubectl scale deployments searxng-deployment --replicas=$scale_replicas
+microk8s kubectl scale deployments searxng-deployment --replicas=$scale_replicas
