@@ -5,3 +5,4 @@ resources:
   - ollama-deployment.yaml
   - OpenWebUI-deployment.yaml
   - ingress-service.yaml
+  - searxng-deployment.yaml

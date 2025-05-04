@@ -59,3 +59,34 @@ spec:
 #   persistentVolumeReclaimPolicy: Retain
 #   hostPath:
 #     path: "~/OpenWebUI_data"
+---
+#SearXNG
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: searxng-pv-claim
+  labels:
+    app: my-SearXNG
+spec:
+  storageClassName: microk8s-hostpath # my-searxng
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: searxng-pv
+# spec:
+#   storageClassName: my-searxng
+#   capacity:
+#     storage: 1Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   hostPath:
+#     path: "~/SearXNG_data"

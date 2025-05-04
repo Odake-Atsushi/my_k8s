@@ -17,6 +17,7 @@ spec:
     - hosts:
         # ドメイン記載
         - ai.oahs.f5.si
+        - searxng.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
     - host: ai.oahs.f5.si
@@ -29,3 +30,13 @@ spec:
                 name: open-webui-service
                 port:
                   number: 8080
+    - host: searxng.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: searxng-service
+                port:
+                  number: 8888
