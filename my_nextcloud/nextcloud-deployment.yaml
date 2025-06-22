@@ -35,7 +35,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:31.0.5-fpm
+        - image: nextcloud:31.0.6-fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
