@@ -20,6 +20,7 @@ data:
   drupal-php-config.ini: |
     output_buffering = 4096
     memory_limit = 512M
+    extension = gd
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +43,7 @@ spec:
         tier: backend
     spec:
       initContainers:
-        - image: drupal:11.2.2
+        - image: drupal:11.2.3
           name: init-site-volume
           command: ["/bin/bash", "-c"]
           args:
@@ -53,14 +54,19 @@ spec:
             - name: drupal-persistent-storage
               mountPath: /data
       containers:
-        - image: drupal:11.2.2
+        - image: drupal:11.2.3
           name: drupal
           ports:
             - containerPort: 80 #9000
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/bash", "-c","cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini"]
+                command:
+                  [
+                    "/bin/bash",
+                    "-c",
+                    "cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini",
+                  ]
           volumeMounts:
             - name: drupal-persistent-storage
               mountPath: /var/www/html/sites
