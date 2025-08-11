@@ -20,7 +20,7 @@ data:
   drupal-php-config.ini: |
     output_buffering = 4096
     memory_limit = 512M
-    extension = gd
+    extension = gd.so
 ---
 apiVersion: apps/v1
 kind: Deployment
