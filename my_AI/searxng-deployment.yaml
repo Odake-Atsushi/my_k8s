@@ -61,7 +61,6 @@ spec:
                   - "-c"
                   - >
                     ash /usr/local/searxng/searxng-setting-script.sh
-
           env:
             - name: BASE_URL
               value: "http://searxng-service.default.svc.cluster.local"
