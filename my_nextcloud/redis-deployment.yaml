@@ -35,7 +35,7 @@ spec:
         tier: cache
     spec:
       containers:
-        - image: redis:8.0.2
+        - image: redis:8.2
           name: redis
           ports:
             - containerPort: 6379
