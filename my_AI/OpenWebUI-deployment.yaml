@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ghcr.io/open-webui/open-webui:v0.6.5
+        - image: ghcr.io/open-webui/open-webui:v0.6.21
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
@@ -55,7 +55,7 @@ spec:
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
             - name: CHUNK_SIZE
-              value : "500"
+              value: "500"
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL

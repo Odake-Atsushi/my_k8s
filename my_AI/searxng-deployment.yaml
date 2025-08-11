@@ -34,7 +34,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: searxng/searxng:2025.4.27-c733aa83e
+        - image: searxng/searxng:2025.8.10-6cccb46
           name: searxng
           env:
             - name: BASE_URL
@@ -49,7 +49,6 @@ spec:
             requests:
               cpu: "1"
               memory: 2Gi
-
 ##########################################################################################
 # 設定変更
 

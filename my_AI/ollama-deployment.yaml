@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ollama/ollama:0.6.6
+        - image: ollama/ollama:0.11.4
           name: ollama
           lifecycle:
             postStart:
@@ -44,7 +44,12 @@ spec:
                   - >
                     apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}" &&
+                    export OLLAMA_NUM_THREADS=8 &&
+                    export OLLAMA_MAX_LOADED_MODELS=2 &&
+                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
+                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"kun432/cl-nagoya-ruri-base\",\"keep_alive\": -1}"
+                    # curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -52,10 +57,10 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "14" #"12"
+              cpu: "12" #"14"
               memory: 32Gi
             requests:
-              cpu: "12" #"6"
+              cpu: "8" #"12"
               memory: 16Gi
       volumes:
         - name: ollama-persistent-storage
