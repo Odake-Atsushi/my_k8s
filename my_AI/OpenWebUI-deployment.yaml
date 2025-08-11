@@ -51,7 +51,7 @@ spec:
             - name: RAG_EMBEDDING_ENGINE
               value: "ollama"
             - name: RAG_EMBEDDING_MODEL
-              value: "kun432/cl-nagoya-ruri-base:latest"
+              value: "kun432/cl-nagoya-ruri-base"
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
             - name: CHUNK_SIZE
