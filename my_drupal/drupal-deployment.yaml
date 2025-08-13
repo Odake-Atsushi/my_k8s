@@ -51,8 +51,9 @@ spec:
               "cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R",
             ]
           volumeMounts:
-            - name: drupal-persistent-storage
+            - name: drupal-data-persistent-storage
               mountPath: /data
+              subPath: data
       containers:
         - image: drupal:11.2.3
           name: drupal
@@ -68,18 +69,18 @@ spec:
                     "cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini",
                   ]
           volumeMounts:
-            - name: drupal-persistent-storage
+            - name: drupal-data-persistent-storage
               mountPath: /var/www/html/sites
-              subPath: sites
-            - name: drupal-persistent-storage
+              subPath: data/sites
+            - name: drupal-data-persistent-storage
               mountPath: /var/www/html/themes
-              subPath: themes
-            - name: drupal-persistent-storage
+              subPath: data/themes
+            - name: drupal-data-persistent-storage
               mountPath: /var/www/html/modules
-              subPath: modules
-            - name: drupal-persistent-storage
+              subPath: data/modules
+            - name: drupal-data-persistent-storage
               mountPath: /var/www/html/profiles
-              subPath: profiles
+              subPath: data/profiles
             - name: drupal-php-config-ini
               mountPath: /usr/local/etc/php/conf.d/drupal-php-config.ini
               subPath: drupal-php-config.ini
@@ -91,9 +92,9 @@ spec:
               cpu: "500m"
               memory: 1Gi
       volumes:
-        - name: drupal-persistent-storage
+        - name: drupal-data-persistent-storage
           persistentVolumeClaim:
-            claimName: drupal-pv-claim
+            claimName: drupal-data-pv-claim
         - name: drupal-php-config-ini
           configMap:
             name: drupal-php-config

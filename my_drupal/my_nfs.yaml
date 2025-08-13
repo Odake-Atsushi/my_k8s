@@ -2,31 +2,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: drupal-my-data-pv
+  name: drupal-data-pv
 spec:
-  storageClassName: drupal-my-data
+  storageClassName: drupal-data
   capacity:
-    storage: 64Gi
+    storage: 128Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/drupal/data
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: drupal-my-db-pv
-spec:
-  storageClassName: drupal-my-db
-  capacity:
-    storage: 32Gi
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: atsushi.local
-    path: /mnt/storage/drupal/db
+    path: /mnt/storage/drupal
