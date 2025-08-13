@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: drupal-mybackup-data-pv
+  name: drupal-backup-data-pv
 spec:
-  storageClassName: drupal-my-backup-data
+  storageClassName: drupal-backup-data
   capacity:
     storage: 512Gi
   accessModes:
@@ -13,47 +13,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/backup/drupal/data
---- #NFS
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: drupal-mybackup-db-pv
-spec:
-  storageClassName: drupal-my-backup-db
-  capacity:
-    storage: 512Gi
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: atsushi.local
-    path: /mnt/backup/drupal/db
+    path: /mnt/backup/drupal
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: drupal-backup-data-pv-claim
   labels:
-    app: my-drupal-backup-data
+    app: my-drupal
 spec:
-  storageClassName: drupal-my-backup-data
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  resources:
-    requests:
-      storage: 512Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: drupal-backup-db-pv-claim
-  labels:
-    app: my-drupal-backup-db-data
-spec:
-  storageClassName: drupal-my-backup-db
+  storageClassName: drupal-backup-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
@@ -128,31 +97,29 @@ spec:
                 - name: backup-script-file
                   mountPath: /usr/local/bin/
                 #data
-                - name: data-persistent-storage
+                - name: drupal-data-persistent-storage
                   mountPath: /mnt/data
-                - name: db-persistent-storage
+                  subPath: data
+                - name: drupal-data-persistent-storage
                   mountPath: /mnt/db
+                  subPath: db
                 #backup
                 - name: backup-data-persistent-storage
                   mountPath: /mnt/backupData
-                - name: backup-db-persistent-storage
+                  subPath: data
+                - name: backup-data-persistent-storage
                   mountPath: /mnt/backupDb
+                  subPath: db
           restartPolicy: OnFailure
           volumes:
             - name: backup-script-file
               configMap:
                 name: backup-script
             #data
-            - name: data-persistent-storage
+            - name: drupal-data-persistent-storage
               persistentVolumeClaim:
-                claimName: drupal-pv-claim
-            - name: db-persistent-storage
-              persistentVolumeClaim:
-                claimName: drupal-mariadb-pv-claim
+                claimName: drupal-data-pv-claim
             #backup
             - name: backup-data-persistent-storage
               persistentVolumeClaim:
                 claimName: drupal-backup-data-pv-claim
-            - name: backup-db-persistent-storage
-              persistentVolumeClaim:
-                claimName: drupal-backup-db-pv-claim
