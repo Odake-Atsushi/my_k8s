@@ -92,3 +92,6 @@ spec:
 
 # 再起動
 # kubectl rollout restart deployment searxng-deployment
+
+# 確認
+# https://searxng.oahs.f5.si/search?lang=ja&q=ちびまる子ちゃん&format=json

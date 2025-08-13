@@ -48,8 +48,7 @@ spec:
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}" &&
                     export OLLAMA_NUM_THREADS=8 &&
                     export OLLAMA_MAX_LOADED_MODELS=3 &&
-                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
-                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gpt-oss:20b\",\"keep_alive\": -1}"
+                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}"
           ports:
             - containerPort: 11434
           volumeMounts:
