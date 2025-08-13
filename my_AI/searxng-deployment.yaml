@@ -13,6 +13,23 @@ spec:
     tier: backend
   type: ClusterIP
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-setup-script
+data:
+  searxng-setting-script.sh: |
+    #!/bin/ash
+
+    while [ ! -f /etc/searxng/settings.yml ]; do
+      sleep 1  # /etc/searxng/settings.ymlが存在しない場合
+    done
+
+    cp /etc/searxng/settings.yml /etc/searxng/settings_default.yml
+    sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml
+    sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,12 +53,24 @@ spec:
       containers:
         - image: searxng/searxng:2025.8.10-6cccb46
           name: searxng
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/ash"
+                  - "-c"
+                  - >
+                    ash /usr/local/searxng/searxng-setting-script.sh
           env:
             - name: BASE_URL
               value: "http://searxng-service.default.svc.cluster.local"
               # value: "https://searxng.oahs.f5.si"
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: searxng-setting-script
+              mountPath: /usr/local/searxng/searxng-setting-script.sh
+              subPath: searxng-setting-script.sh
           resources:
             limits:
               cpu: "2"
@@ -49,6 +78,10 @@ spec:
             requests:
               cpu: "1"
               memory: 2Gi
+      volumes:
+        - name: searxng-setting-script # volumeMountsで/etc/nginxにmountするやつ
+          configMap:
+            name: searxng-setup-script # ConfigMapのnginx-confを/etc/nginx以下に配置する
 ##########################################################################################
 # 設定変更
 
@@ -59,3 +92,6 @@ spec:
 
 # 再起動
 # kubectl rollout restart deployment searxng-deployment
+
+# 確認
+# https://searxng.oahs.f5.si/search?lang=ja&q=ちびまる子ちゃん&format=json
