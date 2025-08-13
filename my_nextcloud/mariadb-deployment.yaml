@@ -67,8 +67,9 @@ spec:
             - --transaction-isolation=READ-COMMITTED
             - --binlog-format=ROW
           volumeMounts:
-            - name: mariadb-persistent-storage
+            - name: nextcloud-data-persistent-storage
               mountPath: /var/lib/mysql #/var/lib/mariadb
+              subPath: db
           resources:
             limits:
               cpu: "1"
@@ -77,6 +78,6 @@ spec:
               cpu: "500m"
               memory: 512Mi
       volumes:
-        - name: mariadb-persistent-storage
+        - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:
-            claimName: mariadb-pv-claim
+            claimName: nextcloud-data-pv-claim

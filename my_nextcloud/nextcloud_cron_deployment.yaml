@@ -24,10 +24,11 @@ spec:
                 - -f
                 - /var/www/html/cron.php
               volumeMounts:
-                - name: nextcloud-cron-persistent-storage
+                - name: nextcloud-data-persistent-storage
                   mountPath: /var/www/html
+                  subPath: data
           restartPolicy: OnFailure
           volumes:
-            - name: nextcloud-cron-persistent-storage
+            - name: nextcloud-data-persistent-storage
               persistentVolumeClaim:
-                claimName: nextcloud-pv-claim
+                claimName: nextcloud-data-pv-claim
