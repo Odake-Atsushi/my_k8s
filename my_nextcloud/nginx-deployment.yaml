@@ -231,7 +231,7 @@ spec:
         tier: prox-nextcloud
     spec:
       containers:
-        - image: nginx:1.28
+        - image: nginx:stable
           name: nginx
           ports:
             - containerPort: 80

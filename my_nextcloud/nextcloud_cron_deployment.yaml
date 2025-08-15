@@ -14,11 +14,11 @@ spec:
         spec:
           containers:
             - name: cron-nextcloud
-              image: nextcloud:31.0.7-fpm
+              image: nextcloud:fpm
               imagePullPolicy: IfNotPresent
               securityContext:
-                runAsUser: 33
-                runAsGroup: 33
+                runAsUser: 33 # user: www-data
+                runAsGroup: 33 # group: www-data
               command:
                 - php
                 - -f

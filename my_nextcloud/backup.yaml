@@ -164,7 +164,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: debian:12.11
+              image: debian:stable
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ

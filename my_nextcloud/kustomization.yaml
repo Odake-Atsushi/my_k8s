@@ -23,3 +23,16 @@ resources:
   - office-nginx-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
+images:
+  - name: nextcloud
+    newTag: "31.0.8-fpm"
+  - name: mariadb
+    newTag: "11.4"
+  - name: nginx
+    newTag: "1.28"
+  - name: redis
+    newTag: "8.2"
+  - name: collabora/code
+    newTag: "25.04.4.2.1"
+  - name: debian
+    newTag: "12.11"

@@ -33,7 +33,7 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code:25.04.4.2.1
+        - image: collabora/code:latest
           name: office
           env:
             - name: password
