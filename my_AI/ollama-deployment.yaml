@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ollama/ollama:0.11.4
+        - image: ollama/ollama:latest
           name: ollama
           lifecycle:
             postStart:

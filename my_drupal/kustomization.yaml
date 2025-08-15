@@ -14,3 +14,10 @@ resources:
   - drupal-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
+images:
+  - name: drupal
+    newTag: "11.2.3"
+  - name: mariadb
+    newTag: "11.8"
+  - name: debian
+    newTag: "12.11"

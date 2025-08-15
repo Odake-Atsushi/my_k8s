@@ -6,3 +6,10 @@ resources:
   - OpenWebUI-deployment.yaml
   - ingress-service.yaml
   - searxng-deployment.yaml
+images:
+  - name: ollama/ollama
+    newTag: "0.11.4"
+  - name: ghcr.io/open-webui/open-webui
+    newTag: "v0.6.22"
+  - name: searxng/searxng
+    newTag: "2025.8.12-6b1516d"

@@ -55,7 +55,7 @@ spec:
               mountPath: /data
               subPath: data
       containers:
-        - image: drupal:11.2.3
+        - image: drupal:latest
           name: drupal
           ports:
             - containerPort: 80 #9000
