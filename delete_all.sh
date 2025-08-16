@@ -4,6 +4,7 @@
 microk8s kubectl delete -k my_observability
 microk8s kubectl delete -k my_nextcloud
 microk8s kubectl delete -k my_drupal
+microk8s kubectl delete -k my_vaultwarden
 microk8s kubectl delete -k my_AI
 
 #テスト
