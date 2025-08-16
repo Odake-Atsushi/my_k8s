@@ -35,7 +35,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: nextcloud:31.0.4-fpm
+        - image: nextcloud:fpm
           name: nextcloud
           env:
             - name: MYSQL_PASSWORD
@@ -87,8 +87,9 @@ spec:
           ports:
             - containerPort: 9000
           volumeMounts:
-            - name: nextcloud-persistent-storage
+            - name: nextcloud-data-persistent-storage
               mountPath: /var/www/html
+              subPath: data
             - name: post-upgrade-script-file
               mountPath: /docker-entrypoint-hooks.d/post-upgrade/
             - name: post-installation-script-file
@@ -115,9 +116,9 @@ spec:
         #       cpu: "256m"
         #       memory: 512Mi
       volumes:
-        - name: nextcloud-persistent-storage
+        - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:
-            claimName: nextcloud-pv-claim
+            claimName: nextcloud-data-pv-claim
         - name: post-upgrade-script-file
           configMap:
             name: post-upgrade-script

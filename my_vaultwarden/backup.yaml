@@ -2,33 +2,33 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: drupal-backup-data-pv
+  name: vaultwarden-backup-data-pv
 spec:
-  storageClassName: drupal-backup-data
+  storageClassName: vaultwarden-backup-data
   capacity:
-    storage: 512Gi
+    storage: 256Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/backup/drupal
+    path: /mnt/backup/vaultwarden
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: drupal-backup-data-pv-claim
+  name: vaultwarden-backup-data-pv-claim
   labels:
-    app: my-drupal
+    app: my-vaultwarden
 spec:
-  storageClassName: drupal-backup-data
+  storageClassName: vaultwarden-backup-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 512Gi
+      storage: 256Gi
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -55,16 +55,6 @@ data:
     # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
-    echo "-->  DB Backup !!"
-
-    # DB
-    DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
-    BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
-    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
-    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
-
-    echo "#####################################################"
 
     echo "Backup Finish!"
 
@@ -72,11 +62,11 @@ data:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: drupal-backup-cronjob
+  name: vaultwarden-backup-cronjob
   labels:
     app: my-drupal
 spec:
-  schedule: "0 3 * * *"
+  schedule: "0 0 * * *"
   timeZone: Asia/Tokyo
   concurrencyPolicy: Forbid
   jobTemplate:
@@ -97,29 +87,23 @@ spec:
                 - name: backup-script-file
                   mountPath: /usr/local/bin/
                 #data
-                - name: drupal-data-persistent-storage
+                - name: vaultwarden-data-persistent-storage
                   mountPath: /mnt/data
                   subPath: data
-                - name: drupal-data-persistent-storage
-                  mountPath: /mnt/db
-                  subPath: db
                 #backup
                 - name: backup-data-persistent-storage
                   mountPath: /mnt/backupData
                   subPath: data
-                - name: backup-data-persistent-storage
-                  mountPath: /mnt/backupDb
-                  subPath: db
           restartPolicy: OnFailure
           volumes:
             - name: backup-script-file
               configMap:
                 name: backup-script
             #data
-            - name: drupal-data-persistent-storage
+            - name: vaultwarden-data-persistent-storage
               persistentVolumeClaim:
                 claimName: drupal-data-pv-claim
             #backup
             - name: backup-data-persistent-storage
               persistentVolumeClaim:
-                claimName: drupal-backup-data-pv-claim
+                claimName: vaultwarden-backup-data-pv-claim

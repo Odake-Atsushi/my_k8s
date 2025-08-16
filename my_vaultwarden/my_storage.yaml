@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: drupal-data-pv-claim
+  name: vaultwarden-data-pv-claim
   labels:
-    app: my-drupal
+    app: my-vaultwarden
 spec:
-  storageClassName: drupal-data
+  storageClassName: vaultwarden-data
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 128Gi
+      storage: 64Gi

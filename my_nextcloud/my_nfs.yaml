@@ -2,31 +2,47 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mydata-pv
+  name: nextcloud-data-pv
 spec:
-  storageClassName: my-data
+  storageClassName: nextcloud-data
   capacity:
     storage: 512Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/nextcloud/data
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mydb-pv
-spec:
-  storageClassName: my-db
-  capacity:
-    storage: 64Gi
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: atsushi.local
-    path: /mnt/storage/nextcloud/db
+    path: /mnt/storage/nextcloud
+# #NFS
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: mydata-pv
+# spec:
+#   storageClassName: my-data
+#   capacity:
+#     storage: 512Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     server: atsushi.local
+#     path: /mnt/storage/nextcloud/data
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: mydb-pv
+# spec:
+#   storageClassName: my-db
+#   capacity:
+#     storage: 64Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     server: atsushi.local
+#     path: /mnt/storage/nextcloud/db

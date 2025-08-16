@@ -14,20 +14,21 @@ spec:
         spec:
           containers:
             - name: cron-nextcloud
-              image: nextcloud:31.0.4-fpm
+              image: nextcloud:fpm
               imagePullPolicy: IfNotPresent
               securityContext:
-                runAsUser: 33
-                runAsGroup: 33
+                runAsUser: 33 # user: www-data
+                runAsGroup: 33 # group: www-data
               command:
                 - php
                 - -f
                 - /var/www/html/cron.php
               volumeMounts:
-                - name: nextcloud-cron-persistent-storage
+                - name: nextcloud-data-persistent-storage
                   mountPath: /var/www/html
+                  subPath: data
           restartPolicy: OnFailure
           volumes:
-            - name: nextcloud-cron-persistent-storage
+            - name: nextcloud-data-persistent-storage
               persistentVolumeClaim:
-                claimName: nextcloud-pv-claim
+                claimName: nextcloud-data-pv-claim

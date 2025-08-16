@@ -33,7 +33,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: ghcr.io/open-webui/open-webui:v0.6.5
+        - image: ghcr.io/open-webui/open-webui:main
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
@@ -51,11 +51,11 @@ spec:
             - name: RAG_EMBEDDING_ENGINE
               value: "ollama"
             - name: RAG_EMBEDDING_MODEL
-              value: "kun432/cl-nagoya-ruri-base:latest"
+              value: "kun432/cl-nagoya-ruri-base"
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
             - name: CHUNK_SIZE
-              value : "500"
+              value: "500"
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
@@ -68,10 +68,10 @@ spec:
               mountPath: /app/backend/data
           resources:
             limits:
-              cpu: "3"
+              cpu: "2"
               memory: 8Gi
             requests:
-              cpu: "2"
+              cpu: "1"
               memory: 6Gi
       volumes:
         - name: open-webui-persistent-storage

@@ -98,7 +98,7 @@ spec:
         tier: prox-office
     spec:
       containers:
-        - image: nginx:1.27
+        - image: nginx:stable
           name: nginx
           ports:
             - containerPort: 80

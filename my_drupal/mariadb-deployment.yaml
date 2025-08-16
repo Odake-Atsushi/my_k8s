@@ -33,7 +33,7 @@ spec:
         tier: db
     spec:
       containers:
-        - image: mariadb:11.4
+        - image: mariadb:lts
           name: mariadb
           env:
             - name: MARIADB_ROOT_PASSWORD
@@ -67,8 +67,9 @@ spec:
             - --character-set-server=utf8
             - --collation-server=utf8_unicode_ci
           volumeMounts:
-            - name: drupal-mariadb-persistent-storage
+            - name: drupal-data-persistent-storage
               mountPath: /var/lib/mysql
+              subPath: db
           resources:
             limits:
               cpu: "1"
@@ -77,6 +78,6 @@ spec:
               cpu: "500m"
               memory: 512Mi
       volumes:
-        - name: drupal-mariadb-persistent-storage
+        - name: drupal-data-persistent-storage
           persistentVolumeClaim:
-            claimName: drupal-mariadb-pv-claim
+            claimName: drupal-data-pv-claim

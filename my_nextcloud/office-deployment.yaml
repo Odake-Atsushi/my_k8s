@@ -33,13 +33,19 @@ spec:
         tier: office
     spec:
       containers:
-        - image: collabora/code:24.04.13.3.1
+        - image: collabora/code:latest
           name: office
           env:
-            - name: password
-              value: nextcloud
             - name: username
-              value: nextcloud
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-office-admin-user
+                  key: user
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-office-admin-user
+                  key: password
             ####################
             - name: extra_params
               value: "--o:ssl.enable=false --o:ssl.termination=true"

@@ -1,17 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-secretGenerator:
-  - name: nextcloud-mariadb-pass
-    literals:
-      - root_password=somenextcloud
-      - database=nextcloud
-      - user=nextcloud
-      - password=nextcloud
-  - name: nextcloud-admin-user
-    literals:
-      - user=atsushi
-      - password=odake
 resources:
+  - secrets_data.yaml
   - my_nfs.yaml
   - my_storage.yaml
   - redis-deployment.yaml
@@ -23,3 +13,16 @@ resources:
   - office-nginx-deployment.yaml
   - ingress-service.yaml
   - backup.yaml
+images:
+  - name: nextcloud
+    newTag: "31.0.8-fpm"
+  - name: mariadb
+    newTag: "11.4"
+  - name: nginx
+    newTag: "1.28"
+  - name: redis
+    newTag: "8.2"
+  - name: collabora/code
+    newTag: "25.04.4.2.1"
+  - name: debian
+    newTag: "12.11"
