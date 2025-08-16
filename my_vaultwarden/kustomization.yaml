@@ -1,18 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-secretGenerator:
-  - name: vaultwarden-admin-pass
-    literals:
-      - token=rXbbMJH2rkF5dAAABYJhnlU2ofZ60PiA92bm6/n5RcOt2PjlEiQ4eCqWZeu9yULz
-  - name: vaultwarden-smtp
-    literals:
-      - host=smtp.gmail.com
-      - port="587"
-      - from=atsushi@pass.oahs.f5.si
-      - security=starttls
-      - username=odake1004@gmail.com
-      - password=ezzppgrjgjgnarpx
 resources:
+  - secrets_data.yaml
   - my_nfs.yaml
   - my_storage.yaml
   - vaultwarden-deployment.yaml

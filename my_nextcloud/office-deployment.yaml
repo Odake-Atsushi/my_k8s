@@ -36,10 +36,16 @@ spec:
         - image: collabora/code:latest
           name: office
           env:
-            - name: password
-              value: nextcloud
             - name: username
-              value: nextcloud
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-office-admin-user
+                  key: user
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-office-admin-user
+                  key: password
             ####################
             - name: extra_params
               value: "--o:ssl.enable=false --o:ssl.termination=true"
