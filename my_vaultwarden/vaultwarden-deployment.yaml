@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaultwarden-service
+  labels:
+    app: my-vaultwarden
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: my-vaultwarden
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden-deployment
+  labels:
+    app: my-vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-vaultwarden
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-vaultwarden
+        tier: backend
+    spec:
+      containers:
+        - image: vaultwarden/server:latest
+          name: vaultwarden
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: vaultwarden-data-persistent-storage
+              mountPath: /data
+              subPath: data
+          resources:
+            limits:
+              cpu: "500m"
+              memory: 512Mi
+            requests:
+              cpu: "250m"
+              memory: 256Mi
+      volumes:
+        - name: vaultwarden-data-persistent-storage
+          persistentVolumeClaim:
+            claimName: vaultwarden-data-pv-claim

@@ -1,0 +1,16 @@
+#NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vaultwarden-data-pv
+spec:
+  storageClassName: vaultwarden-data
+  capacity:
+    storage: 64Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/vaultwarden
