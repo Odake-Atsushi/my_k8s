@@ -35,6 +35,9 @@ spec:
       containers:
         - image: vaultwarden/server:latest
           name: vaultwarden
+          env:
+            - name: ADMIN_TOKEN
+              value: rXbbMJH2rkF5dAAABYJhnlU2ofZ60PiA92bm6/n5RcOt2PjlEiQ4eCqWZeu9yULz
           ports:
             - containerPort: 80
           volumeMounts:
