@@ -6,7 +6,12 @@ secretGenerator:
       - token=rXbbMJH2rkF5dAAABYJhnlU2ofZ60PiA92bm6/n5RcOt2PjlEiQ4eCqWZeu9yULz
   - name: vaultwarden-smtp
     literals:
-      - host=odake1004@gmail.com
+      - host=smtp.gmail.com
+      - port="587"
+      - from=atsushi@pass.oahs.f5.si
+      - security=starttls
+      - username=odake1004@gmail.com
+      - password=ezzppgrjgjgnarpx
 resources:
   - my_nfs.yaml
   - my_storage.yaml

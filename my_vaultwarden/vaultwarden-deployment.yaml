@@ -36,8 +36,43 @@ spec:
         - image: vaultwarden/server:latest
           name: vaultwarden
           env:
+            - name: DOMAIN
+              value: "https://pass.oahs.f5.si"
             - name: ADMIN_TOKEN
-              value: rXbbMJH2rkF5dAAABYJhnlU2ofZ60PiA92bm6/n5RcOt2PjlEiQ4eCqWZeu9yULz
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-admin-pass
+                  key: token
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: host
+            - name: SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: from
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: port
+            - name: SMTP_SECURITY
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: security
+            - name: SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: username
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-smtp
+                  key: password
           ports:
             - containerPort: 80
           volumeMounts:
