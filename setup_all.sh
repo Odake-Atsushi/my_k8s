@@ -12,4 +12,4 @@ microk8s kubectl apply -k test_nginx
 microk8s kubectl apply -k my_observability
 microk8s kubectl apply -k my_nextcloud
 microk8s kubectl apply -k my_drupal
-# microk8s kubectl apply -k my_AI
+microk8s kubectl apply -k my_AI

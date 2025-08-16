@@ -1,0 +1,109 @@
+--- #NFS
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vaultwarden-backup-data-pv
+spec:
+  storageClassName: vaultwarden-backup-data
+  capacity:
+    storage: 256Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/backup/vaultwarden
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vaultwarden-backup-data-pv-claim
+  labels:
+    app: my-vaultwarden
+spec:
+  storageClassName: vaultwarden-backup-data
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 256Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-script
+data:
+  backup.sh: |
+    #!/bin/bash
+
+    apt-get -y update
+    apt-get -y upgrade
+    apt-get -y autopurge
+    apt-get -y install rsync
+    apt-get -y autoclean
+
+    echo "#####################################################"
+    echo "-->  Data Backup !!"
+
+    # Data
+    DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
+    BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
+    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+
+    echo "#####################################################"
+
+    echo "Backup Finish!"
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vaultwarden-backup-cronjob
+  labels:
+    app: my-drupal
+spec:
+  schedule: "0 0 * * *"
+  timeZone: Asia/Tokyo
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: backup
+              image: debian:stable
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: TZ
+                  value: Asia/Tokyo
+              command:
+                - bash
+                - /usr/local/bin/backup.sh
+              volumeMounts:
+                - name: backup-script-file
+                  mountPath: /usr/local/bin/
+                #data
+                - name: vaultwarden-data-persistent-storage
+                  mountPath: /mnt/data
+                  subPath: data
+                #backup
+                - name: backup-data-persistent-storage
+                  mountPath: /mnt/backupData
+                  subPath: data
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-script-file
+              configMap:
+                name: backup-script
+            #data
+            - name: vaultwarden-data-persistent-storage
+              persistentVolumeClaim:
+                claimName: drupal-data-pv-claim
+            #backup
+            - name: backup-data-persistent-storage
+              persistentVolumeClaim:
+                claimName: vaultwarden-backup-data-pv-claim

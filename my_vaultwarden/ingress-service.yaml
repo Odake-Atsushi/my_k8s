@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: oahs-ingress
+  name: vaultwarden-ingress
   annotations:
-    ingress.kubernetes.io/force-ssl-redirect: "false"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
     kubernetes.io/tls-acme: "true"
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
@@ -12,24 +12,16 @@ spec:
   tls:
     - hosts:
         # ドメイン記載
-        - oahs.f5.si
-        - nextcloud.oahs.f5.si
-        - office.oahs.f5.si
-        - web.oahs.f5.si
-        - ai.oahs.f5.si
-        - searxng.oahs.f5.si
         - pass.oahs.f5.si
-        # - grafana.oahs.f5.si #ネームスペースが違う
-        # - prometheus.oahs.f5.si #ネームスペースが違う
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
-    - host: oahs.f5.si
+    - host: pass.oahs.f5.si
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: test-nginx-service
+                name: vaultwarden-service
                 port:
                   number: 80

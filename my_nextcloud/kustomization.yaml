@@ -1,17 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-secretGenerator:
-  - name: nextcloud-mariadb-pass
-    literals:
-      - root_password=somenextcloud
-      - database=nextcloud
-      - user=nextcloud
-      - password=nextcloud
-  - name: nextcloud-admin-user
-    literals:
-      - user=atsushi
-      - password=odake
 resources:
+  - secrets_data.yaml
   - my_nfs.yaml
   - my_storage.yaml
   - redis-deployment.yaml
