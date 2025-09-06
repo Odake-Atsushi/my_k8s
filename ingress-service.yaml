@@ -17,7 +17,7 @@ spec:
         - office.oahs.f5.si
         - web.oahs.f5.si
         - ai.oahs.f5.si
-        - searxng.oahs.f5.si
+        - search.oahs.f5.si
         - pass.oahs.f5.si
         # - grafana.oahs.f5.si #ネームスペースが違う
         # - prometheus.oahs.f5.si #ネームスペースが違う

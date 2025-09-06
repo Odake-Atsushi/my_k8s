@@ -64,7 +64,7 @@ spec:
           env:
             - name: BASE_URL
               value: "http://searxng-service.default.svc.cluster.local"
-              # value: "https://searxng.oahs.f5.si"
+              # value: "https://search.oahs.f5.si"
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -94,4 +94,4 @@ spec:
 # kubectl rollout restart deployment searxng-deployment
 
 # 確認
-# https://searxng.oahs.f5.si/search?lang=ja&q=ちびまる子ちゃん&format=json
+# https://serach.oahs.f5.si/search?lang=ja&q=ちびまる子ちゃん&format=json
