@@ -44,13 +44,10 @@ spec:
                   - >
                     apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/multilingual-e5-large:q4_k_m\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/bge-reranker-v2-m3:q4_k_m\"}" &&
                     export OLLAMA_NUM_THREADS=8 &&
-                    export OLLAMA_MAX_LOADED_MODELS=4 &&
-                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
-                    curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/multilingual-e5-large:q4_k_m\",\"keep_alive\": -1}" &&
-                    curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/bge-reranker-v2-m3:q4_k_m\",\"keep_alive\": -1}"
+                    export OLLAMA_MAX_LOADED_MODELS=3
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -68,6 +65,11 @@ spec:
           persistentVolumeClaim:
             claimName: ollama-pv-claim
 ############################################
-#curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
 #curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}" &&
 #curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}"
+
+#curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/bge-reranker-v2-m3:q4_k_m\"}" &&
+
+#curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
+#curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/multilingual-e5-large:q4_k_m\",\"keep_alive\": -1}" &&
+#curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/bge-reranker-v2-m3:q4_k_m\",\"keep_alive\": -1}"
