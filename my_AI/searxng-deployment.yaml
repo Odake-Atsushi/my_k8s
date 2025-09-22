@@ -63,8 +63,8 @@ spec:
                     ash /usr/local/searxng/searxng-setting-script.sh
           env:
             - name: BASE_URL
-              value: "http://searxng-service.default.svc.cluster.local"
-              # value: "https://search.oahs.f5.si"
+              value: "https://search.oahs.f5.si"
+              # value: "http://searxng-service.default.svc.cluster.local"
           ports:
             - containerPort: 8080
           volumeMounts:
