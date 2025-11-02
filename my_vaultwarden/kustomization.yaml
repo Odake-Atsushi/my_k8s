@@ -11,4 +11,4 @@ images:
   - name: vaultwarden
     newTag: "1.34.3"
   - name: debian
-    newTag: "12.11"
+    newTag: "12.12"
