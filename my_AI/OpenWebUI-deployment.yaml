@@ -59,7 +59,7 @@ spec:
             - name: "ENABLE_RAG_HYBRID_SEARCH"
               value: "True"
             - name: "RAG_RERANKING_MODEL"
-              value: "qllama/bge-reranker-v2-m3:q4_k_m"
+              value: "hotchpotch/japanese-reranker-xsmall-v2" #"qllama/bge-reranker-v2-m3:q4_k_m"
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
