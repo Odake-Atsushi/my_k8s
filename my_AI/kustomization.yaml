@@ -12,4 +12,4 @@ images:
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.6.36"
   - name: searxng/searxng
-    newTag: "2025.11.21-b876d0bed"
+    newTag: "2025.11.25-ebb9ea457"
