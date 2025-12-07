@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backup-script
+  name: drupal-backup-script
 data:
   backup.sh: |
     #!/bin/bash
@@ -44,15 +44,20 @@ data:
     apt-get -y install rsync
     apt-get -y autoclean
 
+    PERIOD_DAYS=365 #保存期間（日数）
+
     echo "#####################################################"
     echo "-->  Data Backup !!"
 
     # Data
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
-    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
-    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    LATESTBKUP=$(ls -v $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    # バックアップ実行
+    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+
+    # 保存期間を過ぎたバックアップ削除
+    rm -rf $BASEDIR/$(ls -v $BASEDIR | grep backup- | head -n -$PERIOD_DAYS)
 
     echo "#####################################################"
     echo "-->  DB Backup !!"
@@ -60,9 +65,12 @@ data:
     # DB
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
-    LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
-    # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    LATESTBKUP=$(ls -v $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    # バックアップ実行
+    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+
+    # 保存期間を過ぎたバックアップ削除
+    rm -rf $BASEDIR/$(ls -v $BASEDIR | grep backup- | head -n -$PERIOD_DAYS)
 
     echo "#####################################################"
 
@@ -114,7 +122,7 @@ spec:
           volumes:
             - name: backup-script-file
               configMap:
-                name: backup-script
+                name: drupal-backup-script
             #data
             - name: drupal-data-persistent-storage
               persistentVolumeClaim:
