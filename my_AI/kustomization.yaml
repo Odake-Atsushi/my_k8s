@@ -10,6 +10,6 @@ images:
   - name: ollama/ollama
     newTag: "0.13.0"
   - name: ghcr.io/open-webui/open-webui
-    newTag: "v0.6.36"
+    newTag: "v0.6.40"
   - name: searxng/searxng
     newTag: "2025.11.25-ebb9ea457"
