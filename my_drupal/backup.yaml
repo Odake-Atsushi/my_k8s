@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backup-script
+  name: drupal-backup-script
 data:
   backup.sh: |
     #!/bin/bash
@@ -122,7 +122,7 @@ spec:
           volumes:
             - name: backup-script-file
               configMap:
-                name: backup-script
+                name: drupal-backup-script
             #data
             - name: drupal-data-persistent-storage
               persistentVolumeClaim:
