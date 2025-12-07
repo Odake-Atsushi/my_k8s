@@ -51,7 +51,7 @@ data:
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
-    rsync -Aaxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
     # rsync -Aavxh --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
 
     echo "#####################################################"
