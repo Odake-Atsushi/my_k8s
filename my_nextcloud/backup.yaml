@@ -128,12 +128,16 @@ data:
     # Data
     DATADIR="/mnt/data"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupData" #バックアップ先の親ディレクトリ
-    LATESTBKUP=$(ls -v $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    LATESTBKUP=$(ls -v ${BASEDIR} | grep "backup-" | tail -n 1) #直近のバックアップのディレクトリ名
     # バックアップ実行
-    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="${BASEDIR}/${LATESTBKUP}" "${DATADIR}/" "${BASEDIR}/backup-$(date +%Y%m%d-%H%M%S)"
 
     # 保存期間を過ぎたバックアップ削除
-    rm -rf $BASEDIR/$(ls -v $BASEDIR | grep backup- | head -n -$PERIOD_DAYS)
+    while [ $(ls -v ${BASEDIR} | grep -c "backup-") -gt ${PERIOD_DAYS} ]; do
+      OLDBACKUP=$(ls -v ${BASEDIR} | grep "backup-" | head -n 1)
+      echo "Removing old backup: ${OLDBACKUP}"
+      rm -rf "${BASEDIR}/${OLDBACKUP}"
+    done
 
     echo "#####################################################"
     echo "-->  DB Backup !!"
@@ -141,12 +145,16 @@ data:
     # DB
     DATADIR="/mnt/db"       #バックアップ元の親ディレクトリ
     BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
-    LATESTBKUP=$(ls -v $BASEDIR | grep backup- | tail -n 1) #直近のバックアップのディレクトリ名
+    LATESTBKUP=$(ls -v ${BASEDIR} | grep "backup-" | tail -n 1) #直近のバックアップのディレクトリ名
     # バックアップ実行
-    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="$BASEDIR/$LATESTBKUP" "$DATADIR/" "$BASEDIR/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="${BASEDIR}/${LATESTBKUP}" "${DATADIR}/" "${BASEDIR}/backup-$(date +%Y%m%d-%H%M%S)"
 
     # 保存期間を過ぎたバックアップ削除
-    rm -rf $BASEDIR/$(ls -v $BASEDIR | grep backup- | head -n -$PERIOD_DAYS)
+    while [ $(ls -v ${BASEDIR} | grep -c "backup-") -gt ${PERIOD_DAYS} ]; do
+      OLDBACKUP=$(ls -v ${BASEDIR} | grep "backup-" | head -n 1)
+      echo "Removing old backup: ${OLDBACKUP}"
+      rm -rf "${BASEDIR}/${OLDBACKUP}"
+    done
 
     echo "#####################################################"
 
@@ -163,7 +171,7 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  schedule: "0 2 * * *"
+  schedule: "0 0 * * *"
   timeZone: Asia/Tokyo
   concurrencyPolicy: Forbid
   jobTemplate:
