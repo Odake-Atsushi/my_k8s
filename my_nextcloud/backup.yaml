@@ -171,7 +171,7 @@ metadata:
   labels:
     app: my-nextcloud
 spec:
-  schedule: "0 2 * * *"
+  schedule: "0 0 * * *"
   timeZone: Asia/Tokyo
   concurrencyPolicy: Forbid
   jobTemplate:
