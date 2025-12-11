@@ -11,3 +11,10 @@ sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 
 # 暗号化ファイル作成
 kubeseal --secret-file "対象ファイル" --format yaml > secrets_data.yaml
+
+# バックアップ
+kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > main.key
+
+# 復旧
+kubectl apply -f main.key
+kubectl delete pod -n kube-system -l name=sealed-secrets-controller
