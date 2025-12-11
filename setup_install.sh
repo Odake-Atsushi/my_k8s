@@ -11,7 +11,7 @@ sudo apt -y upgrade
 
 rm -rf ~/.kube
 
-sudo snap install microk8s --classic --channel=1.32/stable
+sudo snap install microk8s --classic --channel=1.34/stable
 
 sudo usermod -a -G microk8s $USER
 mkdir -p ~/.kube
