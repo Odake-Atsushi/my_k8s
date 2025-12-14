@@ -1,4 +1,4 @@
-# sealed-secrets-v0.30.0
+# sealed-secrets-v0.33.1
 
 # Cluster-side
 microk8s kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.33.1/controller.yaml
