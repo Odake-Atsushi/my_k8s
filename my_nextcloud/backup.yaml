@@ -147,7 +147,7 @@ data:
     BASEDIR="/mnt/backupDb" #バックアップ先の親ディレクトリ
     LATESTBKUP=$(ls -v ${BASEDIR} | grep "backup-" | tail -n 1) #直近のバックアップのディレクトリ名
     # バックアップ実行
-    rsync --archive --hard-links --acls --xattrs --stats --human-readable --link-dest="${BASEDIR}/${LATESTBKUP}" "${DATADIR}/" "${BASEDIR}/backup-$(date +%Y%m%d-%H%M%S)"
+    rsync --archive --one-file-system --acls --xattrs --stats --human-readable --link-dest="${BASEDIR}/${LATESTBKUP}" "${DATADIR}/" "${BASEDIR}/backup-$(date +%Y%m%d-%H%M%S)"
 
     # 保存期間を過ぎたバックアップ削除
     while [ $(ls -v ${BASEDIR} | grep -c "backup-") -gt ${PERIOD_DAYS} ]; do
