@@ -20,7 +20,6 @@ data:
   drupal-php-config.ini: |
     output_buffering = 4096
     memory_limit = 512M
-    extension = gd.so
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,7 +42,7 @@ spec:
         tier: backend
     spec:
       initContainers:
-        - image: drupal:11.2.3
+        - image: drupal:latest
           name: init-site-volume
           command: ["/bin/bash", "-c"]
           args:
@@ -98,3 +97,6 @@ spec:
         - name: drupal-php-config-ini
           configMap:
             name: drupal-php-config
+# Drupal DB 更新
+# drush updatedb
+# drush cache:rebuild
