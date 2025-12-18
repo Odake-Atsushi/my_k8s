@@ -7,7 +7,8 @@ metadata:
 spec:
   schedule: "*/5 * * * *"
   timeZone: Asia/Tokyo
-  concurrencyPolicy: Allow
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 1800
   jobTemplate:
     spec:
       template:
