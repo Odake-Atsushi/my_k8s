@@ -23,6 +23,6 @@ images:
   - name: redis
     newTag: "8.4"
   - name: collabora/code
-    newTag: "25.04.7.3.1"
+    newTag: "25.04.8.1.1"
   - name: debian
     newTag: "12.12"
