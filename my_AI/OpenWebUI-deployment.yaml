@@ -54,6 +54,8 @@ spec:
               value: "embeddinggemma:300m"
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service.default.svc.cluster.local:11434"
+            - name: RAG_TEXT_SPLITTER
+              value: "token"
             # - name: CHUNK_SIZE
             #   value: "500"
             # - name: "ENABLE_RAG_HYBRID_SEARCH"
