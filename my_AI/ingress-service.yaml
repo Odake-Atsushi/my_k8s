@@ -18,6 +18,7 @@ spec:
     - hosts:
         # ドメイン記載
         - ai.oahs.f5.si
+        - ollama.oahs.f5.si
         - search.oahs.f5.si
       secretName: my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
   rules:
@@ -31,6 +32,16 @@ spec:
                 name: open-webui-service
                 port:
                   number: 8080
+    - host: ollama.oahs.f5.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ollama-service
+                port:
+                  number: 11434
     - host: search.oahs.f5.si
       http:
         paths:

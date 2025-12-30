@@ -35,6 +35,11 @@ spec:
       containers:
         - image: ollama/ollama:latest
           name: ollama
+          env:
+            - name: OLLAMA_NUM_THREADS
+              value: "8"
+            - name: OLLAMA_MAX_LOADED_MODELS
+              value: "3"
           lifecycle:
             postStart:
               exec:
@@ -42,10 +47,12 @@ spec:
                   - "/bin/bash"
                   - "-c"
                   - >
-                    apt -y update && apt -y install curl && export OLLAMA_NUM_THREADS=8 &&
+                    apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}" &&
+                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
+                    curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"embeddinggemma:300m\",\"keep_alive\": -1}"
           ports:
             - containerPort: 11434
           volumeMounts:
