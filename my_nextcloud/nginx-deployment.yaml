@@ -244,11 +244,11 @@ spec:
               mountPath: /etc/nginx/conf.d/
           resources:
             limits:
-              cpu: "1"
-              memory: 7Gi
-            requests:
               cpu: "500m"
               memory: 6Gi
+            requests:
+              cpu: "250m"
+              memory: 1Gi
       volumes:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:

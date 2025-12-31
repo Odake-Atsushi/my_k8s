@@ -69,14 +69,8 @@ spec:
                   name: nextcloud-admin-user
                   key: password
             ####################################
-            # - name: NEXTCLOUD_UPDATE
-            #   value: "1"
-            # - name: NEXTCLOUD_INIT_LOCK
-            #   value: "true"
-            - name: NEXTCLOUD_INIT_HTACCESS
-              value: "true"
             - name: PHP_MEMORY_LIMIT
-              value: 8G
+              value: 4G
             - name: PHP_UPLOAD_LIMIT
               value: 5G
             ####################################
@@ -97,24 +91,10 @@ spec:
           resources:
             limits:
               cpu: "2"
-              memory: 10Gi
+              memory: 6Gi
             requests:
               cpu: "1"
-              memory: 8Gi
-        # - image: nextcloud:31.0.4-fpm
-        #   name: cron-nextcloud
-        #   command:
-        #     - /cron.sh
-        #   volumeMounts:
-        #     - name: nextcloud-persistent-storage
-        #       mountPath: /var/www/html
-        #   resources:
-        #     limits:
-        #       cpu: "500m"
-        #       memory: 1Gi
-        #     requests:
-        #       cpu: "256m"
-        #       memory: 512Mi
+              memory: 4Gi
       volumes:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:

@@ -53,10 +53,10 @@ spec:
             - containerPort: 9980
           resources:
             limits:
-              cpu: "2"
-              memory: 4Gi
-            requests:
               cpu: "1"
+              memory: 3Gi
+            requests:
+              cpu: "500m"
               memory: 2Gi
 ########################
 #設定用url
