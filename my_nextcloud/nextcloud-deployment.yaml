@@ -69,6 +69,8 @@ spec:
                   name: nextcloud-admin-user
                   key: password
             ####################################
+            - name: NEXTCLOUD_INIT_HTACCESS
+              value: "true"
             - name: PHP_MEMORY_LIMIT
               value: 4G
             - name: PHP_UPLOAD_LIMIT
@@ -94,7 +96,7 @@ spec:
               memory: 6Gi
             requests:
               cpu: "1"
-              memory: 4Gi
+              memory: 5Gi
       volumes:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:

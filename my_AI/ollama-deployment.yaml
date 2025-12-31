@@ -39,7 +39,7 @@ spec:
             - name: OLLAMA_NUM_THREADS
               value: "8"
             - name: OLLAMA_MAX_LOADED_MODELS
-              value: "3"
+              value: "2"
           lifecycle:
             postStart:
               exec:
@@ -50,9 +50,7 @@ spec:
                     apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}" &&
-                    curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
-                    curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"embeddinggemma:300m\",\"keep_alive\": -1}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -60,11 +58,11 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "12" #"14"
-              memory: 32Gi
+              cpu: "10" #"14"
+              memory: 20Gi
             requests:
               cpu: "8" #"12"
-              memory: 20Gi #16Gi
+              memory: 16Gi #16Gi
       volumes:
         - name: ollama-persistent-storage
           persistentVolumeClaim:
@@ -82,3 +80,6 @@ spec:
 
 # curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/multilingual-e5-large:q4_k_m\"}" &&
 # curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/bge-reranker-v2-m3:q4_k_m\"}" &&
+
+# curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
+# curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"embeddinggemma:300m\",\"keep_alive\": -1}"

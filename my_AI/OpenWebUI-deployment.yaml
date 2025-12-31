@@ -37,7 +37,7 @@ spec:
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
-              value: "http://ollama-service.default.svc.cluster.local:11434"
+              value: "https://ollama.oahs.f5.si"
             - name: DEFAULT_MODELS
               value: "gemma3:4b"
             - name: ENABLE_WEB_SEARCH
@@ -53,7 +53,7 @@ spec:
             - name: RAG_EMBEDDING_MODEL
               value: "embeddinggemma:300m"
             - name: RAG_OLLAMA_BASE_URL
-              value: "http://ollama-service.default.svc.cluster.local:11434"
+              value: "https://ollama.oahs.f5.si"
             - name: RAG_TEXT_SPLITTER
               value: "token"
             # - name: CHUNK_SIZE
@@ -66,8 +66,6 @@ spec:
               value: "searxng"
             - name: SEARXNG_QUERY_URL
               value: "https://search.oahs.f5.si/search?q=<query>"
-              # value: "http://searxng-service.default.svc.cluster.local:8888/search?q=<query>"
-              # value: "http://searxng-service.default.svc.cluster.local:8888/search?lang=ja&q=<query>"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
           ports:
             - containerPort: 8080
@@ -77,10 +75,10 @@ spec:
           resources:
             limits:
               cpu: "2"
-              memory: 8Gi
+              memory: 6Gi
             requests:
               cpu: "1"
-              memory: 6Gi
+              memory: 4Gi
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:
