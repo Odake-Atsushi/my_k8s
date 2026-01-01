@@ -92,10 +92,10 @@ spec:
               mountPath: /docker-entrypoint-hooks.d/post-installation/
           resources:
             limits:
-              cpu: "1.5"
+              cpu: "1"
               memory: 6Gi
             requests:
-              cpu: "1"
+              cpu: "500m"
               memory: 6Gi
       volumes:
         - name: nextcloud-data-persistent-storage

@@ -58,7 +58,7 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "10" #"14"
+              cpu: "9" #"14"
               memory: 20Gi
             requests:
               cpu: "8" #"12"

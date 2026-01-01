@@ -78,10 +78,10 @@ spec:
               mountPath: /app/backend/data
           resources:
             limits:
-              cpu: "2"
-              memory: 6Gi
-            requests:
               cpu: "1"
+              memory: 4Gi
+            requests:
+              cpu: "500m"
               memory: 4Gi
       volumes:
         - name: open-webui-persistent-storage
