@@ -73,7 +73,7 @@ data:
         # The settings allows you to optimize the HTTP2 bandwidth.
         # See https://blog.cloudflare.com/delivering-http-2-upload-speed-improvements/
         # for tuning hints
-        client_body_buffer_size 512M; #512k
+        client_body_buffer_size 5G;
 
         # HTTP response headers borrowed from Nextcloud `.htaccess`
         add_header Referrer-Policy                    "no-referrer"       always;
@@ -248,7 +248,7 @@ spec:
               memory: 6Gi
             requests:
               cpu: "250m"
-              memory: 1Gi
+              memory: 6Gi
       volumes:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:

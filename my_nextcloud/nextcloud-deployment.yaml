@@ -72,7 +72,7 @@ spec:
             - name: NEXTCLOUD_INIT_HTACCESS
               value: "true"
             - name: PHP_MEMORY_LIMIT
-              value: 4G
+              value: 5G
             - name: PHP_UPLOAD_LIMIT
               value: 5G
             ####################################
@@ -92,11 +92,11 @@ spec:
               mountPath: /docker-entrypoint-hooks.d/post-installation/
           resources:
             limits:
-              cpu: "2"
+              cpu: "1.5"
               memory: 6Gi
             requests:
               cpu: "1"
-              memory: 5Gi
+              memory: 6Gi
       volumes:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:

@@ -72,10 +72,10 @@ spec:
               subPath: db
           resources:
             limits:
-              cpu: "1"
+              cpu: "500m"
               memory: 1Gi
             requests:
-              cpu: "500m"
+              cpu: "250m"
               memory: 512Mi
       volumes:
         - name: drupal-data-persistent-storage
