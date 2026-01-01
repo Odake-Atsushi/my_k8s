@@ -1,3 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud-background-script
+data:
+  background.sh: |
+    #!/bin/bash
+
+    # Nextcloud background jobs
+    php -f /var/www/html/cron.php
+
+    # Preview Generator
+    php /var/www/html/occ preview:pre-generate
+
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -21,15 +36,20 @@ spec:
                 runAsUser: 33 # user: www-data
                 runAsGroup: 33 # group: www-data
               command:
-                - php
-                - -f
-                - /var/www/html/cron.php
+                - bash
+                - /usr/local/bin/background.sh
               volumeMounts:
+                - name: background-script-file
+                  mountPath: /usr/local/bin/background.sh
+                  subPath: background.sh
                 - name: nextcloud-data-persistent-storage
                   mountPath: /var/www/html
                   subPath: data
           restartPolicy: OnFailure
           volumes:
+            - name: background-script-file
+              configMap:
+                name: nextcloud-background-script
             - name: nextcloud-data-persistent-storage
               persistentVolumeClaim:
                 claimName: nextcloud-data-pv-claim
