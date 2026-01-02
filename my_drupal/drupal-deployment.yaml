@@ -85,8 +85,8 @@ spec:
               subPath: drupal-php-config.ini
           resources:
             limits:
-              cpu: "500m"
-              memory: 2Gi
+              cpu: "250m"
+              memory: 1Gi
             requests:
               cpu: "250m"
               memory: 1Gi

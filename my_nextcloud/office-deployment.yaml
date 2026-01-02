@@ -53,11 +53,11 @@ spec:
             - containerPort: 9980
           resources:
             limits:
-              cpu: "500m"
-              memory: 3Gi
+              cpu: "250m"
+              memory: 1.5Gi
             requests:
               cpu: "250m"
-              memory: 2Gi
+              memory: 1.5Gi
 ########################
 #設定用url
 #https://office.oahs.f5.si/browser/dist/admin/admin.html

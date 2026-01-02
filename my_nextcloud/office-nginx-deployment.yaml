@@ -107,8 +107,8 @@ spec:
               mountPath: /etc/nginx/conf.d/
           resources:
             limits:
-              cpu: "250m"
-              memory: 512Mi
+              cpu: "125m"
+              memory: 256Mi
             requests:
               cpu: "125m"
               memory: 256Mi
