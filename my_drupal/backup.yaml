@@ -126,7 +126,7 @@ spec:
                 - name: backup-data-persistent-storage
                   mountPath: /mnt/backupDb
                   subPath: db
-          restartPolicy: OnFailure
+          restartPolicy: Never
           volumes:
             - name: backup-script-file
               configMap:
