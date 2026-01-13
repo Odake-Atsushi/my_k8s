@@ -18,3 +18,6 @@ kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-ke
 # 復旧
 kubectl apply -f main.key
 kubectl delete pod -n kube-system -l name=sealed-secrets-controller
+
+# error: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable
+microk8s.kubectl config view --raw > $HOME/.kube/config
