@@ -86,4 +86,4 @@ spec:
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:
-            claimName: open-webui-pv-claim
+            claimName: open-webui-data-pv-claim

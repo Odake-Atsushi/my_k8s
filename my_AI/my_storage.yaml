@@ -6,13 +6,28 @@ metadata:
   labels:
     app: my-AI
 spec:
-  storageClassName: microk8s-hostpath # my-llm
+  storageClassName: ollama-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 128Gi
+      storage: 64Gi
+# # Ollama
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: ollama-pv-claim
+#   labels:
+#     app: my-AI
+# spec:
+#   storageClassName: microk8s-hostpath # my-llm
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 128Gi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume
@@ -33,17 +48,32 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: open-webui-pv-claim
+  name: open-webui-data-pv-claim
   labels:
     app: my-AI
 spec:
-  storageClassName: microk8s-hostpath # my-open-webui
+  storageClassName: open-webui-data
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 8Gi
+      storage: 32Gi
+#Open Web UI
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: open-webui-pv-claim
+#   labels:
+#     app: my-AI
+# spec:
+#   storageClassName: microk8s-hostpath # my-open-webui
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 8Gi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume
@@ -60,21 +90,36 @@ spec:
 #   hostPath:
 #     path: "~/OpenWebUI_data"
 ---
-#SearXNG
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: searxng-pv-claim
-  labels:
-    app: my-SearXNG
-spec:
-  storageClassName: microk8s-hostpath # my-searxng
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  resources:
-    requests:
-      storage: 1Gi
+# #SearXNG
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: searxng-pv-claim
+#   labels:
+#     app: my-SearXNG
+# spec:
+#   storageClassName: searxng-data
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 8Gi
+# #SearXNG
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: searxng-pv-claim
+#   labels:
+#     app: my-SearXNG
+# spec:
+#   storageClassName: microk8s-hostpath # my-searxng
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 1Gi
 # ---
 # apiVersion: v1
 # kind: PersistentVolume

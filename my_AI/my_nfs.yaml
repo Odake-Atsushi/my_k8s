@@ -1,0 +1,53 @@
+# NFS
+# ollama
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ollama-data-pv
+spec:
+  storageClassName: ollama-data
+  capacity:
+    storage: 64Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/ollama
+---
+# NFS
+# OpenWebUI
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: open-webui-data-pv
+spec:
+  storageClassName: open-webui-data
+  capacity:
+    storage: 32Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: atsushi.local
+    path: /mnt/storage/OpenWebUI
+---
+# NFS
+# SearXNG
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: searxng-data-pv
+# spec:
+#   storageClassName: searxng-data
+#   capacity:
+#     storage: 8Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeMode: Filesystem
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     server: atsushi.local
+#     path: /mnt/storage/SearXNG
