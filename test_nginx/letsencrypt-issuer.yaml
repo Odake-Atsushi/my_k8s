@@ -14,4 +14,4 @@ spec:
     solvers:
       - http01:
           ingress:
-            class: public # Ingress-Controller の ingress class を確認
+            ingressClassName: public # Ingress-Controller の ingress class を確認
