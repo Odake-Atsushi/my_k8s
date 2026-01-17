@@ -12,32 +12,3 @@ spec:
   resources:
     requests:
       storage: 512Gi
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: nextcloud-pv-claim
-#   labels:
-#     app: my-nextcloud
-# spec:
-#   storageClassName: my-data
-#   accessModes:
-#     - ReadWriteOnce
-#   volumeMode: Filesystem
-#   resources:
-#     requests:
-#       storage: 512Gi
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: mariadb-pv-claim
-#   labels:
-#     app: my-nextcloud
-# spec:
-#   storageClassName: my-db
-#   accessModes:
-#     - ReadWriteOnce
-#   volumeMode: Filesystem
-#   resources:
-#     requests:
-#       storage: 64Gi

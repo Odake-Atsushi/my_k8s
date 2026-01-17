@@ -33,21 +33,3 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/storage/OpenWebUI
----
-# NFS
-# SearXNG
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: searxng-data-pv
-# spec:
-#   storageClassName: searxng-data
-#   capacity:
-#     storage: 8Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   volumeMode: Filesystem
-#   persistentVolumeReclaimPolicy: Retain
-#   nfs:
-#     server: atsushi.local
-#     path: /mnt/storage/SearXNG

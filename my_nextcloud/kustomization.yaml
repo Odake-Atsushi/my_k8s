@@ -15,7 +15,7 @@ resources:
   - backup.yaml
 images:
   - name: nextcloud
-    newTag: "32.0.3-fpm"
+    newTag: "32.0.5-fpm"
   - name: mariadb
     newTag: "11.4"
   - name: nginx
@@ -25,4 +25,4 @@ images:
   - name: collabora/code
     newTag: "25.04.8.1.1"
   - name: debian
-    newTag: "12.12"
+    newTag: "12.13"
