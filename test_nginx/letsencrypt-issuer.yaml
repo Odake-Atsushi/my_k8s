@@ -13,5 +13,11 @@ spec:
       name: test-my-cluster-issuer-secret # # Managed by cert-manager. cert-manager create secret name.
     solvers:
       - http01:
-          ingress:
-            ingressClassName: public # Ingress-Controller の ingress class を確認
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: test-oahs-gateway
+                namespace: traefik
+                kind: Gateway
+      # - http01:
+      #     ingress:
+      #       ingressClassName: public # Ingress-Controller の ingress class を確認
