@@ -1,10 +1,42 @@
 apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: test-oahs-gateway
+  namespace: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "test-my-cluster-issuer"
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: http
+      port: 8000
+      # exposedPort: 80
+      protocol: HTTP
+      hostname: "*.oahs.f5.si"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      port: 443
+      # exposedPort: 443
+      protocol: HTTPS
+      hostname: "*.oahs.f5.si"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: test-my-cluster-issuer-secret # cert-managerはこのシークレットに作成した証明書を格納する
+---
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: test-oahs-gateway-route
 spec:
   parentRefs:
-    - name: traefik-gateway
+    - name: test-oahs-gateway #traefik-gateway
       namespace: ingress
   hostnames:
     - test.oahs.f5.si
@@ -16,6 +48,23 @@ spec:
       backendRefs:
         - name: test-nginx-service
           port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: tls-redirect
+spec:
+  parentRefs:
+    - name: test-oahs-gateway
+      sectionName: https
+  hostnames:
+    - test.oahs.f5.si
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            port: 443
 ---
 # apiVersion: gateway.networking.k8s.io/v1
 # kind: Gateway
