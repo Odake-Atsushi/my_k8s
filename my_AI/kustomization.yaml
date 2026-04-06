@@ -9,8 +9,8 @@ resources:
   - searxng-deployment.yaml
 images:
   - name: ollama/ollama
-    newTag: "0.19.0"
+    newTag: "0.20.2"
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.8.12"
   - name: searxng/searxng
-    newTag: "2026.4.1-bab3879cb"
+    newTag: "2026.4.6-e12b722dd"

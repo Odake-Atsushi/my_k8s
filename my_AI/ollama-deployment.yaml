@@ -39,7 +39,7 @@ spec:
             - name: OLLAMA_NUM_THREADS
               value: "8"
             - name: OLLAMA_MAX_LOADED_MODELS
-              value: "2"
+              value: "3"
           lifecycle:
             postStart:
               exec:
@@ -48,8 +48,7 @@ spec:
                   - "-c"
                   - >
                     apt -y update && apt -y install curl &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma4:e4b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"
           ports:
             - containerPort: 11434
@@ -58,16 +57,19 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "8" #"14"
+              cpu: "8.5" #"14"
               memory: 16Gi
             requests:
-              cpu: "8" #"12"
+              cpu: "8.5" #"12"
               memory: 16Gi #16Gi
       volumes:
         - name: ollama-persistent-storage
           persistentVolumeClaim:
             claimName: ollama-pv-claim
 ############################################
+
+# curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
+
 # export OLLAMA_MAX_LOADED_MODELS=3 &&
 #curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}" &&
 #curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}"
