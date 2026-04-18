@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: ai-traefik-config
+spec:
+  forwardingTimeouts:
+    # 接続が確立するまでの待ち時間
+    dialTimeout: 3600s
+    # レスポンスヘッダーが返ってくるまでの待ち時間（生成AIではここが重要）
+    responseHeaderTimeout: 3600s
+    # アイドル状態の接続を保持する時間
+    idleConnTimeout: 3600s

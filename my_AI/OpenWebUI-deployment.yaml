@@ -3,12 +3,13 @@ kind: Service
 metadata:
   name: open-webui-service
   labels:
-    app: my-AI
+    app: my-AI-open-webui
 spec:
   ports:
     - port: 8080
+      targetPort: 8080
   selector:
-    app: my-AI
+    app: my-AI-open-webui
     tier: backend
   type: ClusterIP
 ---
@@ -17,19 +18,19 @@ kind: Deployment
 metadata:
   name: open-webui-deployment
   labels:
-    app: my-AI
+    app: my-AI-open-webui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-AI
+      app: my-AI-open-webui
       tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: my-AI
+        app: my-AI-open-webui
         tier: backend
     spec:
       containers:

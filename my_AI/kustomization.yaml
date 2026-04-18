@@ -4,13 +4,15 @@ resources:
   - my_nfs.yaml
   - my_storage.yaml
   - ollama-deployment.yaml
-  - OpenWebUI-deployment.yaml
-  - ingress-service.yaml
   - searxng-deployment.yaml
+  - OpenWebUI-deployment.yaml
+  - traefik_config.yaml
+  - ingress-service.yaml
+
 images:
   - name: ollama/ollama
-    newTag: "0.20.2"
+    newTag: "0.21.0"
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.8.12"
   - name: searxng/searxng
-    newTag: "2026.4.6-e12b722dd"
+    newTag: "2026.4.17-e8299a4c3"
