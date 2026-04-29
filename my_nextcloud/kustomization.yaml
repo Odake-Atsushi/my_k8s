@@ -25,4 +25,4 @@ images:
   - name: collabora/code
     newTag: "25.04.9.4.1"
   - name: debian
-    newTag: "12.13"
+    newTag: "13.4"
