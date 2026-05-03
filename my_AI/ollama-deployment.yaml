@@ -38,9 +38,9 @@ spec:
           name: ollama
           env:
             - name: OLLAMA_NUM_THREADS
-              value: "10"
+              value: "11"
             - name: OLLAMA_MAX_LOADED_MODELS
-              value: "1"
+              value: "2"
           lifecycle:
             postStart:
               exec:
@@ -62,11 +62,11 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "10" #"14"
-              memory: 32Gi
+              cpu: "11" #"14"
+              memory: 40Gi
             requests:
-              cpu: "10" #"12"
-              memory: 32Gi #16Gi
+              cpu: "11" #"12"
+              memory: 40Gi #16Gi
       volumes:
         - name: ollama-persistent-storage
           persistentVolumeClaim:
