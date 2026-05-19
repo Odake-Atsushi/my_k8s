@@ -51,10 +51,10 @@ spec:
                     apt -y update && apt -y install curl &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma4:26b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3.6:35b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"devstral-small-2:24b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen2.5-coder:1.5b\"}" &&
                     curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"glm-ocr:bf16\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"&&
+                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3-embedding:0.6b\"}"
           ports:
             - containerPort: 11434
           volumeMounts:

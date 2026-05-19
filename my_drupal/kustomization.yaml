@@ -10,7 +10,7 @@ resources:
   - backup.yaml
 images:
   - name: drupal
-    newTag: "11.3.8"
+    newTag: "11.3.9"
   - name: mariadb
     newTag: "11.8"
   - name: debian

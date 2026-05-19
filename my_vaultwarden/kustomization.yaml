@@ -9,6 +9,6 @@ resources:
   - backup.yaml
 images:
   - name: vaultwarden/server
-    newTag: "1.35.8"
+    newTag: "1.36.0"
   - name: debian
     newTag: "13.4"
