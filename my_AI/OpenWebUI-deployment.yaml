@@ -55,8 +55,8 @@ spec:
               value: "embeddinggemma:300m"
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
-            # - name: RAG_TEXT_SPLITTER
-            #   value: "token"
+            - name: RAG_TEXT_SPLITTER
+              value: "token"
             - name: CHUNK_SIZE
               value: "600"
             - name: CHUNK_OVERLAP

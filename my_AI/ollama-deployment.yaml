@@ -33,6 +33,30 @@ spec:
         app: my-AI-ollama
         tier: backend
     spec:
+      initContainers:
+        - image: ollama/ollama:latest
+          name: init-ollama-model-download
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              apt-get update
+              apt-get install -y curl
+              ollama serve &
+
+              echo "Waiting for Ollama to start..."
+              until [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:11434/)" -eq 200 ]; do
+                sleep 1
+              done
+              echo "Ollama has started! Starting model download..."
+
+              ollama pull gemma4:26b
+              ollama pull qwen3.6:35b
+              ollama pull embeddinggemma:300m
+              ollama pull qwen3-embedding:0.6b
+              ollama pull qwen2.5-coder:1.5b
+          volumeMounts:
+            - name: ollama-persistent-storage
+              mountPath: /root/.ollama
       containers:
         - image: ollama/ollama:latest
           name: ollama
@@ -41,20 +65,20 @@ spec:
               value: "11"
             - name: OLLAMA_MAX_LOADED_MODELS
               value: "2"
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "/bin/bash"
-                  - "-c"
-                  - >
-                    apt -y update && apt -y install curl &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma4:26b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3.6:35b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen2.5-coder:1.5b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"glm-ocr:bf16\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"&&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3-embedding:0.6b\"}"
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command:
+          #         - "/bin/bash"
+          #         - "-c"
+          #         - >
+          #           apt -y update && apt -y install curl &&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma4:26b\"}" &&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3.6:35b\"}" &&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen2.5-coder:1.5b\"}" &&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"glm-ocr:bf16\"}" &&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"&&
+          #           curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qwen3-embedding:0.6b\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
