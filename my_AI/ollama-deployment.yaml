@@ -33,30 +33,30 @@ spec:
         app: my-AI-ollama
         tier: backend
     spec:
-      initContainers:
-        - image: ollama/ollama:latest
-          name: init-ollama-model-download
-          command: ["/bin/bash", "-c"]
-          args:
-            - |
-              apt-get update
-              apt-get install -y curl
-              ollama serve &
+      # initContainers:
+      #   - image: ollama/ollama:latest
+      #     name: init-ollama-model-download
+      #     command: ["/bin/bash", "-c"]
+      #     args:
+      #       - |
+      #         apt-get update
+      #         apt-get install -y curl
+      #         ollama serve &
 
-              echo "Waiting for Ollama to start..."
-              until [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:11434/)" -eq 200 ]; do
-                sleep 1
-              done
-              echo "Ollama has started! Starting model download..."
+      #         echo "Waiting for Ollama to start..."
+      #         until [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:11434/)" -eq 200 ]; do
+      #           sleep 1
+      #         done
+      #         echo "Ollama has started! Starting model download..."
 
-              ollama pull gemma4:26b
-              ollama pull qwen3.6:35b
-              ollama pull embeddinggemma:300m
-              ollama pull qwen3-embedding:0.6b
-              ollama pull qwen2.5-coder:1.5b
-          volumeMounts:
-            - name: ollama-persistent-storage
-              mountPath: /root/.ollama
+      #         ollama pull gemma4:26b
+      #         ollama pull qwen3.6:35b
+      #         ollama pull embeddinggemma:300m
+      #         ollama pull qwen3-embedding:0.6b
+      #         ollama pull qwen2.5-coder:1.5b
+      #     volumeMounts:
+      #       - name: ollama-persistent-storage
+      #         mountPath: /root/.ollama
       containers:
         - image: ollama/ollama:latest
           name: ollama
