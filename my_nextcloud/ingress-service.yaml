@@ -14,7 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     # nginx.ingress.kubernetes.io/proxy_buffering: "off"
 spec:
-  ingressClassName: public
+  ingressClassName: traefik
   tls:
     - hosts:
         # ドメイン記載

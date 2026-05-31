@@ -14,7 +14,7 @@ metadata:
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
 spec:
-  ingressClassName: public
+  ingressClassName: traefik
   tls:
     - hosts:
         # ドメイン記載
