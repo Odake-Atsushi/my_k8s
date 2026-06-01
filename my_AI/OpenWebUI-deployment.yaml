@@ -70,8 +70,8 @@ spec:
             - name: SEARXNG_QUERY_URL
               value: "https://search.oahs.f5.si/search?q=<query>"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
-            # - name: SEARXNG_LANGUAGE
-            #   value: "ja"
+            - name: WEB_SEARCH_TRUST_ENV
+              value: "True"
           ports:
             - containerPort: 8080
           volumeMounts:
