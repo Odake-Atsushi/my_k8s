@@ -25,7 +25,7 @@ metadata:
 spec:
   storageClassName: open-webui-data
   capacity:
-    storage: 32Gi
+    storage: 64Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem

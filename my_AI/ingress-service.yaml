@@ -8,7 +8,7 @@ metadata:
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
     #
-    traefik.ingress.kubernetes.io/service.serverstransport: default-ai-traefik-config@kubernetescrd
+    traefik.ingress.kubernetes.io/service.serverstransport: ai-traefik-config@kubernetescrd
     # nginx.ingress.kubernetes.io/proxy-body-size: "1G"
     # nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
     # traefik.ingress.kubernetes.io/service.timeout: "3600s"
