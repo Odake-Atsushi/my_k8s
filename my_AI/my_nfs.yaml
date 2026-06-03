@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/ollama
+    path: /home/atsushi/ollama_data #/mnt/storage/ollama
 ---
 # NFS
 # OpenWebUI
