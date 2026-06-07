@@ -5,6 +5,7 @@ resources:
   - my_nfs.yaml
   - my_storage.yaml
   - vaultwarden-deployment.yaml
+  - traefik_config.yaml
   - ingress-service.yaml
   - backup.yaml
 images:

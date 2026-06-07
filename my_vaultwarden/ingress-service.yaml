@@ -7,6 +7,8 @@ metadata:
     kubernetes.io/tls-acme: "true"
     #
     cert-manager.io/cluster-issuer: "my-cluster-issuer"
+    #
+    traefik.ingress.kubernetes.io/service.serverstransport: vaultwarden-traefik-config@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:

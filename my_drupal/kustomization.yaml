@@ -6,6 +6,7 @@ resources:
   - my_storage.yaml
   - mariadb-deployment.yaml
   - drupal-deployment.yaml
+  - traefik_config.yaml
   - ingress-service.yaml
   - backup.yaml
 images:

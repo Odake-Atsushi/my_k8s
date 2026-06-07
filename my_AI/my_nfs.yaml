@@ -15,6 +15,10 @@ spec:
   nfs:
     server: atsushi.local
     path: /home/atsushi/ollama_data #/mnt/storage/ollama
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す
 ---
 # NFS
 # OpenWebUI
@@ -33,3 +37,7 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/storage/OpenWebUI
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す

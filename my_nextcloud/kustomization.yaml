@@ -11,11 +11,12 @@ resources:
   - nextcloud_cron_deployment.yaml
   - office-deployment.yaml
   - office-nginx-deployment.yaml
+  - traefik_config.yaml
   - ingress-service.yaml
   - backup.yaml
 images:
   - name: nextcloud
-    newTag: "33.0.3-fpm"
+    newTag: "33.0.5-fpm"
   - name: mariadb
     newTag: "11.8"
   - name: nginx

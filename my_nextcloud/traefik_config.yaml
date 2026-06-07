@@ -1,7 +1,7 @@
 apiVersion: traefik.io/v1alpha1
 kind: ServersTransport
 metadata:
-  name: ai-traefik-config
+  name: nextcloud-traefik-config
 spec:
   forwardingTimeouts:
     # 接続が確立するまでの待ち時間
@@ -14,11 +14,11 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: ai-buffering-middleware
+  name: nextcloud-buffering-middleware
   namespace: default
 spec:
   buffering:
-    # リクエストボディの最大サイズ (1GB)
-    maxRequestBodyBytes: 1073741824
-    # メモリ上にキャッシュする最大サイズ (1GB)
-    maxResponseBodyBytes: 1073741824
+      # リクエストボディの最大サイズ (32GB)
+      maxRequestBodyBytes: 34359738368
+      # メモリ上にキャッシュする最大サイズ (32GB)
+      maxResponseBodyBytes: 34359738368
