@@ -6,12 +6,13 @@ resources:
   - my_storage.yaml
   - mariadb-deployment.yaml
   - drupal-deployment.yaml
+  - traefik_config.yaml
   - ingress-service.yaml
   - backup.yaml
 images:
   - name: drupal
-    newTag: "11.3.2"
+    newTag: "11.3.11"
   - name: mariadb
     newTag: "11.8"
   - name: debian
-    newTag: "12.13"
+    newTag: "13.5"

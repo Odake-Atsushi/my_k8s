@@ -3,12 +3,13 @@ kind: Service
 metadata:
   name: open-webui-service
   labels:
-    app: my-AI
+    app: my-AI-open-webui
 spec:
   ports:
     - port: 8080
+      targetPort: 8080
   selector:
-    app: my-AI
+    app: my-AI-open-webui
     tier: backend
   type: ClusterIP
 ---
@@ -17,19 +18,19 @@ kind: Deployment
 metadata:
   name: open-webui-deployment
   labels:
-    app: my-AI
+    app: my-AI-open-webui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-AI
+      app: my-AI-open-webui
       tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: my-AI
+        app: my-AI-open-webui
         tier: backend
     spec:
       containers:
@@ -37,9 +38,9 @@ spec:
           name: open-webui
           env:
             - name: OLLAMA_BASE_URL
-              value: "https://ollama.oahs.f5.si"
+              value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
             - name: DEFAULT_MODELS
-              value: "gemma3:4b"
+              value: "gemma4:26b"
             - name: ENABLE_WEB_SEARCH
               value: "True"
             - name: WEB_SEARCH_ENGINE
@@ -53,13 +54,13 @@ spec:
             - name: RAG_EMBEDDING_MODEL
               value: "embeddinggemma:300m"
             - name: RAG_OLLAMA_BASE_URL
-              value: "https://ollama.oahs.f5.si"
+              value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
             - name: RAG_TEXT_SPLITTER
               value: "token"
             - name: CHUNK_SIZE
-              value: "2048"
+              value: "600"
             - name: CHUNK_OVERLAP
-              value: "256"
+              value: "60"
             # - name: "ENABLE_RAG_HYBRID_SEARCH"
             #   value: "True"
             # - name: "RAG_RERANKING_MODEL"
@@ -67,10 +68,10 @@ spec:
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
-              value: "https://search.oahs.f5.si/search?q=<query>"
+              value: "https://search.oahs.f5.si/search?q=<query>&format=json"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
-            # - name: SEARXNG_LANGUAGE
-            #   value: "ja"
+            # - name: WEB_SEARCH_TRUST_ENV
+            #   value: "True"
           ports:
             - containerPort: 8080
           volumeMounts:

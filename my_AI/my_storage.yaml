@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: ollama-pv-claim
   labels:
-    app: my-AI
+    app: my-AI-ollama
 spec:
   storageClassName: ollama-data
   accessModes:
@@ -12,7 +12,7 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 64Gi
+      storage: 128Gi
 ---
 #Open Web UI
 apiVersion: v1
@@ -20,7 +20,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: open-webui-data-pv-claim
   labels:
-    app: my-AI
+    app: my-AI-open-webui
 spec:
   storageClassName: open-webui-data
   accessModes:

@@ -1,0 +1,24 @@
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: drupal-traefik-config
+spec:
+  forwardingTimeouts:
+    # 接続が確立するまでの待ち時間
+    dialTimeout: 3600s
+    # レスポンスヘッダーが返ってくるまでの待ち時間（生成AIではここが重要）
+    responseHeaderTimeout: 3600s
+    # アイドル状態の接続を保持する時間
+    idleConnTimeout: 3600s
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: drupal-buffering-middleware
+  namespace: default
+spec:
+  buffering:
+    # リクエストボディの最大サイズ (512MB)
+    maxRequestBodyBytes: 536870912
+    # メモリ上にキャッシュする最大サイズ (512MB)
+    maxResponseBodyBytes: 536870912

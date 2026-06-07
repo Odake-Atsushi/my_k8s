@@ -7,14 +7,18 @@ metadata:
 spec:
   storageClassName: ollama-data
   capacity:
-    storage: 64Gi
+    storage: 128Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: atsushi.local
-    path: /mnt/storage/ollama
+    path: /home/atsushi/ollama_data #/mnt/storage/ollama
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す
 ---
 # NFS
 # OpenWebUI
@@ -25,7 +29,7 @@ metadata:
 spec:
   storageClassName: open-webui-data
   capacity:
-    storage: 32Gi
+    storage: 64Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
@@ -33,3 +37,7 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/storage/OpenWebUI
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す

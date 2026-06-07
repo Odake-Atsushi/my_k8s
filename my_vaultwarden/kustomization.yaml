@@ -5,10 +5,11 @@ resources:
   - my_nfs.yaml
   - my_storage.yaml
   - vaultwarden-deployment.yaml
+  - traefik_config.yaml
   - ingress-service.yaml
   - backup.yaml
 images:
   - name: vaultwarden/server
-    newTag: "1.35.2"
+    newTag: "1.36.0"
   - name: debian
-    newTag: "12.13"
+    newTag: "13.5"

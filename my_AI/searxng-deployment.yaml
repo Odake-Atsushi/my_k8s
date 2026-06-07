@@ -27,7 +27,7 @@ data:
 
     cp /etc/searxng/settings.yml /etc/searxng/settings_default.yml
     sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml
-    sed -i s/"request_timeout: 3.0"/"request_timeout: 10.0"/g /etc/searxng/settings.yml
+    sed -i s/"request_timeout: 3.0"/"request_timeout: 60.0"/g /etc/searxng/settings.yml
 
 ---
 apiVersion: apps/v1

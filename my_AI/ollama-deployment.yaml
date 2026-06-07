@@ -3,12 +3,13 @@ kind: Service
 metadata:
   name: ollama-service
   labels:
-    app: my-AI
+    app: my-AI-ollama
 spec:
   ports:
     - port: 11434
+      targetPort: 11434
   selector:
-    app: my-AI
+    app: my-AI-ollama
     tier: backend
   type: ClusterIP
 ---
@@ -22,35 +23,53 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-AI
+      app: my-AI-ollama
       tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: my-AI
+        app: my-AI-ollama
         tier: backend
     spec:
+      initContainers:
+        - image: ollama/ollama:latest
+          name: init-ollama-model-download
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              # バックグラウンドでollamaサーバーを起動
+              ollama serve &
+
+              # サーバーが起動するまで待つ (ヘルスチェック)
+              until ollama list > /dev/null 2>&1; do
+                echo "Waiting for ollama server to start..."
+                sleep 2
+              done
+
+              # 目的のモデルをプルする
+              echo "Pulling model..."
+              ollama pull gemma4:26b
+              ollama pull qwen3.6:35b
+              ollama pull embeddinggemma:300m
+              ollama pull qwen3-embedding:0.6b
+              ollama pull qwen2.5-coder:1.5b
+
+              # プルが完了したら、バックグラウンドのサーバーを終了して正常終了させる
+              echo "Model pull complete. Shutting down init server."
+              pkill ollama
+          volumeMounts:
+            - name: ollama-persistent-storage
+              mountPath: /root/.ollama
       containers:
         - image: ollama/ollama:latest
           name: ollama
           env:
             - name: OLLAMA_NUM_THREADS
-              value: "8"
+              value: "11"
             - name: OLLAMA_MAX_LOADED_MODELS
               value: "2"
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "/bin/bash"
-                  - "-c"
-                  - >
-                    apt -y update && apt -y install curl &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gemma3:4b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"gpt-oss:20b\"}" &&
-                    curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"embeddinggemma:300m\"}"
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -58,28 +77,12 @@ spec:
               mountPath: /root/.ollama
           resources:
             limits:
-              cpu: "8" #"14"
-              memory: 16Gi
+              cpu: "11" #"14"
+              memory: 40Gi
             requests:
-              cpu: "8" #"12"
-              memory: 16Gi #16Gi
+              cpu: "11" #"12"
+              memory: 40Gi #16Gi
       volumes:
         - name: ollama-persistent-storage
           persistentVolumeClaim:
             claimName: ollama-pv-claim
-############################################
-# export OLLAMA_MAX_LOADED_MODELS=3 &&
-#curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"kun432/cl-nagoya-ruri-base\"}" &&
-#curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}"
-
-#curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/bge-reranker-v2-m3:q4_k_m\"}" &&
-
-#curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
-#curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/multilingual-e5-large:q4_k_m\",\"keep_alive\": -1}" &&
-#curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"qllama/bge-reranker-v2-m3:q4_k_m\",\"keep_alive\": -1}"
-
-# curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/multilingual-e5-large:q4_k_m\"}" &&
-# curl -X POST http://localhost:11434/api/pull -H "Content-Type: application/json" -d "{\"name\": \"qllama/bge-reranker-v2-m3:q4_k_m\"}" &&
-
-# curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d "{\"model\": \"gemma3:4b\",\"keep_alive\": -1}" &&
-# curl -X POST http://localhost:11434/api/embed -H "Content-Type: application/json" -d "{\"model\": \"embeddinggemma:300m\",\"keep_alive\": -1}"
