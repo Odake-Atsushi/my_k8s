@@ -14,6 +14,10 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/backup/vaultwarden
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -73,7 +77,7 @@ kind: CronJob
 metadata:
   name: vaultwarden-backup-cronjob
   labels:
-    app: my-drupal
+    app: my-vaultwarden
 spec:
   schedule: "0 2 * * *"
   timeZone: Asia/Tokyo
@@ -111,7 +115,7 @@ spec:
             #data
             - name: vaultwarden-data-persistent-storage
               persistentVolumeClaim:
-                claimName: drupal-data-pv-claim
+                claimName: vaultwarden-data-pv-claim
             #backup
             - name: backup-data-persistent-storage
               persistentVolumeClaim:

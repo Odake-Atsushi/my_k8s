@@ -14,6 +14,10 @@ spec:
   nfs:
     server: atsushi.local
     path: /mnt/backup/nextcloud
+  mountOptions:
+    - soft
+    - timeo=100     # 10秒でタイムアウト（単位は0.1秒）
+    - retrans=5    # 5回再試行してダメならエラーを返す
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
