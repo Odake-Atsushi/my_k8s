@@ -12,7 +12,7 @@ spec:
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: atsushi.local
+    server: 192.168.128.10 #atsushi.local
     path: /mnt/storage/drupal
   mountOptions:
     - soft

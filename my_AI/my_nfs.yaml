@@ -13,7 +13,7 @@ spec:
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: atsushi.local
+    server: 192.168.128.10 #atsushi.local
     path: /home/atsushi/ollama_data #/mnt/storage/ollama
   mountOptions:
     - soft
@@ -35,7 +35,7 @@ spec:
   volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: atsushi.local
+    server: 192.168.128.10 #atsushi.local
     path: /mnt/storage/OpenWebUI
   mountOptions:
     - soft
