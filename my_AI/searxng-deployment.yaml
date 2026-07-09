@@ -25,9 +25,25 @@ data:
       sleep 1  # /etc/searxng/settings.ymlが存在しない場合
     done
 
+
     cp /etc/searxng/settings.yml /etc/searxng/settings_default.yml
     sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml
     sed -i s/"request_timeout: 3.0"/"request_timeout: 60.0"/g /etc/searxng/settings.yml
+
+    if grep -q "json" "$TARGET_FILE"; then
+      echo "設定はすでに存在するため、スキップします。"
+    else
+      echo "settings.yml に JSON フォーマットの設定を追加します..."
+      tee -a "$TARGET_FILE" > /dev/null << 'EOF'
+
+    search:
+      formats:
+        - html
+        - json
+    EOF
+
+      echo "追加が完了しました。"
+    fi
 
 ---
 apiVersion: apps/v1

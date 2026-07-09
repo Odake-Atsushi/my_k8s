@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crawl4ai-service
+  labels:
+    app: my-AI-crawl4ai
+spec:
+  ports:
+    - port: 11235
+      targetPort: 11235
+  selector:
+    app: my-AI-crawl4ai
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawl4ai-deployment
+  labels:
+    app: my-AI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-AI-crawl4ai
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-AI-crawl4ai
+        tier: backend
+    spec:
+      containers:
+        - image: unclecode/crawl4ai:latest
+          name: crawl4ai
+          env:
+            - name: CRAWL4AI_API_TOKEN
+              value: your_secure_token_here
+          ports:
+            - containerPort: 11235
+          resources:
+            limits:
+              cpu: "250m"
+              memory: 500Mi
+            requests:
+              cpu: "250m"
+              memory: 500Mi
+#
+##############################
+# http://crawl4ai-service:11235
