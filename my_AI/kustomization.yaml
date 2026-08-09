@@ -6,13 +6,14 @@ resources:
   - ollama-deployment.yaml
   - searxng-deployment.yaml
   - OpenWebUI-deployment.yaml
+  - Crawl4AI-deployment.yaml
   - traefik_config.yaml
   - ingress-service.yaml
 
 images:
   - name: ollama/ollama
-    newTag: "0.32.5"
+    newTag: "0.32.6"
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.11.0"
   - name: searxng/searxng
-    newTag: "2026.7.28-c01178d03"
+    newTag: "2026.8.4-c63835bd2"

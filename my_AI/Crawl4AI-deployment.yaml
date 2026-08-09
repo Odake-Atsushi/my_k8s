@@ -44,10 +44,10 @@ spec:
           resources:
             limits:
               cpu: "250m"
-              memory: 500Mi
+              memory: 2Gi
             requests:
               cpu: "250m"
-              memory: 500Mi
+              memory: 2Gi
 #
 ##############################
 # http://crawl4ai-service:11235

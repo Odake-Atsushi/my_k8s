@@ -70,6 +70,8 @@ spec:
             - name: SEARXNG_QUERY_URL
               value: "https://search.oahs.f5.si/search?q=<query>&format=json"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
+            # - name: BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL
+            #   value: "True"
             # - name: WEB_SEARCH_TRUST_ENV
             #   value: "True"
           ports:
@@ -80,10 +82,10 @@ spec:
           resources:
             limits:
               cpu: "1"
-              memory: 4Gi
+              memory: 6Gi
             requests:
               cpu: "1"
-              memory: 4Gi
+              memory: 6Gi
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:
