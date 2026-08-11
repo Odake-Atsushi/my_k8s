@@ -34,28 +34,10 @@ data:
     echo "  formats:" >> /etc/searxng/settings.yml
     echo "    - html" >> /etc/searxng/settings.yml
     echo "    - json" >> /etc/searxng/settings.yml
-    #echo "  default_lang: \"auto\"" >> /etc/searxng/settings.yml
+    echo "  default_lang: \"auto\"" >> /etc/searxng/settings.yml
     echo -e "\n" >> /etc/searxng/settings.yml
     echo "outgoing:" >> /etc/searxng/settings.yml
     echo "  request_timeout: 60.0" >> /etc/searxng/settings.yml
-
-    #sed -i s/"- html"/"- html\n    - json\n"/g /etc/searxng/settings.yml
-    #sed -i s/"request_timeout: 3.0"/"request_timeout: 60.0"/g /etc/searxng/settings.yml
-
-    #if grep -q "json" "$TARGET_FILE"; then
-    #  echo "設定はすでに存在するため、スキップします。"
-    #else
-    #  echo "settings.yml に JSON フォーマットの設定を追加します..."
-    #  tee -a "$TARGET_FILE" > /dev/null << 'EOF'
-
-    #search:
-    #  formats:
-    #    - html
-    #    - json
-    #EOF
-
-    #  echo "追加が完了しました。"
-    #fi
 
 ---
 apiVersion: apps/v1
@@ -91,7 +73,8 @@ spec:
                     ash /usr/local/searxng/searxng-setting-script.sh
           env:
             - name: BASE_URL
-              value: "https://search.oahs.f5.si"
+              value: "http://searxng-service:8888"
+              #value: "https://search.oahs.f5.si"
               # value: "http://searxng-service.default.svc.cluster.local"
           ports:
             - containerPort: 8080
@@ -123,3 +106,4 @@ spec:
 
 # 確認
 # https://search.oahs.f5.si/search?lang=ja&q=ちびまる子ちゃん&format=json
+# http://searxng-service:8888/search?q=docker&format=json

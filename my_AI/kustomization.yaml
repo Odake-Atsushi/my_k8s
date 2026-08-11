@@ -5,6 +5,7 @@ resources:
   - my_storage.yaml
   - ollama-deployment.yaml
   - searxng-deployment.yaml
+  - mcp-searxng-deployment.yaml
   - OpenWebUI-deployment.yaml
   - Crawl4AI-deployment.yaml
   - traefik_config.yaml
@@ -16,4 +17,6 @@ images:
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.11.0"
   - name: searxng/searxng
-    newTag: "2026.8.4-c63835bd2"
+    newTag: "2026.8.10-0a118066d"
+  - name: isokoliuk/mcp-searxng
+    newTag: "1.14.1"
