@@ -26,11 +26,15 @@ data:
     done
 
     cp /etc/searxng/settings.yml /etc/searxng/settings_default.yml
+    #echo "server:" >> /etc/searxng/settings.yml
+    echo "  limiter: false" >> /etc/searxng/settings.yml
+    echo "  public_instance: false" >> /etc/searxng/settings.yml
     echo -e "\n" >> /etc/searxng/settings.yml
     echo "search:" >> /etc/searxng/settings.yml
     echo "  formats:" >> /etc/searxng/settings.yml
     echo "    - html" >> /etc/searxng/settings.yml
     echo "    - json" >> /etc/searxng/settings.yml
+    #echo "  default_lang: \"auto\"" >> /etc/searxng/settings.yml
     echo -e "\n" >> /etc/searxng/settings.yml
     echo "outgoing:" >> /etc/searxng/settings.yml
     echo "  request_timeout: 60.0" >> /etc/searxng/settings.yml
