@@ -37,6 +37,11 @@ spec:
         - image: ghcr.io/open-webui/open-webui:main
           name: open-webui
           env:
+            - name: WEBUI_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openwebui-secret-key
+                  key: secret_key
             - name: OLLAMA_BASE_URL
               value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
             - name: DEFAULT_MODELS
