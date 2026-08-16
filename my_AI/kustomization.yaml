@@ -7,7 +7,7 @@ resources:
   - searxng-deployment.yaml
   - mcp-searxng-deployment.yaml
   - OpenWebUI-deployment.yaml
-  - Crawl4AI-deployment.yaml
+  # - Crawl4AI-deployment.yaml
   - traefik_config.yaml
   - ingress-service.yaml
 

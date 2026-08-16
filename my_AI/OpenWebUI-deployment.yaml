@@ -68,7 +68,8 @@ spec:
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
-              value: "https://search.oahs.f5.si/search?q=<query>&format=json"
+              value: "http://searxng-service:8888/search?q=docker&format=json"
+              # value: "https://search.oahs.f5.si/search?q=<query>&format=json"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
             # - name: BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL
             #   value: "True"
