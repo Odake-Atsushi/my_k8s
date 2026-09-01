@@ -14,10 +14,10 @@ resources:
 
 images:
   - name: ollama/ollama
-    newTag: "0.32.13"
+    newTag: "0.33.2"
   - name: ghcr.io/open-webui/open-webui
-    newTag: "v0.11.0"
+    newTag: "v0.11.3"
   - name: searxng/searxng
-    newTag: "2026.8.16-b2da6b90f"
+    newTag: "2026.9.1-79c8ffe0d"
   - name: isokoliuk/mcp-searxng
-    newTag: "1.15"
+    newTag: "2.1.0"
