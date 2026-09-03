@@ -64,8 +64,8 @@ spec:
             - containerPort: 3306
               name: mariadb
           args:
-            - --character-set-server=utf8
-            - --collation-server=utf8_unicode_ci
+            - --character-set-server=utf8mb4 #utf8
+            - --collation-server=utf8mb4_unicode_ci #utf8_unicode_ci
           volumeMounts:
             - name: drupal-data-persistent-storage
               mountPath: /var/lib/mysql
@@ -81,3 +81,7 @@ spec:
         - name: drupal-data-persistent-storage
           persistentVolumeClaim:
             claimName: drupal-data-pv-claim
+
+#########################
+# バージョンアップ時にこのコマンドを実行
+# mariadb-upgrade --force -u root -p

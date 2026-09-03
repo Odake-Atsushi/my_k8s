@@ -13,6 +13,6 @@ images:
   - name: drupal
     newTag: "11.4.5"
   - name: mariadb
-    newTag: "11.8"
+    newTag: "12.3"
   - name: debian
-    newTag: "13.5"
+    newTag: "13.6"

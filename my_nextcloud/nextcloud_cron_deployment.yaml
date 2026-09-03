@@ -10,7 +10,7 @@ data:
     php -f /var/www/html/cron.php
 
     # Preview Generator
-    php /var/www/html/occ preview:pre-generate
+    #php /var/www/html/occ preview:pre-generate
 
 ---
 apiVersion: batch/v1
