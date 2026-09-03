@@ -1,18 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - secrets_data.yaml
   - my_nfs.yaml
   - my_storage.yaml
   - ollama-deployment.yaml
   - searxng-deployment.yaml
+  - mcp-searxng-deployment.yaml
   - OpenWebUI-deployment.yaml
+  # - Crawl4AI-deployment.yaml
   - traefik_config.yaml
   - ingress-service.yaml
 
 images:
   - name: ollama/ollama
-    newTag: "0.31.1"
+    newTag: "0.33.2"
   - name: ghcr.io/open-webui/open-webui
-    newTag: "v0.10.2"
+    newTag: "v0.11.3"
   - name: searxng/searxng
-    newTag: "2026.7.2-67973783d"
+    newTag: "2026.9.3-8f452ee89"
+  - name: isokoliuk/mcp-searxng
+    newTag: "2.1.0"

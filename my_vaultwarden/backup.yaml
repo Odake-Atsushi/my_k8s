@@ -79,7 +79,7 @@ metadata:
   labels:
     app: my-vaultwarden
 spec:
-  schedule: "0 2 * * *"
+  schedule: "0 1 * * *"
   timeZone: Asia/Tokyo
   concurrencyPolicy: Forbid
   jobTemplate:

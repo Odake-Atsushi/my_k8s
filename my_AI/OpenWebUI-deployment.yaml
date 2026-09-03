@@ -37,6 +37,11 @@ spec:
         - image: ghcr.io/open-webui/open-webui:main
           name: open-webui
           env:
+            - name: WEBUI_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openwebui-secret-key
+                  key: secret_key
             - name: OLLAMA_BASE_URL
               value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
             - name: DEFAULT_MODELS
@@ -68,8 +73,11 @@ spec:
             - name: RAG_WEB_SEARCH_ENGINE
               value: "searxng"
             - name: SEARXNG_QUERY_URL
-              value: "https://search.oahs.f5.si/search?q=<query>&format=json"
+              value: "http://searxng-service:8888/search?q=docker&format=json"
+              # value: "https://search.oahs.f5.si/search?q=<query>&format=json"
               # value: "https://search.oahs.f5.si/search?lang=ja&q=<query>"
+            # - name: BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL
+            #   value: "True"
             # - name: WEB_SEARCH_TRUST_ENV
             #   value: "True"
           ports:
@@ -80,10 +88,10 @@ spec:
           resources:
             limits:
               cpu: "1"
-              memory: 4Gi
+              memory: 6Gi
             requests:
               cpu: "1"
-              memory: 4Gi
+              memory: 6Gi
       volumes:
         - name: open-webui-persistent-storage
           persistentVolumeClaim:
