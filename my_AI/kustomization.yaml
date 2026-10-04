@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - https://raw.githubusercontent.com/ROCm/k8s-device-plugin/master/k8s-ds-amdgpu-dp.yaml
   - secrets_data.yaml
   - my_nfs.yaml
   - my_storage.yaml
@@ -14,10 +15,10 @@ resources:
 
 images:
   - name: ollama/ollama
-    newTag: "0.34.4"
+    newTag: "0.35.1"
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.11.4"
   - name: searxng/searxng
-    newTag: "2026.9.25-12f8b6515"
+    newTag: "2026.10.2-19ffbcd30"
   - name: isokoliuk/mcp-searxng
-    newTag: "2.4"
+    newTag: "2.5"

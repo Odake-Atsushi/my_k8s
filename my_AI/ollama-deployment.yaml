@@ -34,7 +34,7 @@ spec:
         tier: backend
     spec:
       initContainers:
-        - image: ollama/ollama:latest
+        - image: ollama/ollama:latest #ollama/ollama:rocm
           name: init-ollama-model-download
           command: ["/bin/bash", "-c"]
           args:
@@ -64,13 +64,20 @@ spec:
             - name: ollama-persistent-storage
               mountPath: /root/.ollama
       containers:
-        - image: ollama/ollama:latest
+        - image: ollama/ollama:latest #ollama/ollama:rocm
           name: ollama
           env:
             - name: OLLAMA_NUM_THREADS
               value: "11"
             - name: OLLAMA_MAX_LOADED_MODELS
               value: "2"
+            # AMDGPU gfx90c
+            - name: OLLAMA_VULKAN
+              value: "true"
+            - name: OLLAMA_IGPU_ENABLE
+              value: "1"  # 内蔵GPUを有効化する
+            # - name: HSA_OVERRIDE_GFX_VERSION
+            #   value: "9.0.0"
           ports:
             - containerPort: 11434
           volumeMounts:
@@ -80,9 +87,11 @@ spec:
             limits:
               cpu: "11" #"14"
               memory: 36Gi
+              amd.com/gpu: "1"  # device-pluginが提供するリソース名を指定
             requests:
               cpu: "11" #"12"
               memory: 36Gi #16Gi
+              amd.com/gpu: "1"  # device-pluginが提供するリソース名を指定
       volumes:
         - name: ollama-persistent-storage
           persistentVolumeClaim:
