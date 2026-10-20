@@ -81,3 +81,6 @@ spec:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:
             claimName: nextcloud-data-pv-claim
+#########################
+# バージョンアップ時にこのコマンドを実行
+# mariadb-upgrade --force -u root -p
