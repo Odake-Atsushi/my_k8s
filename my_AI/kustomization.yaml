@@ -15,7 +15,7 @@ resources:
 
 images:
   - name: ollama/ollama
-    newTag: "0.40.6"
+    newTag: "0.40.8"
   - name: ghcr.io/open-webui/open-webui
     newTag: "v0.12.3"
   - name: searxng/searxng
