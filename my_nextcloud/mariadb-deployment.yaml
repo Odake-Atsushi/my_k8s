@@ -12,6 +12,20 @@ spec:
     tier: db
   type: ClusterIP
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud-mariadb-conf
+data:
+  nextcloud.cnf: |
+    [mysqld]
+    transaction-isolation = READ-COMMITTED
+    binlog-format = ROW
+    character-set-server = utf8mb4
+    collation-server = utf8mb4_bin
+    innodb_log_file_size = 256M
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,13 +77,15 @@ spec:
           ports:
             - containerPort: 3306
               name: mariadb
-          args:
-            - --transaction-isolation=READ-COMMITTED
-            - --binlog-format=ROW
+          # args:
+          #   - --transaction-isolation=READ-COMMITTED
+          #   - --binlog-format=ROW
           volumeMounts:
             - name: nextcloud-data-persistent-storage
               mountPath: /var/lib/mysql #/var/lib/mariadb
               subPath: db
+            - name: nextcloud-mariadb-config
+              mountPath: /etc/mysql/conf.d/
           resources:
             limits:
               cpu: "500m"
@@ -81,6 +97,9 @@ spec:
         - name: nextcloud-data-persistent-storage
           persistentVolumeClaim:
             claimName: nextcloud-data-pv-claim
+        - name: nextcloud-mariadb-config # volumeMountsで/var/lib/mysqlにmountするやつ
+          configMap:
+            name: nextcloud-mariadb-conf # ConfigMapのmariadb-confを/var/lib/mysql以下に配置する
 #########################
 # バージョンアップ時にこのコマンドを実行
 # mariadb-upgrade --force -u root -p
