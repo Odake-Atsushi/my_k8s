@@ -57,7 +57,7 @@ spec:
             - name: RAG_EMBEDDING_ENGINE
               value: "ollama"
             - name: RAG_EMBEDDING_MODEL
-              value: "embeddinggemma:300m"
+              value: "embeddinggemma-2:440m"
             - name: RAG_OLLAMA_BASE_URL
               value: "http://ollama-service:11434" #"https://ollama.oahs.f5.si"
             - name: RAG_TEXT_SPLITTER
@@ -87,10 +87,10 @@ spec:
               mountPath: /app/backend/data
           resources:
             limits:
-              cpu: "1"
+              cpu: "2"
               memory: 6Gi
             requests:
-              cpu: "1"
+              cpu: "2"
               memory: 6Gi
       volumes:
         - name: open-webui-persistent-storage
